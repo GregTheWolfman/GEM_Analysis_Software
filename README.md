@@ -32,10 +32,11 @@ These are the main internal files that will need to be checked into when adding 
 
 # Generating Data Files
 Using the terminal, we can now use AmoreSRS to fill usable data files. This tutorial will assume amore is already installed and running on the computer. I will also go over some generally useful commands in Amore to aid in using this software. To use amore there are two main terminal commands; the first command is `make install`.
-'''
+```
 cd ~/AmoreSRS_Directory
 make install
-'''
+```
+
 
 
 
