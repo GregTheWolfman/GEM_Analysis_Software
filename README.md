@@ -33,10 +33,17 @@ These are the main internal files that will need to be checked into when adding 
 # Generating Data Files
 Using the terminal, we can now use AmoreSRS to fill usable data files. This tutorial will assume amore is already installed and running on the computer. I will also go over some generally useful commands in Amore to aid in using this software. To use amore there are two main terminal commands; the first command is `make install`.
 ```
-cd ~/AmoreSRS_Directory
+cd ~/Your_amoreSRS_Directory
 make install
 ```
+This command is used to build amoreSRS. This is necessary to do whenever changes are made to the internal macros (SRS-Anything.cxx). The only files that are reloaded everytime amore is used are the configuration files (Mapping and Amore). With your amoreSRS version ready to use on data, the first thing to do is ensure the configuration files are corrcet for whatever analysis youre doing with this data. Using the Amore configuration file, uncomment the run parameters necessary for the detector. For example, I wll show the process for aquiring the root data file. The first step for most analyses is to generate a pedestal file. This is done by first uncommenting the RawPedestal runtype in Amore config and running the second necessary command to start amoreSRS.
+```
+cd ~/Your_amoreSRS_Directory
+amoreAgent -a SRS01 -s /path/to/data.raw -e 1000 -c 5
+```
+The first few parts of this command `amoreAgent -a SRS01 -s` are for starting the correct amoreSRS agent and are going to stay constant anytime this command is used. `/path/to/data.raw` is of course the path from the current directory to the data file. Finally, the last part `-e 1000 -c 5` stands for 1000 events over 5 cycles. Thses numbers can change depending on the number of events stored in your data files. The number of cycles essentially determines how often the histograms are filled in the GUI.
 
+With the RawPedestal run now over, repeat the same command with the runtype set to Pedestal now instead of RawPedestal. This process
 
 
 
