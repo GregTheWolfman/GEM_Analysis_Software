@@ -1,0 +1,669 @@
+#include "SRSEventBuilder.h"
+
+ClassImp(SRSEventBuilder);
+
+//============================================================================================
+
+SRSEventBuilder::SRSEventBuilder(Int_t evtNb,  TString clustMaxMult, TString clustMaxSize, TString clustMinSize, TString clustMaxADCs,  TString padClustMaxMult, TString padClustMaxSize, TString padClustMinSize, TString padClustMaxADCs,  TString runType){ 
+  // printf("==SRSEventBuilder::SRSEventBuilder() \n");
+
+  fEventNo = evtNb,
+  fPlaneSize = 102.4;
+
+  fReadoutBoard = "CARTESIAN";
+  fDetectorType = "STANDARD";
+  fDetector  = "NOGEM";
+  fPlane    = "NOGEMX";
+
+  fPlaneSize          = 102.4;
+  fTrapezoidLength    = 906.0;
+  fTrapezoidInRadius  = 220.0;
+  fTrapezoidOutRadius = 430.0;
+
+  fIsCrossTalkRemoved    = kTRUE;
+  fCrossTalkMaxClustSize = 3;
+
+  fSignalPeakMinTimeBin = 0;
+  fSignalPeakMaxTimeBin = 9;
+
+  fNbOfPadX = 10;
+  fNbOfPadY = 10;
+
+  fPadSizeX = 10.0;
+  fPadSizeY = 10.0;
+
+  fDetSizeX = 100.0;
+  fDetSizeY = 100.0;
+
+  fNbOfAPVs = 6;
+
+  fIsGoodEvent = kFALSE;
+  fIsGoodCluster = kFALSE;
+  fIsGoodClusterEvent = kFALSE;
+  fIsGoodEventInDetector = kFALSE;
+
+  fClustMinSize = clustMinSize.Atoi();
+  fClustMaxSize = clustMaxSize.Atoi();
+  fClustMinADCs = clustMaxADCs.Atoi();
+  fClustMaxMult = clustMaxMult.Atoi();
+
+  fPadClustMinSize = padClustMinSize.Atoi();
+  fPadClustMaxSize = padClustMaxSize.Atoi();
+  fPadClustMinADCs = padClustMaxADCs.Atoi();
+  fPadClustMaxMult = padClustMaxMult.Atoi();
+
+  fIsHitMaxOrTotalADCs = "signalPeak";
+  fClusterPositionCorrectionRootFile = "";
+
+  fIsGoodEvent = kFALSE;
+  fIsGoodCluster = kFALSE; 
+  fIsGoodEventInDetector = kFALSE;
+
+  fRunType = runType;
+  fListOfHits = new TList;
+  fListOfAPVEvents = new TList;
+  fListOfHitsInPlane = new TList;
+
+  fMapping = SRSMapping::GetInstance();
+
+  map <Int_t, TString> listOfDetectors = fMapping->GetDetectorFromIDMap();
+  map <Int_t, TString>::const_iterator det_itr;
+  for (det_itr = listOfDetectors.begin(); det_itr != listOfDetectors.end(); det_itr++) {
+
+    fDetector     = (* det_itr).second;
+    fReadoutBoard =  fMapping->GetReadoutBoardFromDetector(fDetector);
+
+    fTrapezoidLength    = fMapping->GetUVangleReadoutMap(fDetector) [0];
+    fTrapezoidInRadius  = fMapping->GetUVangleReadoutMap(fDetector) [1];
+    fTrapezoidOutRadius = fMapping->GetUVangleReadoutMap(fDetector) [2];
+
+    if(fReadoutBoard != "PADPLANE") {
+      fClustersInDetectorPlaneMap[fMapping->GetDetectorPlaneListFromDetector(fDetector).front()] = new TList;
+      fClustersInDetectorPlaneMap[fMapping->GetDetectorPlaneListFromDetector(fDetector).back()] = new TList;
+      fHitsInDetectorPlaneMap[fMapping->GetDetectorPlaneListFromDetector(fDetector).front()] = new TList;
+      fHitsInDetectorPlaneMap[fMapping->GetDetectorPlaneListFromDetector(fDetector).back()] = new TList;
+      //      printf("==SRSEventBuilder::SRSEventBuilder => Det=%s, readout=%s, clustMinS=%d, clustMaxS=%d\n", fDetector.Data(), fReadoutBoard.Data(), fClustMinSize, fClustMaxSize);
+    }
+    else {
+      fClustersInDetectorPlaneMap[fDetector] = new TList;
+      fHitsInDetectorPlaneMap[fDetector] = new TList;
+    }  
+  }
+  listOfDetectors.clear();
+  //  printf("==SRSEventBuilder::SRSEventBuilder ==> EXIT\n");
+
+}
+
+//============================================================================================
+SRSEventBuilder::~SRSEventBuilder() {
+  fTriggerList.clear();
+
+  DeleteListOfHits(fListOfHits);
+  DeleteListOfHits(fListOfHitsInPlane);
+  DeleteListOfAPVEvents(fListOfAPVEvents);
+
+  DeleteHitsInDetectorMap(fHitsInDetectorPlaneMap);
+  DeleteClustersInDetectorMap(fClustersInDetectorPlaneMap);
+}
+
+//============================================================================================
+template <typename M> void ClearVectorMap( M & amap ) {
+  for ( typename M::iterator it = amap.begin(); it != amap.end(); ++it ) {
+    ((*it).second).clear();
+  }
+  amap.clear();
+}
+
+//============================================================================================
+void SRSEventBuilder::DeleteHitsInDetectorMap( map<TString, TList * > & stringListMap) {
+  map < TString, TList* >::const_iterator itr;
+  for (itr = stringListMap.begin(); itr != stringListMap.end(); itr++) {
+    TList * listOfHits = (*itr).second;
+    TIter nextHit(listOfHits);
+    while( SRSHit * hit = ( (SRSHit *) nextHit() ) ) delete hit;
+    listOfHits->Clear();
+  }
+  stringListMap.clear();
+}
+
+//============================================================================================
+void SRSEventBuilder::DeleteClustersInDetectorMap( map<TString, TList * > & stringListMap) {
+  map < TString, TList* >::const_iterator itr;
+  for (itr = stringListMap.begin(); itr != stringListMap.end(); itr++) {
+    TList * listOfClusters = (*itr).second;
+    TIter nextCluster(listOfClusters);
+    while( SRSCluster * cluster = ( (SRSCluster *) nextCluster() ) ) delete cluster;
+    listOfClusters->Clear();
+  }
+  stringListMap.clear();
+}
+
+//============================================================================================
+void SRSEventBuilder::DeleteListOfAPVEvents(TList * listOfAPVEvents) {
+  TIter nextAPVEvent(listOfAPVEvents);
+  while( SRSAPVEvent * apvEvent = ( (SRSAPVEvent *) nextAPVEvent() ) ) delete apvEvent;
+  listOfAPVEvents->Clear();
+  delete listOfAPVEvents;
+}
+
+//============================================================================================
+void SRSEventBuilder::DeleteListOfClusters(TList * listOfClusters) {
+  TIter nextCluster(listOfClusters);
+  while(SRSCluster  * cluster = ( (SRSCluster *) nextCluster() ) ) delete cluster;
+  listOfClusters->Clear();
+  delete listOfClusters;
+}
+
+//============================================================================================
+void SRSEventBuilder::DeleteListOfHits(TList * listOfHits) { 
+  TIter nextHit(listOfHits);
+  while( SRSHit * hit = ( (SRSHit *) nextHit() ) ) delete hit ;
+  listOfHits->Clear();
+  delete listOfHits;
+}
+
+//============================================================================================
+static Bool_t CompareClusterADCs( TObject *obj1, TObject *obj2) {
+  Bool_t compare;
+  if ( ( (SRSCluster*) obj1 )->GetClusterADCs() > ( ( SRSCluster*) obj2 )->GetClusterADCs()) compare = kTRUE;
+  else compare = kFALSE;
+  return compare;
+}  
+
+//===========================================================================================
+void SRSEventBuilder::AddHitInDetectorPlane(SRSHit* hit) {
+  fHitsInDetectorPlaneMap[hit->GetPlane()]->Add(hit);
+  // printf("==SRSEventBuilder::AddHitInDetectorPlane() => plane = %s, strip=%d, adc=%f\n", hit->GetPlane().Data(),  hit->GetStripNo(), hit->GetHitADCs());
+}
+
+//============================================================================================
+void SRSEventBuilder::ComputeClusters() {
+  //  printf("==SRSEventBuilder::ComputeClusters() => Enter: nb of detector planes = %d\n",  fHitsInDetectorPlaneMap.size());
+
+  map<TString, TList * >::const_iterator  listOfHits_itr;
+
+  for (listOfHits_itr = fHitsInDetectorPlaneMap.begin(); listOfHits_itr != fHitsInDetectorPlaneMap.end(); ++listOfHits_itr) {
+    map<Int_t, SRSCluster *> clustersMap;
+
+    fPlane        = (*listOfHits_itr).first;
+    fDetector     = fMapping->GetDetectorFromPlane(fPlane);
+    fReadoutBoard = fMapping->GetReadoutBoardFromDetector(fDetector);
+    fNbOfAPVs     = fMapping->GetNbOfAPVs(fPlane);
+    fPlaneSize    = fMapping->GetSizeOfPlane(fPlane);
+
+    if ( fReadoutBoard == "PADPLANE") {
+      fPadSizeX     = fMapping->GetPadDetectorMap(fDetector) [0];
+      fPadSizeY     = fMapping->GetPadDetectorMap(fDetector) [1];
+      fNbOfPadX     = (Int_t) fMapping->GetPadDetectorMap(fDetector) [2];
+      fNbOfPadY     = (Int_t) fMapping->GetPadDetectorMap(fDetector) [3];
+      fNbOfAPVs     = (Int_t) fMapping->GetPadDetectorMap(fDetector) [4];
+    }
+
+    fListOfHitsInPlane = (*listOfHits_itr).second;
+    fListOfHitsInPlane->Sort();
+
+    if ( fReadoutBoard != "PADPLANE") {
+      //   printf("==SRSEventBuilder::ComputeClusters() => detector %s \n", fDetector.Data());
+     Int_t previousStrip = -2;
+      Int_t clusterNo = -1;
+      TIter nextHit(fListOfHitsInPlane);
+      while( SRSHit * hit = ( (SRSHit *) nextHit() ) ) {
+	Int_t currentStrip = hit->GetStripNo();
+	Int_t apvIndexOnPlane = hit->GetAPVIndexOnPlane();
+	Float_t hitADC = hit->GetHitADCs();
+	if(currentStrip != (previousStrip + 1)) {
+	  clusterNo++;
+	}
+	if(!clustersMap[clusterNo]) {
+	  clustersMap[clusterNo] = new SRSCluster(fClustMinSize, fClustMaxSize, fClustMinADCs, fPadClustMinSize, fPadClustMaxSize, fPadClustMinADCs, fIsClustMaxOrTotalADCs);
+	}
+	clustersMap[clusterNo]->AddHitToCluster(hit);
+	previousStrip = currentStrip;
+      }
+    }
+
+    else { // IF PAD PLANE
+      Int_t clusterNo = 0;
+      while(fListOfHitsInPlane->GetSize() > fPadClustMinSize) {
+	fListOfHitsInPlane->Sort();
+	clustersMap[clusterNo] = PadReadoutCluster();
+	clusterNo++ ;
+      }
+    }
+
+    //==========================================================================================
+    map<Int_t, SRSCluster *>::const_iterator  cluster_itr;
+    for (cluster_itr = clustersMap.begin(); cluster_itr != clustersMap.end(); cluster_itr++) {
+      fIsGoodCluster = kTRUE;
+      Int_t clusterId      = ( * cluster_itr ).first;
+      SRSCluster * cluster = ( * cluster_itr ).second;
+      //      printf("==SRSEventBuilder::ComputeClusters() => detector %s \n", fDetector.Data());
+
+      cluster->SetPlane(fPlane);
+      cluster->SetDetector(fDetector);
+      cluster->SetDetectorType(fDetectorType);
+      cluster->SetPlaneSize(fPlaneSize);
+      cluster->SetNbOfHitsInCluster();
+      cluster->SetNbOfAPVsOnPlane(fNbOfAPVs);
+      cluster->SetReadoutBoard(fReadoutBoard);
+      cluster->SetTrapezoidDetRadius(fTrapezoidInRadius, fTrapezoidOutRadius);
+      cluster->SetPadReadoutParameters(fNbOfPadX, fNbOfPadY, fPadSizeX, fPadSizeY);
+      cluster->ComputeClusterPosition();
+ 
+      if ( cluster->IsClusterADCsTooSmall() || cluster->IsClusterSizeTooSmall() || cluster->IsClusterSizeTooBig() ) {
+	fIsGoodCluster = kFALSE;
+	delete cluster;
+	continue;
+      }
+      fClustersInDetectorPlaneMap[fPlane]->Add(cluster);
+      if (fDetector =="TRKGEM3")  cluster->printHits();
+    }
+
+    fClustersInDetectorPlaneMap[fPlane]->Sort(CompareClusterADCs);
+    CrossTalkFlag(fClustersInDetectorPlaneMap[fPlane]);
+    clustersMap.clear();     
+  }
+  fHitsInDetectorPlaneMap.clear();
+  //  printf("==SRSEventBuilder::ComputeClusters() Exit: \n");
+}
+
+//============================================================================================
+SRSCluster * SRSEventBuilder::PadReadoutCluster() {
+  vector < SRSHit* > taggedHitList;
+  vector < Int_t > clusterfinding;
+  if(fListOfHitsInPlane->GetSize()==0) { 
+    taggedHitList.clear();
+    clusterfinding.clear(); 
+  }
+
+  // Pads with highest ADC value
+  SRSHit * hitWithHighestADC = ((SRSHit *) (fListOfHitsInPlane->At(0)));
+  if (!hitWithHighestADC->IsActiveChannel()) {
+    taggedHitList.clear();
+    clusterfinding.clear();
+  }
+
+  Int_t stripWithHighestADC = hitWithHighestADC->GetStripNo();
+  taggedHitList.push_back(hitWithHighestADC);
+
+  Int_t period1b =  (Int_t) fNbOfPadX / fNbOfAPVs ;
+  Int_t period1t =  (Int_t) fNbOfPadX / fNbOfAPVs ;
+  Int_t period2b =  ((Int_t) (2 * fNbOfPadX / fNbOfAPVs)) ;
+  Int_t period2t =  ((Int_t) (2 * fNbOfPadX / fNbOfAPVs)) ;
+  Int_t padYNo = hitWithHighestADC->GetPadYNo();
+
+  if (fDetector =="CAPA9MM") {
+    //  printf("==SRSEventBuilder::PadReaddoutCluster() => Cluster List: padYNo = %d \n", padYNo);
+    if ( padYNo == 0)  {
+      period1b = 8;
+      period2b = 18;
+      period1t = 8;
+      period2t = 18;
+    }
+
+    else if ( padYNo == 1)  {
+      period1b = 8;
+      period2b = 20;
+      period1t = 10;
+      period2t = 20;
+    }
+
+    else if ( padYNo == 2)  {
+      period1b = 10;
+      period2b = 22;
+      period1t = 12;
+      period2t = 24;
+    }
+
+    else if (padYNo == 3)  {
+      period1b = 12;
+      period2b = 22;
+      period1t = 12;
+      period2t = 24;
+    }
+
+
+   else  if (padYNo == 8)  {
+      period1b = 12;
+      period2b = 24;
+      period1t = 12;
+      period2t = 22;
+    }
+
+    else if (padYNo == 9)  {
+      period1b = 12;
+      period2b = 24;
+      period1t = 10;
+      period2t = 22;
+    }
+
+    else if (padYNo == 10)  {
+      period1b = 10;
+      period2b = 22;
+      period1t = 8;
+      period2t = 18;
+    }
+
+    else if (padYNo == 11)  {
+      period1b = 8;
+      period2b = 18;
+      period1t = 8;
+      period2t = 18;
+    }
+    else {
+      period1b =  (Int_t) fNbOfPadX / fNbOfAPVs ;
+      period1t =  (Int_t) fNbOfPadX / fNbOfAPVs ;
+      period2b =  ((Int_t) (2 * fNbOfPadX / fNbOfAPVs));
+      period2t =  ((Int_t) (2 * fNbOfPadX / fNbOfAPVs));
+    }
+  }
+
+  // Pads surrounding the pad with max hit => Listing possible pads with hit for this cluster 
+  clusterfinding.push_back(stripWithHighestADC - 1);
+  clusterfinding.push_back(stripWithHighestADC + 1);
+  clusterfinding.push_back(stripWithHighestADC - 2);
+  clusterfinding.push_back(stripWithHighestADC + 2);
+
+  clusterfinding.push_back(stripWithHighestADC - period1b);
+  clusterfinding.push_back(stripWithHighestADC - period1b - 1); 
+  clusterfinding.push_back(stripWithHighestADC - period1b + 1);
+  clusterfinding.push_back(stripWithHighestADC - period1b - 2); 
+  clusterfinding.push_back(stripWithHighestADC - period1b + 2);
+
+  clusterfinding.push_back(stripWithHighestADC + period1t);
+  clusterfinding.push_back(stripWithHighestADC + period1t - 1); 
+  clusterfinding.push_back(stripWithHighestADC + period1t + 1);
+  clusterfinding.push_back(stripWithHighestADC + period1t - 2); 
+  clusterfinding.push_back(stripWithHighestADC + period1t + 2);
+
+  clusterfinding.push_back(stripWithHighestADC - period2b);  
+  clusterfinding.push_back(stripWithHighestADC - period2b - 1);
+  clusterfinding.push_back(stripWithHighestADC - period2b + 1);
+  clusterfinding.push_back(stripWithHighestADC - period2b - 2);
+  clusterfinding.push_back(stripWithHighestADC - period2b + 2);
+
+  clusterfinding.push_back(stripWithHighestADC + period2t);
+  clusterfinding.push_back(stripWithHighestADC + period2t - 1);
+  clusterfinding.push_back(stripWithHighestADC + period2t + 1);
+  clusterfinding.push_back(stripWithHighestADC + period2t - 2);
+  clusterfinding.push_back(stripWithHighestADC + period2t + 2);
+    
+  // == create a new cluster of hits
+  SRSCluster * cluster = new SRSCluster(fClustMinSize, fClustMaxSize, fClustMinADCs, fPadClustMinSize, fPadClustMaxSize, fPadClustMinADCs, fIsClustMaxOrTotalADCs);
+  cluster->AddHitToCluster(hitWithHighestADC); 
+
+  for (Int_t hitList = 0; hitList < fListOfHitsInPlane->GetSize(); hitList++) {
+    SRSHit * otherHit = ((SRSHit *) (fListOfHitsInPlane->At(hitList)));
+    if (!otherHit->IsActiveChannel()) {
+      delete otherHit ;
+      continue;
+    }
+    if (find(clusterfinding.begin(), clusterfinding.end(), otherHit->GetStripNo()) != clusterfinding.end()) {
+      cluster->AddHitToCluster(otherHit);
+      taggedHitList.push_back(otherHit);
+      //   if(fDetector =="CAPA9MM")  printf("==SRSEventBuilder::PadReaddoutCluster() => Cluster List: fListOfHitsInPlane = %d, strip = %d, adc = %f\n", fListOfHitsInPlane->GetSize(), otherHit->GetStripNo(), otherHit->GetHitADCs());
+    }
+  }
+
+  for (Int_t k = 0; k < taggedHitList.size(); k++) {
+    fListOfHitsInPlane->Remove(taggedHitList[k]);
+  }
+  taggedHitList.clear();
+  clusterfinding.clear();
+  return cluster ;
+}
+
+//============================================================================================
+void SRSEventBuilder::CrossTalkFlag( TList *  listOfClusters ) {
+  if(!fIsCrossTalkRemoved) return;
+  Int_t nbOfClusters = listOfClusters->GetSize();
+  if(nbOfClusters <2) return;
+  TString readoutBoard = ((SRSCluster *) (listOfClusters->At(0)))->GetReadoutBoard();
+  
+  if( readoutBoard != "PADPLANE") {
+    Float_t firstClusterADCs =  ((SRSCluster *) (listOfClusters->At(0)))->GetClusterADCs();
+    Float_t firstClusterPosition = ((SRSCluster *) (listOfClusters->At(0)))->GetClusterPosition();
+    for (Int_t k = 1; k < nbOfClusters; k++) {
+      Float_t nextClusterADCs     = ((SRSCluster *) (listOfClusters->At(k)))->GetClusterADCs();
+      Int_t nextClusterSize       = ((SRSCluster *) (listOfClusters->At(k)))->GetNbOfHitsInCluster();
+      Float_t nextClusterPosition = ((SRSCluster *) (listOfClusters->At(k)))->GetClusterPosition();
+      Float_t stripGap =  fabs(nextClusterPosition - firstClusterPosition) / 0.4;
+      Float_t adcRatio =  firstClusterADCs / nextClusterADCs; 
+
+      if ( ((stripGap > 30) && (stripGap < 34)) && (nextClusterSize <= fCrossTalkMaxClustSize) && (adcRatio > fClustMinADCs) ) ((SRSCluster *) (listOfClusters->At(k)))->SetCrossTalkFlag(kTRUE);
+      else if ( ((stripGap > 54) && (stripGap < 58)) && (nextClusterSize <= fCrossTalkMaxClustSize) && (nextClusterADCs < fClustMinADCs) ) ((SRSCluster *) (listOfClusters->At(k)))->SetCrossTalkFlag(kTRUE);
+      else if ( ((stripGap > 62) && (stripGap < 66)) && (nextClusterSize <= fCrossTalkMaxClustSize) && (nextClusterADCs < fClustMinADCs) ) ((SRSCluster *) (listOfClusters->At(k)))->SetCrossTalkFlag(kTRUE);
+      else if ( ((stripGap > 86) && (stripGap < 90)) && (nextClusterSize <= fCrossTalkMaxClustSize) && (nextClusterADCs < fClustMinADCs) ) ((SRSCluster *) (listOfClusters->At(k)))->SetCrossTalkFlag(kTRUE);
+      else ((SRSCluster *) (listOfClusters->At(1)))->SetCrossTalkFlag(kFALSE);
+    }
+  }
+  else {
+    Int_t lastClusterIndex = nbOfClusters - 1; 
+    Int_t clusterSize = ((SRSCluster *) (listOfClusters->At(lastClusterIndex)))->GetNbOfHitsInCluster();
+    Float_t padGap = fabs( ((SRSCluster *) (listOfClusters->At(0)))->GetCentralPadNo() - ((SRSCluster *) (listOfClusters->At(lastClusterIndex)))->GetCentralPadNo() );
+    Float_t adcRatio  = ((SRSCluster *) (listOfClusters->At(0)))->GetClusterADCs() / ((SRSCluster *) (listOfClusters->At(lastClusterIndex)))->GetClusterADCs();
+    if  ( (clusterSize < fCrossTalkMaxClustSize) && (lastClusterIndex < fPadClustMinADCs))  ((SRSCluster *) (listOfClusters->At(lastClusterIndex)))->SetCrossTalkFlag(kTRUE);  
+    else ((SRSCluster *) (listOfClusters->At(lastClusterIndex)))->SetCrossTalkFlag(kFALSE);      
+  }
+}
+
+//============================================================================================
+Bool_t  SRSEventBuilder::IsAGoodEventInDetector(TString detector) {
+  // printf("==SRSEventBuilder::IsAGoodEventInDetector() => detector=%s \n",detector.Data());
+  SRSMapping * mapping = SRSMapping::GetInstance();
+  TString readoutBoard = mapping->GetReadoutBoardFromDetector(detector);
+
+  Int_t maxClustMultiplicity = fClustMaxMult;
+  if (readoutBoard == "PADPLANE")  maxClustMultiplicity = fPadClustMaxMult;
+
+  if ( readoutBoard == "1DSTRIPS") {
+    TString plane = (mapping->GetDetectorPlaneListFromDetector(detector)).front();
+    Int_t clustMultiplicity = fClustersInDetectorPlaneMap[plane.Data()]->GetSize();
+    if ( (clustMultiplicity == 0) || (clustMultiplicity > fClustMaxMult) ) {
+      fClustersInDetectorPlaneMap[plane.Data()]->Clear();
+      fIsGoodEventInDetector = kFALSE;
+    }
+    else {
+      fIsGoodEventInDetector = kTRUE;
+    }
+  }
+  else if (readoutBoard == "PADPLANE") {
+    Int_t clustMultiplicity = fClustersInDetectorPlaneMap[detector.Data()]->GetSize();
+    if ( (clustMultiplicity == 0) || (clustMultiplicity > fPadClustMaxMult) ) {
+      fClustersInDetectorPlaneMap[detector.Data()]->Clear();
+      fIsGoodEventInDetector = kFALSE;
+    }
+    else {
+      fIsGoodEventInDetector = kTRUE;
+    }
+  }
+
+  else {
+    TString detPlaneX = (mapping->GetDetectorPlaneListFromDetector(detector)).front();
+    TString detPlaneY = (mapping->GetDetectorPlaneListFromDetector(detector)).back();
+    Int_t clustMultiplicityX = fClustersInDetectorPlaneMap[detPlaneX.Data()]->GetSize();
+    Int_t clustMultiplicityY = fClustersInDetectorPlaneMap[detPlaneY.Data()]->GetSize();
+    if ( (clustMultiplicityX < 1) or (clustMultiplicityX > maxClustMultiplicity) or (clustMultiplicityY < 1) or (clustMultiplicityY > maxClustMultiplicity) ) {
+      fIsGoodEventInDetector = kFALSE;
+      fClustersInDetectorPlaneMap[detPlaneX.Data()]->Clear();
+      fClustersInDetectorPlaneMap[detPlaneY.Data()]->Clear();
+    }
+    else {
+      fIsGoodEventInDetector = kTRUE;
+    }
+  }
+  return fIsGoodEventInDetector;
+}
+
+
+//============================================================================================
+Bool_t  SRSEventBuilder::IsAGoodClusterEvent(TString plane) {
+  //  printf("  SRSEventBuilder::IsAGoodClusterEvent() ==> ENTER \n");
+  fIsGoodClusterEvent = kFALSE;
+  SRSMapping * mapping = SRSMapping::GetInstance();
+  TString detector     = mapping->GetDetectorFromPlane(plane);
+  TString readoutBoard = mapping->GetReadoutBoardFromDetector(detector);
+  Int_t clustMultiplicity = fClustersInDetectorPlaneMap[plane.Data()]->GetSize();
+  Int_t clustMaxMult = fClustMaxMult;
+  if(readoutBoard == "PADPLANE") clustMaxMult = fPadClustMaxMult;
+  if ( (clustMultiplicity == 0) || (clustMultiplicity > clustMaxMult) ) {
+    fClustersInDetectorPlaneMap[plane.Data()]->Clear();
+    fIsGoodClusterEvent  = kFALSE;
+  }
+  else {
+    fIsGoodClusterEvent = kTRUE;
+  }
+  //  printf("  SRSEventBuilder::IsAGoodClusterEvent() ==> EXIT \n");
+  return  fIsGoodClusterEvent;
+}
+
+//============================================================================================
+ void  SRSEventBuilder::SetTriggerList(map<TString, TString> triggerList)  {
+   fTriggerList.clear();
+   fTriggerList = triggerList;
+   //   printf("==SRSEventBuilder::SetTriggerList() ==> Exit:  fTriggerList=%d\n", fTriggerList.size());
+ }
+
+//============================================================================================
+Bool_t  SRSEventBuilder::IsAGoodEvent() {
+  //  printf("  SRSEventBuilder::IsAGoodEvent() ==> ENTER \n");
+  Int_t nbOfTriggeredDetectors = 0;
+  SRSMapping * mapping = SRSMapping::GetInstance();
+
+  Int_t nbOfDetectorsToBeTriggered = fTriggerList.size();
+  if (nbOfDetectorsToBeTriggered == 0){
+    fIsGoodEvent = kTRUE;
+    //std::cout << "No trigger?" << std::endl;
+  }
+
+  else {
+    map<TString, TString>::const_iterator trigger_itr;
+    for (trigger_itr = fTriggerList.begin(); trigger_itr != fTriggerList.end(); trigger_itr++) {
+      TString detector = (*trigger_itr).first;
+      if (!IsAGoodEventInDetector(detector) ) continue;
+      else {
+	nbOfTriggeredDetectors++;
+     }
+    }
+    if (nbOfTriggeredDetectors == nbOfDetectorsToBeTriggered) fIsGoodEvent = kTRUE;
+    else fIsGoodEvent = kFALSE;
+  }
+  //  printf("  SRSEventBuilder::IsAGoodEvent() ==> EXIT \n");
+  return fIsGoodEvent;
+}
+
+//============================================================================================
+map < Int_t, vector <Float_t > > SRSEventBuilder::GetDetectorCluster(TString detector) {
+  //  printf("  SRSEventBuilder::GetDetectorCluster() ==> Enter: detector=%s \n", detector.Data());
+
+  SRSMapping * mapping = SRSMapping::GetInstance();
+  TString readoutBoard = mapping->GetReadoutBoardFromDetector(detector);
+  map < Int_t, vector <Float_t > > detectorClustMap;
+
+  if ( readoutBoard != "PADPLANE")  {
+    TString detPlaneX = (mapping->GetDetectorPlaneListFromDetector(detector)).front();
+    TString detPlaneY = (mapping->GetDetectorPlaneListFromDetector(detector)).back();
+    
+    Int_t planeOrientationX = mapping->GetPlaneOrientation(detPlaneX);
+    Int_t planeOrientationY = mapping->GetPlaneOrientation(detPlaneY);
+  	//        printf("  SRSEventBuilder::GetDetectorCluster() ==> length[%s] = %f,  innerRadius[%s] = %f, outerRadius[%s] = %f \n", detector.Data(), trapezoidLength, detector.Data(), trapezoidInRadius, detector.Data(), trapezoidOutRadius);
+
+    TList * clusterListX = fClustersInDetectorPlaneMap[detPlaneX.Data()];
+    TList * clusterListY = fClustersInDetectorPlaneMap[detPlaneY.Data()];
+
+    Int_t clustMultiplicityX = clusterListX->GetSize();
+    Int_t clustMultiplicityY = clusterListY->GetSize();
+    Int_t clustMult = clustMultiplicityX;
+
+    if ( clustMultiplicityY < clustMult ) clustMult = clustMultiplicityY ;
+    if ( fClustMaxMult < clustMult ) clustMult = fClustMaxMult;
+
+    for (Int_t k = 0; k < clustMult; k++) {
+      Float_t clusterPos1 = ((SRSCluster *) clusterListX->At(k))->GetClusterPosition();
+      Float_t clusterPos2 = ((SRSCluster *) clusterListY->At(k))->GetClusterPosition();
+
+      clusterPos1 = planeOrientationX * clusterPos1;
+      clusterPos2 = planeOrientationY * clusterPos2;
+  
+      Float_t xpos =  clusterPos1;
+      Float_t ypos =  clusterPos2;
+
+      Float_t adcCount1 = ((SRSCluster *) clusterListX->At(k))->GetClusterADCs(); 
+      Float_t adcCount2 = ((SRSCluster *) clusterListY->At(k))->GetClusterADCs();
+
+      Float_t timing1 = ((SRSCluster *) clusterListX->At(k))->GetClusterTimeBin();
+      Float_t timing2 = ((SRSCluster *) clusterListY->At(k))->GetClusterTimeBin();
+
+      if ( readoutBoard == "SBS_UV_STRIPS") {
+	  Float_t detectorLentgh = mapping->GetUVangleReadoutMap(detector) [0];
+	  Float_t detectorWidth  = mapping->GetUVangleReadoutMap(detector) [1];
+	  Float_t uvAngle        = mapping->GetUVangleReadoutMap(detector) [2] * PI  / 180;
+	  Float_t uvAngleCosDir = tan(uvAngle);
+	  clusterPos1 += 20;
+	  clusterPos2 -= (detectorWidth * sin(uvAngle));
+	  xpos = 0.5 * (((clusterPos1 - clusterPos2) / uvAngleCosDir) - detectorWidth);
+	  ypos = 0.5 * (clusterPos1 + clusterPos2);
+      }
+
+      if (readoutBoard == "UV_ANGLE") {
+	Float_t uvAngleCosDir = ( fTrapezoidOutRadius - fTrapezoidInRadius ) / (2 * fTrapezoidLength);
+	Float_t uvAngle = (atan (uvAngleCosDir) * 360 ) / PI;
+       	xpos = 0.5 * (fTrapezoidLength +  ( (clusterPos1 - clusterPos2) / uvAngleCosDir ));
+	ypos = 0.5 * (clusterPos1 + clusterPos2);
+	//        printf("  SRSEventBuilder::GetDetectorCluster() ==> x[%s] = %f,  y[%s] = %f \n", detector.Data(), xpos,  detector.Data(), ypos);
+      }
+
+      if ( (adcCount1 == 0) || (adcCount2 == 0) ) {
+	fClustersInDetectorPlaneMap[detPlaneX.Data()]->Clear();
+	fClustersInDetectorPlaneMap[detPlaneY.Data()]->Clear();
+	continue;
+      }    
+
+      detectorClustMap[k].clear();
+      detectorClustMap[k].push_back(xpos);
+      detectorClustMap[k].push_back(ypos);
+      detectorClustMap[k].push_back(adcCount1);
+      detectorClustMap[k].push_back(adcCount2);
+      detectorClustMap[k].push_back(timing1);
+      detectorClustMap[k].push_back(timing2);
+      detectorClustMap[k].push_back(clusterPos1);
+      detectorClustMap[k].push_back(clusterPos2);
+    }
+  }
+
+  else { //if (readoutBoard != "PADPLANE")
+    //    printf("  SRSEventBuilder::GetDetectorCluster() ==> detector=%s \n", detector.Data());
+
+    TList * clusterList = fClustersInDetectorPlaneMap[detector.Data()];
+    Int_t clustMultiplicity = clusterList->GetSize();
+    if ( fPadClustMaxMult < clustMultiplicity) clustMultiplicity = fPadClustMaxMult ;
+
+    for (Int_t k = 0; k < clustMultiplicity; k++) {
+      Float_t clusterPos1   = ((SRSCluster *) clusterList->At(k))->GetPadClustPosX();
+      Float_t clusterPos2   = ((SRSCluster *) clusterList->At(k))->GetPadClustPosY();
+      Float_t xpos =  clusterPos1;
+      Float_t ypos =  clusterPos2;
+      Float_t adcCount1 = ((SRSCluster *) clusterList->At(k))->GetClusterADCs(); 
+      Float_t adcCount2 = ((SRSCluster *) clusterList->At(k))->GetClusterADCs();
+      Float_t timing1 = ((SRSCluster *) clusterList->At(k))->GetClusterTimeBin();
+      Float_t timing2 = ((SRSCluster *) clusterList->At(k))->GetClusterTimeBin();
+
+      if ((adcCount1 == 0) || (adcCount2 == 0) ) {
+	fClustersInDetectorPlaneMap[detector.Data()]->Clear();
+	continue;
+      }
+
+      detectorClustMap[k].clear();
+      detectorClustMap[k].push_back(xpos);
+      detectorClustMap[k].push_back(ypos);
+      detectorClustMap[k].push_back(adcCount1);
+      detectorClustMap[k].push_back(adcCount2);
+      detectorClustMap[k].push_back(timing1);
+      detectorClustMap[k].push_back(timing2);
+      detectorClustMap[k].push_back(clusterPos1);
+      detectorClustMap[k].push_back(clusterPos2);
+    }
+  }
+  //  printf("  SRSEventBuilder::GetDetectorCluster() ==> Exit: \n");
+  return detectorClustMap;
+}

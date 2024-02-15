@@ -1,0 +1,23 @@
+Time display:
+
+Ora i grafici vs time hanno la data e l'ora sull'asse delle
+ascisse. Il time stamp e' preso dall'evento di date ed ha una
+risoluzione di un secondo. Puo' essere un problema se gli scaler sono
+letti troppo spesso.
+
+Scaler:
+
+La rate degli scaler e' calcolata da mood come Delta_Rate/Delta_time.
+Il tempo e' quello dell'evento quindi ha la risoluzione di un
+secondo. Puo' essere un problema se gli scaler sono letti troppo
+spesso.
+
+Salvataggio periodico degli istogrammi:
+
+Gli istogrammi vengono salvati ogni N eventi. Il salvataggio ogni M
+minuti non e' ancora implementato. Nota tecnica: una prima
+implementazione con TTimer portava a segmentation violation che non
+sono riuscito a capire.
+
+
+Verificare formula centroidi
