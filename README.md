@@ -16,5 +16,7 @@ This file is for storing the information attributed to the detector setup. Here 
 
 There are two other configration files that are used by AmoreSRS, histconfig and dispconfig. But these two configuration files are associated with setting up the AmoreGUI for visualizing the data. Since we only use AmoreSRS to convert .raw files into .root files, I wont go into much detail about them. Now I will discuss the more inportant macros within AmoreSRS that will need to be altered to add a new Detector to it. These files can be found under the src folder in AmoreSRS. 
 
+## SRSMapping.cxx
+Under the common folder, you will find a series of macros that are associated with setting the value of certain variables 
 
 
