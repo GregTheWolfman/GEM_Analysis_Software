@@ -128,7 +128,7 @@ vector<float> CorrectCrosstalk (TFile* myFile){
 */
 
 
-
+//this function caluclates the angle between hits wrt a common origin
 double CalculateCosTheta1(double x, double y, double x1,double y1){
   //double cosineTheta = ( x*x1 + y*y1 )/(x*x+y*y);
   double sineTheta = (x1*y - x*y1)/(x*x + y*y);
@@ -138,7 +138,7 @@ double CalculateCosTheta1(double x, double y, double x1,double y1){
 }
 
 
-
+//This function is for the final step of alignment, apply optimized offsets, save new hit coordinates to an output file and plot the residuals
 void Plot_Aligned_residuals(vector<float> Tracker1HitlocVec, vector<float> Tracker2HitlocVec, vector<float> Tracker3HitlocVec, vector<float> Tracker4HitlocVec, vector<float> OptimizedXYOffests, vector<float> BadEvents, vector<float> LAGDHits, vector<float> SMvec,  vector<float> CCvec,  vector<float> Eventidvec, bool plots){
 
   ofstream MyFile("Trackers_Hits_swappedtrackers.txt");    
@@ -3458,7 +3458,9 @@ void APVEvent(){
   //TFile* pedFile = TFile::Open("Data/PED_dataTree01.root");
   //TFile* pedFile = TFile::Open("APV3Data/APV3_Ped_dataTree01.root");
 
-  TFile* pedFile = TFile::Open("Data/FromscratchPedestal_dataTree01.root");
+  TFile* pedFile = TFile::Open("Data/FromscratchPedestal_dataTree01.root");//this one works!
+  //TFile* pedFile = TFile::Open("Data/AddedApvIDInRootFile_Ped_dataTree01.root");
+
   //TFile* pedFile = TFile::Open("Data/changedAPV3readoutToStandardpedestal_dataTree01.root");
   
   //  TFile* pedFile = TFile::Open("Data/GEMandTrksPed_pedestaloptionfirst_dataTree01.root");
@@ -3625,7 +3627,20 @@ void APVEvent(){
   //inputfiles["0"] = "Data/Data_check_1Dstrips_dataTree01.root";
   //inputfiles["0"] = "Data/Data_check_removedmappingpart_dataTree01.root";
   //inputfiles["0"] = "Data/Data_check_changedorientationofAPV3bothtimes_dataTree01.root";
-  inputfiles["0"] = "Data/Check_DetectorType_STANDARD_dataTree01.root";
+  //inputfiles["0"] = "Data/Check_DetectorType_CMSGEM_dataTree01.root";
+  //inputfiles["0"] = "Data/FixingAPV3issues_dataTree01.root";
+  //inputfiles["0"] = "Data/AddingfunctionsfromMikePhillipsAmore_dataTree01.root";
+  //inputfiles["0"] = "Data/ChangedAPVOrientationsTo0forLAGD_dataTree01.root";
+  //inputfiles["0"] = "Data/OnlyAPV3AsDet_Data_dataTree01.root";
+  inputfiles["0"] = "Data/Last_ZZ_sector_0_ROOTfile_dataTree01.root";
+
+
+
+
+
+
+
+
 
   
   //Files for big statistics
@@ -3828,7 +3843,7 @@ void APVEvent(){
     if(displaymode0dataoutput == 3) ChargeRatio = true;
   }
   
-  float apvnum=1;
+  float apvnum=2;
   
   if(display_mode == 0){
     
@@ -3860,7 +3875,30 @@ void APVEvent(){
     //cin >> apvnum;
     
   }
+
+
+  //APVindex's
+
+  //OG locations
+  int APV2index = 0;
+  int APV3index = 1;
+  int APV4index = 2;
+  int APV5index = 3;
+  int APV6index = 4;
+  int APV7index = 5;
+  int APV8index = 6;
+  int APV9index = 7;
   
+  int Tracker1xindex = 8;
+  int Tracker1yindex = 9;
+  int Tracker2xindex = 12;
+  int Tracker2yindex = 13;
+  int Tracker3xindex = 10;
+  int Tracker3yindex = 11;
+  int Tracker4xindex = 14;
+  int Tracker4yindex = 15;
+  
+
   
   map<float, string> APVname;
   //maps this number to the APV in that range of strips
@@ -3938,6 +3976,8 @@ void APVEvent(){
     TTreeReaderArray<int>      strip(myReader, "strip"); 
     //TTreeReaderArray<string>      hitTimebin(myReader, "hitTimebin");//this variable is not working well :(   
     TTreeReaderArray<int>      detID(myReader, "detID");
+    TTreeReaderArray<int>      apvID(myReader, "apvID");
+    
     TTreeReaderArray<int>      planeID(myReader, "planeID");
     TTreeReaderArray<short>      etasec(myReader, "etaSector");
     //data for pulse height
@@ -4021,7 +4061,7 @@ void APVEvent(){
       
       //if the event number is larger than what we want to plot, stop
       if(*evtID > plotnum) break;
-      plotnum = 30;
+      plotnum = 100;
 
       
       //iterating variables
@@ -4151,17 +4191,21 @@ void APVEvent(){
       for (uint i = 0; i < abs(*nch); i++){
 	
 	if(*evtID == 1){
-	  /*  
+	    
 	  h = 256;
 	  if((strip)[i] < 128)
 	    h = 128;
-	
-	  //cout << "From Event: " << *evtID << "; this is Strip: " << (strip)[i] << " from APV: " << (detID)[i] << " of plane: " << (planeID)[i] << endl;
-	  if((strip)[i] == 0 || (strip)[i] == 128)
-	    cout << "|     " << (detID)[i] << "     |    " << h << "    |    " << (planeID)[i] << "    |" <<  endl;   
-	
+	  
+	  
+	  if((strip)[i]%128 == 0)
+	    cout << "|     " << (detID)[i] << "     |    " << (strip)[i] << "    |    " << (planeID)[i] << "    |   " << (apvID)[i] << "   |    " << endl;   
+	  if((detID)[i] == 0)
+	    cout << "From Event: " << *evtID << "; this is Strip: " << (strip)[i]  << " from APV: " << (apvID)[i] + 2 << " of plane: " << (planeID)[i] << endl;
+	  if((detID)[i] > 0)
+	    cout << "From Event: " << *evtID << "; this is Strip: " << (strip)[i]  << " from APV: " << (apvID)[i]  << " of plane: " << (planeID)[i] << endl;
+	  
 	  //toliter = (*evtID)*(*nch) + i;
-	  */
+	  
 	  float stdev=0;
 	  float mean=0;
 	
@@ -4172,8 +4216,8 @@ void APVEvent(){
 
 	  striptol[i] = mean + 5*stdev;
 	  //striptol[i] = 40;
-	  cout << "Strip: " << i << " has noise tolerance: " << striptol[i] <<  endl;
-
+	  //cout << "Strip: " << i << " has noise tolerance: " << striptol[i] <<  endl;
+	  //return;
 	}
 	
 	//vector<vector<short>> adcvals = {(adc0), (adc1), (adc2), (adc3), (adc4), (adc5)};
@@ -4261,10 +4305,10 @@ void APVEvent(){
 	  if(maxcharge >= striptol[i]){
 	    //cout << "Strip: " << i << " has noise std: " << striptol[i] <<  endl;
 	    //maxcharges.push_back(SumOfSignal);
-	    maxcharges.push_back(maxcharge);
+	    maxcharges.push_back(maxcharge-striptol[i]);
 	    maxstrips.push_back((strip)[i]);
 
-	    StripChargeHist->Fill(maxcharge);
+	    StripChargeHist->Fill(maxcharge-striptol[i]);
 	    StripsHist->Fill((strip)[i]);
 
 	  }	  
@@ -4274,10 +4318,10 @@ void APVEvent(){
 	
 	if(display_mode == 1 || display_mode == 2 || display_mode == 4 || display_mode == 5){
 	  
-	  if(totalchannel[*evtID] >= 128*8 && totalchannel[*evtID] < 127 + 128*15){
+	  //if(totalchannel[*evtID] >= 128*8 && totalchannel[*evtID] < 127 + 128*15){
 	    //Trackers
 	    //cout << "in trackers?" << endl;
-	    if(totalchannel[*evtID] >= 128*10 && totalchannel[*evtID] <= 127 + 128*10){//og 8
+	    if(totalchannel[*evtID] >= 128*Tracker1xindex && totalchannel[*evtID] <= 127 + 128*Tracker1xindex){//og 8 changed to 10, now to 0
 
 	      if(display_mode != 2 || display_mode != 5){
 		Tracker1XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);	      
@@ -4300,7 +4344,7 @@ void APVEvent(){
 	      
 	      if(maxcharge >= striptol[i]){
 		
-		Tracker1xmaxcharges.push_back(maxcharge);				
+		Tracker1xmaxcharges.push_back(maxcharge-striptol[i]);				
 		Tracker1xmaxstrips.push_back((strip)[i]);
 		
 	      }
@@ -4312,7 +4356,7 @@ void APVEvent(){
 		Tracker1xPedstds.push_back(striptol[i]);	      	      
 	    }
 	    // cout << "Pass tracker 1?" << endl;
-	    if(totalchannel[*evtID] >= 128*12 && totalchannel[*evtID] <= 127 + 128*12){//og 12
+	    if(totalchannel[*evtID] >= 128*Tracker3xindex && totalchannel[*evtID] <= 127 + 128*Tracker3xindex){//og 12 cjanged to 12, now 1
 	      
 	      if(display_mode != 2 || display_mode != 5){
 		Tracker3XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4334,7 +4378,7 @@ void APVEvent(){
 
 	      if(maxcharge >=  striptol[i]){
 		
-		Tracker3xmaxcharges.push_back(maxcharge);
+		Tracker3xmaxcharges.push_back(maxcharge-striptol[i]);
 		Tracker3xmaxstrips.push_back((strip)[i]);
 		
 	      }
@@ -4345,7 +4389,7 @@ void APVEvent(){
 	      
 	    }
 	      
-	    if(totalchannel[*evtID] >= 128*11 && totalchannel[*evtID] <= 127 + 128*11){//og 9
+	    if(totalchannel[*evtID] >= 128*Tracker1yindex && totalchannel[*evtID] <= 127 + 128*Tracker1yindex){//og 9, changed to 11, now 2
 
 		if(display_mode != 2 || display_mode != 5){
 		  Tracker1YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4367,7 +4411,7 @@ void APVEvent(){
 	
 		if(maxcharge >= striptol[i]){
 		  
-		  Tracker1ymaxcharges.push_back(maxcharge);		  
+		  Tracker1ymaxcharges.push_back(maxcharge-striptol[i]);		  
 		  Tracker1ymaxstrips.push_back((strip)[i]);
         
 		}
@@ -4378,7 +4422,7 @@ void APVEvent(){
 	      
 	      }
 	    
-	      if(totalchannel[*evtID] >= 128*13 && totalchannel[*evtID] <= 127 + 128*13){
+	    if(totalchannel[*evtID] >= 128*Tracker3yindex && totalchannel[*evtID] <= 127 + 128*Tracker3yindex){//was 13, now 3
 
 		if(display_mode != 2 || display_mode != 5){
 		  Tracker3YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4401,7 +4445,7 @@ void APVEvent(){
 		
 		if(maxcharge >=  striptol[i]){
 
-		  Tracker3ymaxcharges.push_back(maxcharge);
+		  Tracker3ymaxcharges.push_back(maxcharge-striptol[i]);
 		  Tracker3ymaxstrips.push_back((strip)[i]);
 		  
 		}
@@ -4412,7 +4456,7 @@ void APVEvent(){
 	      
 	      }
 	    
-	      if(totalchannel[*evtID] >= 128*14 && totalchannel[*evtID] <= 127 + 128*14){//og 10
+	      if(totalchannel[*evtID] >= 128*Tracker2xindex && totalchannel[*evtID] <= 127 + 128*Tracker2xindex){//og 10, switched to 14, now 5
 
 		if(display_mode != 2 || display_mode != 5){
 		  Tracker2XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);	      
@@ -4435,7 +4479,7 @@ void APVEvent(){
 		
 		if(maxcharge >=  striptol[i]){
 
-		  Tracker2xmaxcharges.push_back(maxcharge);
+		  Tracker2xmaxcharges.push_back(maxcharge-striptol[i]);
 		  Tracker2xmaxstrips.push_back((strip)[i]);
 		  
 		}
@@ -4446,7 +4490,7 @@ void APVEvent(){
 		
 	      		
 	      }
-	      if(totalchannel[*evtID] >= 128*8 && totalchannel[*evtID] <= 127 + 128*8){//og 14
+	      if(totalchannel[*evtID] >= 128*Tracker4xindex && totalchannel[*evtID] <= 127 + 128*Tracker4xindex){//og 14, changed to 8, now 4
 
 		if(display_mode != 2 || display_mode != 5){
 		  Tracker4XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4469,7 +4513,7 @@ void APVEvent(){
 		maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 
 		if(maxcharge >=  striptol[i]){
-		  Tracker4xmaxcharges.push_back(maxcharge);
+		  Tracker4xmaxcharges.push_back(maxcharge-striptol[i]);
 		  Tracker4xmaxstrips.push_back((strip)[i]);
 		  
 		}
@@ -4481,7 +4525,7 @@ void APVEvent(){
 	      }
 
 	      
-	      if(totalchannel[*evtID] >= 128*15 && totalchannel[*evtID] <= 127 + 128*15){//og 11
+	      if(totalchannel[*evtID] >= 128*Tracker2yindex && totalchannel[*evtID] <= 127 + 128*Tracker2yindex){//og 11, was 15, now 7
 
 		if(display_mode != 2 || display_mode != 5){
 		  Tracker2YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4504,7 +4548,7 @@ void APVEvent(){
 	
 		if(maxcharge >=  striptol[i]){
 		  //cout << "Here?" << endl;
-		  Tracker2ymaxcharges.push_back(maxcharge);
+		  Tracker2ymaxcharges.push_back(maxcharge-striptol[i]);
 		  Tracker2ymaxstrips.push_back((strip)[i]);
 		 
 		  
@@ -4516,7 +4560,7 @@ void APVEvent(){
 		
 	      }
 	  
-	      if(totalchannel[*evtID] >= 128*9 && totalchannel[*evtID] <= 127 + 128*9){//og 15
+	      if(totalchannel[*evtID] >= 128*Tracker4yindex && totalchannel[*evtID] <= 127 + 128*Tracker4yindex){//og 15, was 9, now 6
 
 		if(display_mode != 2 || display_mode != 5){
 		  Tracker4YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4538,7 +4582,7 @@ void APVEvent(){
 		maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 
 		if(maxcharge >=  striptol[i]){
-		  Tracker4ymaxcharges.push_back(maxcharge);
+		  Tracker4ymaxcharges.push_back(maxcharge-striptol[i]);
 		  Tracker4ymaxstrips.push_back((strip)[i]);
 		  
 		}
@@ -4547,213 +4591,10 @@ void APVEvent(){
 		if(*evtID == 1)
 		  Tracker4yPedstds.push_back(striptol[i]);	      	      
 	      
-	      }	
-	  }
-	  //cout << "Left trackers?" << endl;
-	}
-	//end filling tracker plots
-	
-	if(display_mode == 1 || display_mode == 3 || display_mode == 4 || AlignmentMode == 0){
-	  //start LAGD APVs
-	  
-	  //To save space, we do not need APVs 2, 8, and 9 for now
-	  if(totalchannel[*evtID] >= 128*8 && totalchannel[*evtID] <= 127 + 128*8){
-	     
-	    if(display_mode != 2 || display_mode != 5){
-	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
-	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
-	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
-	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
-	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
-	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
-	    }
-	           
-	    stripcharges.push_back((adc0)[i]);
-	    stripcharges.push_back((adc1)[i]);
-	    stripcharges.push_back((adc2)[i]);
-	    stripcharges.push_back((adc3)[i]);
-	    stripcharges.push_back((adc4)[i]);
-	    stripcharges.push_back((adc5)[i]);
+	      }
 
-	      
-	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
-	  
-	    if(maxcharge >=  striptol[i]){			
-	      APV8maxcharges.push_back(maxcharge);	      
-	      APV8maxstrips.push_back((strip)[i]);
-	      
-	    }
-	    
-	    stripcharges.clear();
-	    if(*evtID == 1)
-	      APV8Pedstds.push_back(striptol[i]);	      	      	      	
-	  }
-	  
-	
-	  if(totalchannel[*evtID] >= 128*9 && totalchannel[*evtID] <= 127 + 128*9){
-	    if(display_mode != 2 || display_mode != 5){
-	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
-	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
-	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
-	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
-	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
-	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
-	    }
-	    	       
-	    stripcharges.push_back((adc0)[i]);
-	    stripcharges.push_back((adc1)[i]);
-	    stripcharges.push_back((adc2)[i]);
-	    stripcharges.push_back((adc3)[i]);
-	    stripcharges.push_back((adc4)[i]);
-	    stripcharges.push_back((adc5)[i]);
-
-	      
-	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
-	  
-	    if(maxcharge >=  striptol[i]){			
-	      APV9maxcharges.push_back(maxcharge);	      
-	      APV9maxstrips.push_back((strip)[i]);
-	      
-	    }
-	    
-	    stripcharges.clear();
-	    if(*evtID == 1)
-	      APV9Pedstds.push_back(striptol[i]);	      	      
-	      
-	  }	  
-	  
-	  if(totalchannel[*evtID] >= 128*3 && totalchannel[*evtID] <= 63 + 128*3){
-
-	    if(display_mode != 2 || display_mode != 5){
-	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
-	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
-	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
-	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
-	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
-	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
-	    }
-	       
-	    stripcharges.push_back((adc0)[i]);
-	    stripcharges.push_back((adc1)[i]);
-	    stripcharges.push_back((adc2)[i]);
-	    stripcharges.push_back((adc3)[i]);
-	    stripcharges.push_back((adc4)[i]);
-	    stripcharges.push_back((adc5)[i]);
-
-	      
-	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
-	  
-	    if(maxcharge >=  striptol[i]){			
-	      APV5E3maxcharges.push_back(maxcharge);	      
-	      APV5E3maxstrips.push_back((strip)[i]);
-	      
-	    }
-	    
-	    stripcharges.clear();
-	    if(*evtID == 1)
-	      APV5E3Pedstds.push_back(striptol[i]);	      	      
-	      
-	  }
-	  
-	  if(totalchannel[*evtID] >= 64 + 128*3 && totalchannel[*evtID] <= 127 + 128*3){
-
-	    if(display_mode !=2){
-	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
-	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
-	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
-	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
-	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
-	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
-	    }
-	           
-	    stripcharges.push_back((adc0)[i]);
-	    stripcharges.push_back((adc1)[i]);
-	    stripcharges.push_back((adc2)[i]);
-	    stripcharges.push_back((adc3)[i]);
-	    stripcharges.push_back((adc4)[i]);
-	    stripcharges.push_back((adc5)[i]);	    
-
-	      
-	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
-	    
-	    if(maxcharge >=  striptol[i]){			
-	      APV5E4maxcharges.push_back(maxcharge);	      
-	      APV5E4maxstrips.push_back((strip)[i]);
-	      
-	    }
-	    
-	    stripcharges.clear();
-	    if(*evtID == 1)
-	      APV5E4Pedstds.push_back(striptol[i]);	      	      
-	      
-	  }
-	  
-
-	  if(totalchannel[*evtID] >= 128*2 && totalchannel[*evtID] <= 63 + 128*2){
-
-	    if(display_mode != 2 || display_mode != 5){
-	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
-	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
-	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
-	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
-	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
-	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
-	    }
-	           
-	    stripcharges.push_back((adc0)[i]);
-	    stripcharges.push_back((adc1)[i]);
-	    stripcharges.push_back((adc2)[i]);
-	    stripcharges.push_back((adc3)[i]);
-	    stripcharges.push_back((adc4)[i]);
-	    stripcharges.push_back((adc5)[i]);
-	    
-	      
-	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
-	    
-	    if(maxcharge >= striptol[i]){			
-	      APV4E3maxcharges.push_back(maxcharge);	      
-	      APV4E3maxstrips.push_back((strip)[i]);
-	      
-	    }
-	    
-	    stripcharges.clear();
-	    if(*evtID == 1)
-	      APV4E3Pedstds.push_back(striptol[i]);	      
-	  }
-	  
-	  if(totalchannel[*evtID] >= 64 + 128*2 && totalchannel[*evtID] <= 127 + 128*2){
-	    if(display_mode != 2 || display_mode != 5){
-	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
-	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
-	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
-	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
-	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
-	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
-  	    }	    
-	    
-	    stripcharges.push_back((adc0)[i]);
-	    stripcharges.push_back((adc1)[i]);
-	    stripcharges.push_back((adc2)[i]);
-	    stripcharges.push_back((adc3)[i]);
-	    stripcharges.push_back((adc4)[i]);
-	    stripcharges.push_back((adc5)[i]);	    
-
-	      
-	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
-	    
-	    if(maxcharge >= striptol[i]){			
-	      APV4E4maxcharges.push_back(maxcharge);	      
-	      APV4E4maxstrips.push_back((strip)[i]);
-	      
-	    }
-	    
-	    stripcharges.clear();
-	    if(*evtID == 1)
-	      APV4E4Pedstds.push_back(striptol[i]);	      
-	  }
-
-	  //APV 3 in eta 1
-	  if(totalchannel[*evtID] >= 128*1 && totalchannel[*evtID] <= 64 + 128*1){
+	      	  //APV 3 in eta 1
+	  if(totalchannel[*evtID] >= 128*APV3index && totalchannel[*evtID] <= 64 + 128*APV3index){
 
 	    if(display_mode != 2 || display_mode != 5){
 	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4775,7 +4616,7 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){
-	      APV3E1maxcharges.push_back(maxcharge);
+	      APV3E1maxcharges.push_back(maxcharge-striptol[i]);
 	      APV3E1maxstrips.push_back((strip)[i]);
 	    }
 	    
@@ -4784,8 +4625,245 @@ void APVEvent(){
 	      APV3E1Pedstds.push_back(striptol[i]);	      
 	    
 	  }
+	  
+	  //cout << "Left trackers?" << endl;
+	}
+	//end filling tracker plots
+	
+	if(display_mode == 1 || display_mode == 3 || display_mode == 4 || display_mode == 5){
+	  //start LAGD APVs
+	  
+	  //To save space, we do not need APVs 2, 8, and 9 for now
+	  if(totalchannel[*evtID] >= 128*APV8index && totalchannel[*evtID] <= 127 + 128*APV8index){
+	     
+	    if(display_mode != 2 || display_mode != 5){
+	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
+	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
+	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
+	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
+	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
+	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
+	    }
+	           
+	    stripcharges.push_back((adc0)[i]);
+	    stripcharges.push_back((adc1)[i]);
+	    stripcharges.push_back((adc2)[i]);
+	    stripcharges.push_back((adc3)[i]);
+	    stripcharges.push_back((adc4)[i]);
+	    stripcharges.push_back((adc5)[i]);
+
+	      
+	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
+	  
+	    if(maxcharge >=  striptol[i]){			
+	      APV8maxcharges.push_back(maxcharge-striptol[i]);	      
+	      APV8maxstrips.push_back((strip)[i]);
+	      
+	    }
+	    
+	    stripcharges.clear();
+	    if(*evtID == 1)
+	      APV8Pedstds.push_back(striptol[i]);	      	      	      	
+	  }
+	  
+	
+	  if(totalchannel[*evtID] >= 128*APV9index && totalchannel[*evtID] <= 127 + 128*APV9index){
+	    if(display_mode != 2 || display_mode != 5){
+	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
+	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
+	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
+	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
+	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
+	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
+	    }
+	    	       
+	    stripcharges.push_back((adc0)[i]);
+	    stripcharges.push_back((adc1)[i]);
+	    stripcharges.push_back((adc2)[i]);
+	    stripcharges.push_back((adc3)[i]);
+	    stripcharges.push_back((adc4)[i]);
+	    stripcharges.push_back((adc5)[i]);
+
+	      
+	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
+	  
+	    if(maxcharge >=  striptol[i]){			
+	      APV9maxcharges.push_back(maxcharge-striptol[i]);	      
+	      APV9maxstrips.push_back((strip)[i]);
+	      
+	    }
+	    
+	    stripcharges.clear();
+	    if(*evtID == 1)
+	      APV9Pedstds.push_back(striptol[i]);	      	      
+	      
+	  }	  
+	  
+	  if(totalchannel[*evtID] >= 128*APV5index && totalchannel[*evtID] <= 63 + 128*APV5index){
+
+	    if(display_mode != 2 || display_mode != 5){
+	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
+	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
+	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
+	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
+	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
+	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
+	    }
+	       
+	    stripcharges.push_back((adc0)[i]);
+	    stripcharges.push_back((adc1)[i]);
+	    stripcharges.push_back((adc2)[i]);
+	    stripcharges.push_back((adc3)[i]);
+	    stripcharges.push_back((adc4)[i]);
+	    stripcharges.push_back((adc5)[i]);
+
+	      
+	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
+	  
+	    if(maxcharge >=  striptol[i]){			
+	      APV5E3maxcharges.push_back(maxcharge-striptol[i]);	      
+	      APV5E3maxstrips.push_back((strip)[i]);
+	      
+	    }
+	    
+	    stripcharges.clear();
+	    if(*evtID == 1)
+	      APV5E3Pedstds.push_back(striptol[i]);	      	      
+	      
+	  }
+	  
+	  if(totalchannel[*evtID] >= 64 + 128*APV5index && totalchannel[*evtID] <= 127 + 128*APV5index){
+
+	    if(display_mode !=2){
+	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
+	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
+	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
+	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
+	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
+	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
+	    }
+	           
+	    stripcharges.push_back((adc0)[i]);
+	    stripcharges.push_back((adc1)[i]);
+	    stripcharges.push_back((adc2)[i]);
+	    stripcharges.push_back((adc3)[i]);
+	    stripcharges.push_back((adc4)[i]);
+	    stripcharges.push_back((adc5)[i]);	    
+
+	      
+	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
+	    
+	    if(maxcharge >=  striptol[i]){			
+	      APV5E4maxcharges.push_back(maxcharge-striptol[i]);	      
+	      APV5E4maxstrips.push_back((strip)[i]);
+	      
+	    }
+	    
+	    stripcharges.clear();
+	    if(*evtID == 1)
+	      APV5E4Pedstds.push_back(striptol[i]);	      	      
+	      
+	  }
+	  
+
+	  if(totalchannel[*evtID] >= 128*APV4index && totalchannel[*evtID] <= 63 + 128*APV4index){
+
+	    if(display_mode != 2 || display_mode != 5){
+	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
+	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
+	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
+	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
+	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
+	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
+	    }
+	           
+	    stripcharges.push_back((adc0)[i]);
+	    stripcharges.push_back((adc1)[i]);
+	    stripcharges.push_back((adc2)[i]);
+	    stripcharges.push_back((adc3)[i]);
+	    stripcharges.push_back((adc4)[i]);
+	    stripcharges.push_back((adc5)[i]);
+	    
+	      
+	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
+	    
+	    if(maxcharge >= striptol[i]){			
+	      APV4E3maxcharges.push_back(maxcharge-striptol[i]);	      
+	      APV4E3maxstrips.push_back((strip)[i]);
+	      
+	    }
+	    
+	    stripcharges.clear();
+	    if(*evtID == 1)
+	      APV4E3Pedstds.push_back(striptol[i]);	      
+	  }
+	  
+	  if(totalchannel[*evtID] >= 64 + 128*APV4index && totalchannel[*evtID] <= 127 + 128*APV4index){
+	    if(display_mode != 2 || display_mode != 5){
+	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
+	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
+	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
+	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
+	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
+	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
+  	    }	    
+	    
+	    stripcharges.push_back((adc0)[i]);
+	    stripcharges.push_back((adc1)[i]);
+	    stripcharges.push_back((adc2)[i]);
+	    stripcharges.push_back((adc3)[i]);
+	    stripcharges.push_back((adc4)[i]);
+	    stripcharges.push_back((adc5)[i]);	    
+
+	      
+	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
+	    
+	    if(maxcharge >= striptol[i]){			
+	      APV4E4maxcharges.push_back(maxcharge-striptol[i]);	      
+	      APV4E4maxstrips.push_back((strip)[i]);
+	      
+	    }
+	    
+	    stripcharges.clear();
+	    if(*evtID == 1)
+	      APV4E4Pedstds.push_back(striptol[i]);	      
+	  }
+	  /*
+	  //APV 3 in eta 1
+	  if(totalchannel[*evtID] >= 128*APV3index && totalchannel[*evtID] <= 64 + 128*APV3index){
+
+	    if(display_mode != 2 || display_mode != 5){
+	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
+	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
+	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
+	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
+	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
+	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
+	    }
+	      
+	    stripcharges.push_back((adc0)[i]);
+	    stripcharges.push_back((adc1)[i]);
+	    stripcharges.push_back((adc2)[i]);
+	    stripcharges.push_back((adc3)[i]);
+	    stripcharges.push_back((adc4)[i]);
+	    stripcharges.push_back((adc5)[i]);
+
+	      
+	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
+	    
+	    if(maxcharge >= striptol[i]){
+	      APV3E1maxcharges.push_back(maxcharge-striptol[i]);
+	      APV3E1maxstrips.push_back((strip)[i]);
+	    }
+	    
+	    stripcharges.clear();
+	    if(*evtID == 1)
+	      APV3E1Pedstds.push_back(striptol[i]);	      
+	    
+	  }
+	  */
 	  //APV 3 in eta 2
-	  if(totalchannel[*evtID] >= 64+ 128*1 && totalchannel[*evtID] <= 128 + 128*1){
+	  if(totalchannel[*evtID] >= 64+ 128*APV3index && totalchannel[*evtID] <= 128 + 128*APV3index){
 
 	    if(display_mode != 2 || display_mode != 5){
 	      APV3E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4807,7 +4885,7 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 
 	    if(maxcharge >= striptol[i]){
-	      APV3E2maxcharges.push_back(maxcharge);
+	      APV3E2maxcharges.push_back(maxcharge-striptol[i]);
 	      APV3E2maxstrips.push_back((strip)[i]);
 	      
 	    }
@@ -4817,7 +4895,7 @@ void APVEvent(){
 	      APV3E2Pedstds.push_back(striptol[i]);	      
 	  }	  
 
-	  if(totalchannel[*evtID] >= 128*4 && totalchannel[*evtID] <= 63 + 128*4){
+	  if(totalchannel[*evtID] >= 128*APV6index && totalchannel[*evtID] <= 63 + 128*APV6index){
 
 	    if(display_mode != 2 || display_mode != 5){
 	      APV6E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4839,7 +4917,7 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){			
-	      APV6E3maxcharges.push_back(maxcharge);	      
+	      APV6E3maxcharges.push_back(maxcharge-striptol[i]);	      
 	      APV6E3maxstrips.push_back((strip)[i]);
 	      
 	    }
@@ -4849,7 +4927,7 @@ void APVEvent(){
 	      APV6E3Pedstds.push_back(striptol[i]);	      
 	  }
 	  
-	  if(totalchannel[*evtID] >= 64 + 128*4 && totalchannel[*evtID] <= 127 + 128*4){
+	  if(totalchannel[*evtID] >= 64 + 128*APV6index && totalchannel[*evtID] <= 127 + 128*APV6index){
 
 	    if(display_mode != 2 || display_mode != 5){
 	      APV6E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4871,7 +4949,7 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){			
-	      APV6E4maxcharges.push_back(maxcharge);	      
+	      APV6E4maxcharges.push_back(maxcharge-striptol[i]);	      
 	      APV6E4maxstrips.push_back((strip)[i]);
 	      
 	    }
@@ -4884,7 +4962,7 @@ void APVEvent(){
 	  
 	  //Again, dont need APV 2 rn
   
-	  if(totalchannel[*evtID] >= 128*14 && totalchannel[*evtID] <= 127 + 128*14){
+	  if(totalchannel[*evtID] >= 128*APV2index && totalchannel[*evtID] <= 127 + 128*APV2index){
 
 	    if(display_mode != 2 || display_mode != 5){
 	      APV2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4906,7 +4984,7 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){			
-	      APV2maxcharges.push_back(maxcharge);	      
+	      APV2maxcharges.push_back(maxcharge-striptol[i]);	      
 	      APV2maxstrips.push_back((strip)[i]);
 	      
 	    }
@@ -4919,7 +4997,7 @@ void APVEvent(){
 	  
 	  
 	  //APV 7 eta 1
-	  if(totalchannel[*evtID] >= 128*5 && totalchannel[*evtID] <= 63 + 128*5){
+	  if(totalchannel[*evtID] >= 128*APV7index && totalchannel[*evtID] <= 63 + 128*APV7index){
 
 	    if(display_mode != 2 || display_mode != 5){
 	      APV7E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4941,7 +5019,7 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){			
-	      APV7E1maxcharges.push_back(maxcharge);	      
+	      APV7E1maxcharges.push_back(maxcharge-striptol[i]);	      
 	      APV7E1maxstrips.push_back((strip)[i]);
 	      
 	    }
@@ -4952,7 +5030,7 @@ void APVEvent(){
 	  }
 	  
 	  //APV 7 eta 2
-	  if(totalchannel[*evtID] >= 64 + 128*5 && totalchannel[*evtID] <= 127 + 128*5){
+	  if(totalchannel[*evtID] >= 64 + 128*APV7index && totalchannel[*evtID] <= 127 + 128*APV7index){
 
 	    if(display_mode != 2 || display_mode != 5){
 	      APV7E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4974,7 +5052,7 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){			
-	      APV7E2maxcharges.push_back(maxcharge);	      
+	      APV7E2maxcharges.push_back(maxcharge-striptol[i]);	      
 	      APV7E2maxstrips.push_back((strip)[i]);
 	      
 	    }
@@ -5235,19 +5313,13 @@ void APVEvent(){
 	  //{
 	  
 	  //loop to find exact hit location
-	  cout << "Here?" << endl;
-	  for(auto y = Tracker1ymaxstrips.begin();y != Tracker1ymaxstrips.end();y++ ){
-	    cout << *y << endl;
-	    StripsHithist->Fill(*y - 128);
-	  }
-	  
-	  cout << "Here?" << endl;
+	  //cout << "Here?" << endl;
 	  for(auto i = Tracker1ymaxstrips.begin(); i < Tracker1ymaxstrips.end(); i++){
 	    cout << *i << endl;
 	  }
 
-	  cout << "APV3E1 strips" << endl;
-	  for(auto i = APV3E1maxstrips.begin(); i < APV3E1maxstrips.end(); i++){
+	  cout << "LAGD strips" << endl;
+	  for(auto i = APV4E4maxstrips.begin(); i < APV4E4maxstrips.end(); i++){
 	    cout << *i << endl;
 	  }
 	  
@@ -5302,8 +5374,8 @@ void APVEvent(){
 	    cout << *i << endl;
 	  }
 	  cout << "End of resized vector" << endl;
-	  cout << "APV3E1 strips" << endl;
-	  for(auto i = APV3E1maxstrips.begin(); i < APV3E1maxstrips.end(); i++){
+	  cout << "APV4E4 strips" << endl;
+	  for(auto i = APV4E4maxstrips.begin(); i < APV4E4maxstrips.end(); i++){
 	    cout << *i << endl;
 	  }
 	  
@@ -5317,13 +5389,13 @@ void APVEvent(){
 	  
 	    if(display_mode == 1 || display_mode == 2 || display_mode == 5){
 	      Tracker1xnum += Tracker1xmaxstrips.at(m)*Tracker1xmaxcharges.at(m);
-	      Tracker1ynum += (Tracker1ymaxstrips.at(m)-128)*Tracker1ymaxcharges.at(m);
+	      Tracker1ynum += (Tracker1ymaxstrips.at(m))*Tracker1ymaxcharges.at(m);
 	      Tracker2xnum += Tracker2xmaxstrips.at(m)*Tracker2xmaxcharges.at(m);
-	      Tracker2ynum += (Tracker2ymaxstrips.at(m)-128)*Tracker2ymaxcharges.at(m);	    
+	      Tracker2ynum += (Tracker2ymaxstrips.at(m))*Tracker2ymaxcharges.at(m);	    
 	      Tracker3xnum += Tracker3xmaxstrips.at(m)*Tracker3xmaxcharges.at(m);
-	      Tracker3ynum += (Tracker3ymaxstrips.at(m)-128)*Tracker3ymaxcharges.at(m);
+	      Tracker3ynum += (Tracker3ymaxstrips.at(m))*Tracker3ymaxcharges.at(m);
 	      Tracker4xnum += Tracker4xmaxstrips.at(m)*Tracker4xmaxcharges.at(m);
-	      Tracker4ynum += (Tracker4ymaxstrips.at(m)-128)*Tracker4ymaxcharges.at(m);
+	      Tracker4ynum += (Tracker4ymaxstrips.at(m))*Tracker4ymaxcharges.at(m);
 
 	      
 	      Tracker1xtotalcharge += Tracker1xmaxcharges.at(m);
@@ -5419,18 +5491,18 @@ void APVEvent(){
 	    //efficiencynum++;
 	  }       
 	  
-	  Stripcorr->SetPoint(Stripcorrit, Tracker1yloc, APV3E1loc);
-	  TrackerStripcorr->SetPoint(Stripcorrit, Tracker1yloc, Tracker3yloc);	  
-	  LAGDstrips->SetPoint(Stripcorrit, Stripcorrit, APV3E1loc);
+	  Stripcorr->SetPoint(Stripcorrit, APV4E4loc, Tracker1yloc);
+	  TrackerStripcorr->SetPoint(Stripcorrit, Tracker1yloc, Tracker2yloc);	  
+	  LAGDstrips->SetPoint(Stripcorrit, Stripcorrit, APV4E4loc);
 	  Trackerstrips->SetPoint(Stripcorrit, Stripcorrit, Tracker1yloc);
-	  Diffbtwnstrips->SetPoint(Stripcorrit, Stripcorrit, Tracker1yloc - APV3E1loc);
+	  //Diffbtwnstrips->SetPoint(Stripcorrit, Stripcorrit, Tracker1yloc - APV3E1loc);
 	  Stripcorrit++;
 	  
 	  cout << "Hit at (" << Tracker1xloc << "," << Tracker1yloc << ") in Tracker 1" << endl;
 	  cout << "Hit at (" << Tracker2xloc << "," << Tracker2yloc << ") in Tracker 2" << endl;
 	  cout << "Hit at (" << Tracker3xloc << "," << Tracker3yloc << ") in Tracker 3" << endl;
 	  cout << "Hit at (" << Tracker4xloc << "," << Tracker4yloc << ") in Tracker 4" << endl;
-	  cout << "Hit at (" << APV3E1loc << ")" << " in APV3E1" << endl;
+	  cout << "Hit at (" << APV4E3loc << ")" << " in APV4E3" << endl;
 	  /*
 	  cout << "Hit at (" << APV3E2loc << ")" << " in APV3E2" << endl;
 	  cout << "Hit at (" << APV4E3loc << ")" << " in APV4E3" << endl;
@@ -6165,7 +6237,7 @@ void APVEvent(){
 	Tracker1XPulseHeight->SetTitle("GEM1X");
 	Tracker1XPulseHeight->GetXaxis()->SetTitle("Strip");
 	Tracker1XPulseHeight->GetXaxis()->CenterTitle(true);
-	Tracker1XPulseHeight->GetXaxis()->SetRangeUser(0,127);
+	//Tracker1XPulseHeight->GetXaxis()->SetRangeUser(0,127);
 	Tracker1XPulseHeight->GetYaxis()->SetTitle("TimeBin");
 	Tracker1XPulseHeight->GetYaxis()->CenterTitle(true);
 	Tracker1XPulseHeight->GetZaxis()->SetTitle("ADC charge");
@@ -6178,7 +6250,7 @@ void APVEvent(){
 	Tracker1YPulseHeight->SetTitle("GEM1Y");
 	Tracker1YPulseHeight->GetXaxis()->SetTitle("Strip");
 	Tracker1YPulseHeight->GetXaxis()->CenterTitle(true);
-	Tracker1YPulseHeight->GetXaxis()->SetRangeUser(128,255);
+	//Tracker1YPulseHeight->GetXaxis()->SetRangeUser(128,255);
 	Tracker1YPulseHeight->GetYaxis()->SetTitle("TimeBin");
 	Tracker1YPulseHeight->GetYaxis()->CenterTitle(true);
 	Tracker1YPulseHeight->GetZaxis()->SetTitle("ADC charge");
@@ -6191,7 +6263,7 @@ void APVEvent(){
 	Tracker2XPulseHeight->SetTitle("GEM2X");
 	Tracker2XPulseHeight->GetXaxis()->SetTitle("Strip");
 	Tracker2XPulseHeight->GetXaxis()->CenterTitle(true);
-	Tracker2XPulseHeight->GetXaxis()->SetRangeUser(0,127);
+	//Tracker2XPulseHeight->GetXaxis()->SetRangeUser(0,127);
 	Tracker2XPulseHeight->GetYaxis()->SetTitle("TimeBin");
 	Tracker2XPulseHeight->GetYaxis()->CenterTitle(true);
 	Tracker2XPulseHeight->GetZaxis()->SetTitle("ADC charge");
@@ -6204,7 +6276,7 @@ void APVEvent(){
 	Tracker2YPulseHeight->SetTitle("GEM2Y");
 	Tracker2YPulseHeight->GetXaxis()->SetTitle("Strip");
 	Tracker2YPulseHeight->GetXaxis()->CenterTitle(true);
-	Tracker2YPulseHeight->GetXaxis()->SetRangeUser(128,255);
+	//Tracker2YPulseHeight->GetXaxis()->SetRangeUser(128,255);
 	Tracker2YPulseHeight->GetYaxis()->SetTitle("TimeBin");
 	Tracker2YPulseHeight->GetYaxis()->CenterTitle(true);
 	Tracker2YPulseHeight->GetZaxis()->SetTitle("ADC charge");
@@ -6217,7 +6289,7 @@ void APVEvent(){
 	Tracker3XPulseHeight->SetTitle("GEM3X");
 	Tracker3XPulseHeight->GetXaxis()->SetTitle("Strip");
 	Tracker3XPulseHeight->GetXaxis()->CenterTitle(true);
-	Tracker3XPulseHeight->GetXaxis()->SetRangeUser(0,127);
+	//Tracker3XPulseHeight->GetXaxis()->SetRangeUser(0,127);
 	Tracker3XPulseHeight->GetYaxis()->SetTitle("TimeBin");
 	Tracker3XPulseHeight->GetYaxis()->CenterTitle(true);
 	Tracker3XPulseHeight->GetZaxis()->SetTitle("ADC charge");
@@ -6230,7 +6302,7 @@ void APVEvent(){
 	Tracker3YPulseHeight->SetTitle("GEM3Y");
 	Tracker3YPulseHeight->GetXaxis()->SetTitle("Strip");
 	Tracker3YPulseHeight->GetXaxis()->CenterTitle(true);
-	Tracker3YPulseHeight->GetXaxis()->SetRangeUser(128,255);
+	//Tracker3YPulseHeight->GetXaxis()->SetRangeUser(128,255);
 	Tracker3YPulseHeight->GetYaxis()->SetTitle("TimeBin");
 	Tracker3YPulseHeight->GetYaxis()->CenterTitle(true);
 	Tracker3YPulseHeight->GetZaxis()->SetTitle("ADC charge");
@@ -6243,7 +6315,7 @@ void APVEvent(){
 	Tracker4XPulseHeight->SetTitle("GEM4X");
 	Tracker4XPulseHeight->GetXaxis()->SetTitle("Strip");
 	Tracker4XPulseHeight->GetXaxis()->CenterTitle(true);
-	Tracker4XPulseHeight->GetXaxis()->SetRangeUser(0,127);
+	//Tracker4XPulseHeight->GetXaxis()->SetRangeUser(0,127);
 	Tracker4XPulseHeight->GetYaxis()->SetTitle("TimeBin");
 	Tracker4XPulseHeight->GetYaxis()->CenterTitle(true);
 	Tracker4XPulseHeight->GetZaxis()->SetTitle("ADC charge");
@@ -6256,7 +6328,7 @@ void APVEvent(){
 	Tracker4YPulseHeight->SetTitle("GEM4Y");
 	Tracker4YPulseHeight->GetXaxis()->SetTitle("Strip");
 	Tracker4YPulseHeight->GetXaxis()->CenterTitle(true);
-	Tracker4YPulseHeight->GetXaxis()->SetRangeUser(128,255);
+	//Tracker4YPulseHeight->GetXaxis()->SetRangeUser(128,255);
 	Tracker4YPulseHeight->GetYaxis()->SetTitle("TimeBin");
 	Tracker4YPulseHeight->GetYaxis()->CenterTitle(true);
 	Tracker4YPulseHeight->GetZaxis()->SetTitle("ADC charge");
@@ -6270,7 +6342,7 @@ void APVEvent(){
 	APV3E1PulseHeight->SetTitle("APV3 E1");
 	APV3E1PulseHeight->GetXaxis()->SetTitle("Strip");
 	APV3E1PulseHeight->GetXaxis()->CenterTitle(true);
-	APV3E1PulseHeight->GetXaxis()->SetRangeUser(0,63);
+	//APV3E1PulseHeight->GetXaxis()->SetRangeUser(0,63);
 	APV3E1PulseHeight->GetYaxis()->SetTitle("TimeBin");
 	APV3E1PulseHeight->GetYaxis()->CenterTitle(true);
 	APV3E1PulseHeight->GetZaxis()->SetTitle("ADC charge");
@@ -6283,7 +6355,7 @@ void APVEvent(){
 	APV3E2PulseHeight->SetTitle("APV3 E2");
 	APV3E2PulseHeight->GetXaxis()->SetTitle("Strip");
 	APV3E2PulseHeight->GetXaxis()->CenterTitle(true);
-	APV3E2PulseHeight->GetXaxis()->SetRangeUser(64,127);
+	//APV3E2PulseHeight->GetXaxis()->SetRangeUser(64,127);
 	APV3E2PulseHeight->GetYaxis()->SetTitle("TimeBin");
 	APV3E2PulseHeight->GetYaxis()->CenterTitle(true);
 	APV3E2PulseHeight->GetZaxis()->SetTitle("ADC charge");
@@ -6295,7 +6367,7 @@ void APVEvent(){
 	APV6E3PulseHeight->Draw("pcol");
 	APV6E3PulseHeight->SetTitle("APV6 E3");
 	APV6E3PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV6E3PulseHeight->GetXaxis()->SetRangeUser(0,63);
+	//APV6E3PulseHeight->GetXaxis()->SetRangeUser(0,63);
 	APV6E3PulseHeight->GetXaxis()->CenterTitle(true);
 	APV6E3PulseHeight->GetYaxis()->SetTitle("TimeBin");
 	APV6E3PulseHeight->GetYaxis()->CenterTitle(true);
@@ -6308,7 +6380,7 @@ void APVEvent(){
 	APV5E3PulseHeight->Draw("pcol");
 	APV5E3PulseHeight->SetTitle("APV5 E3");
 	APV5E3PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV5E3PulseHeight->GetXaxis()->SetRangeUser(0,63);
+	//APV5E3PulseHeight->GetXaxis()->SetRangeUser(0,63);
 	APV5E3PulseHeight->GetXaxis()->CenterTitle(true);
 	APV5E3PulseHeight->GetYaxis()->SetTitle("TimeBin");
 	APV5E3PulseHeight->GetYaxis()->CenterTitle(true);
@@ -6321,7 +6393,7 @@ void APVEvent(){
 	APV4E3PulseHeight->Draw("pcol");
 	APV4E3PulseHeight->SetTitle("APV4 E3");
 	APV4E3PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV4E3PulseHeight->GetXaxis()->SetRangeUser(0,63);
+	//APV4E3PulseHeight->GetXaxis()->SetRangeUser(0,63);
 	APV4E3PulseHeight->GetXaxis()->CenterTitle(true);
 	APV4E3PulseHeight->GetYaxis()->SetTitle("TimeBin");
 	APV4E3PulseHeight->GetYaxis()->CenterTitle(true);
@@ -6335,7 +6407,7 @@ void APVEvent(){
 	APV7E1PulseHeight->SetTitle("APV7 E1");
 	APV7E1PulseHeight->GetXaxis()->SetTitle("Strip");
 	APV7E1PulseHeight->GetXaxis()->CenterTitle(true);
-	APV7E1PulseHeight->GetXaxis()->SetRangeUser(0,63);
+	//APV7E1PulseHeight->GetXaxis()->SetRangeUser(0,63);
 	APV7E1PulseHeight->GetYaxis()->SetTitle("TimeBin");
 	APV7E1PulseHeight->GetYaxis()->CenterTitle(true);
 	APV7E1PulseHeight->GetZaxis()->SetTitle("ADC charge");
@@ -6348,7 +6420,7 @@ void APVEvent(){
 	APV7E2PulseHeight->SetTitle("APV7 E2");
 	APV7E2PulseHeight->GetXaxis()->SetTitle("Strip");
 	APV7E2PulseHeight->GetXaxis()->CenterTitle(true);
-	APV7E2PulseHeight->GetXaxis()->SetRangeUser(64,127);
+	//APV7E2PulseHeight->GetXaxis()->SetRangeUser(64,127);
 	APV7E2PulseHeight->GetYaxis()->SetTitle("TimeBin");
 	APV7E2PulseHeight->GetYaxis()->CenterTitle(true);
 	APV7E2PulseHeight->GetZaxis()->SetTitle("ADC charge");
@@ -6360,7 +6432,7 @@ void APVEvent(){
 	APV6E4PulseHeight->Draw("pcol");
 	APV6E4PulseHeight->SetTitle("APV6 E4");
 	APV6E4PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV6E4PulseHeight->GetXaxis()->SetRangeUser(64,127);
+	//APV6E4PulseHeight->GetXaxis()->SetRangeUser(64,127);
 	APV6E4PulseHeight->GetXaxis()->CenterTitle(true);
 	APV6E4PulseHeight->GetYaxis()->SetTitle("TimeBin");
 	APV6E4PulseHeight->GetYaxis()->CenterTitle(true);
@@ -6373,7 +6445,7 @@ void APVEvent(){
 	APV5E4PulseHeight->Draw("pcol");
 	APV5E4PulseHeight->SetTitle("APV5 E4");
 	APV5E4PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV5E4PulseHeight->GetXaxis()->SetRangeUser(64,127);
+	//APV5E4PulseHeight->GetXaxis()->SetRangeUser(64,127);
 	APV5E4PulseHeight->GetXaxis()->CenterTitle(true);
 	APV5E4PulseHeight->GetYaxis()->SetTitle("TimeBin");
 	APV5E4PulseHeight->GetYaxis()->CenterTitle(true);
@@ -6386,7 +6458,7 @@ void APVEvent(){
 	APV4E4PulseHeight->Draw("pcol");
 	APV4E4PulseHeight->SetTitle("APV4 E4");
 	APV4E4PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV4E4PulseHeight->GetXaxis()->SetRangeUser(64,127);
+	//APV4E4PulseHeight->GetXaxis()->SetRangeUser(64,127);
 	APV4E4PulseHeight->GetXaxis()->CenterTitle(true);
 	APV4E4PulseHeight->GetYaxis()->SetTitle("TimeBin");
 	APV4E4PulseHeight->GetYaxis()->CenterTitle(true);
@@ -6516,22 +6588,31 @@ void APVEvent(){
 
   //EffperHV->Draw("A*");
   //return;
+  if(Stripcorr->GetN() == 0){cout << "No events :(" << endl;}
+  else{
+    auto h = new TCanvas("", "", 1000, 500);
+    h->Divide(2,1);
+    h->cd(1);
+    Stripcorr->Draw("A*");
+    Stripcorr->SetTitle("Correlation between Y coordinate of LAGD and Tracker Hits");
+    Stripcorr->GetXaxis()->SetTitle("LAGD hit location [strip]");
+    Stripcorr->GetYaxis()->SetTitle("Tracker hit location [strip]");
     
-  auto h = new TCanvas("", "", 1000, 500);
-  h->Divide(2,1);
-  h->cd(1);
-  Stripcorr->Draw("A*");
-  h->cd(2);
-  TrackerStripcorr->Draw("A*");  
-  //LAGDstrips->Draw("A*");
-  //LAGDstrips->SetMarkerColor(4);
-  //Trackerstrips->Draw("same");
-  //Trackerstrips->SetMarkerColor(5);
-  //Diffbtwnstrips->Draw("same");
-  h->Draw();
-  cout << "Graph 1 totalevents: " << Stripcorr->GetN() << endl;
-  cout << "Graph 2 totalevents: " << TrackerStripcorr->GetN() << endl;
-  return;
+    h->cd(2);
+    TrackerStripcorr->Draw("A*");  
+    TrackerStripcorr->SetTitle("Correlation between Y coordinate of 2 Tracker's Hits");
+    TrackerStripcorr->GetXaxis()->SetTitle("Tracker 1 Y hit location [strip]");
+    TrackerStripcorr->GetYaxis()->SetTitle("Tracker 3 Y hit location [strip]");
+    
+    h->Draw();
+    auto filename = inputfiles["0"];
+    filename += ".png";
+    h->SaveAs(filename);
+  
+    cout << "Graph 1 totalevents: " << Stripcorr->GetN() << endl;
+    cout << "Graph 2 totalevents: " << TrackerStripcorr->GetN() << endl;
+    return;
+  }
   if(display_mode == 2 && ChargeRatio){
     T1ChargeRatio->Draw("colz");
     //T1ChargeRatio->SetTitle("APV4 E4");
