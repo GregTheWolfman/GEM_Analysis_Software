@@ -51,7 +51,7 @@ In the amore config file, there is a output rootfile directory and name option. 
 ```
 amoreAgent -a SRS01 -s /path/to/Pedestal_data.raw -e 1000 -c 5
 ```
-With a Pedestal and Data file in hand, you can now use the adonis code with is stored in APVEvent.C above.
+With a Pedestal and Data file in hand, you can now use the adonis code which is stored in APVEvent.C above.
 
 
 
