@@ -1,0 +1,115 @@
+#========================================
+###########  OBSOLETE ##################
+### MAXorTOTALCHARGES maximumCharges
+### MAXorTOTALCHARGES totalCharges
+
+#=============================   USEFUL THINGS STARTS HERE
+
+#========================================
+###########  NOT IN USE FOR NOW UNDER DEVELOPMENT
+#CHMASKCUT 20
+###  RUNTYPE  ETAFUNCTION
+#========================================
+
+#=======================================================================
+########## SOME PARAMETERS TO DEAL WITH amoreSRS run
+
+### How long amoreSRS wait (in second) between 2 monitoring cycles
+CYCLEWAIT 3
+### Start analysis at Event number STARTEVENTNUMBER
+STARTEVENTNUMBER  0
+### analyse only events with EvtNb module EVENTFREQUENCYNUMBER == 0
+EVENTFREQUENCYNUMBER 1
+#=======================================================================
+
+#===============================================================================================================
+######## CLUSTERIZATION PARAMETERS
+#
+ZEROSUPCUT      5 # was 0
+CLUSTER_MULT    10
+CLUSTER_MINSIZE 2
+CLUSTER_MAXSIZE 1000
+CLUSTER_MINADCS 100
+#
+PADZEROSUPCUT      2.00005
+PADCLUSTER_MULT    1
+PADCLUSTER_MINSIZE 3
+PADCLUSTER_MAXSIZE 25
+PADCLUSTER_MINADCS 50
+#
+#===============================================================================================================
+
+#===============================================================================================================
+######## CLUSTER_ADCS   keyword for the ADC information at the cluster level (collection of hits) used during the analysis
+### maximumADCs == ADC of the strip/hit with the maximum charge in the cluster
+### totalADCs == sum of the ADCs of all the strips/hits in the cluster
+
+#CLUSTER_ADCS maximumADCs
+CLUSTER_ADCS  totalADCs
+#=====================/20210714_test==========================================================================================
+
+#===============================================================================================================
+######## APV25 TIME WINDOW for which the signal is considered good i.e acceptable
+
+SIGNALPEAKMINTIMEBIN 1
+SIGNALPEAKMAXTIMEBIN 7
+#===============================================================================================================
+
+#===============================================================================================================
+######## HIT_ADCS: keyword for the ADC information at the hit level (individual strip) used during the analysis
+### IntegratedADCs == sum of the ADC all the time sample (bin/slice) of the apv signal of the strip (hit)
+### SignalPeak == only the time sample (bin/slice) with the highest ADC is used for the analysis 
+
+#HIT_ADCS signalPeak
+HIT_ADCS  integratedADCs
+#===============================================================================================================
+
+#===============================================================================================================
+######## CROSSTALKFLAG keyword for APV cross talk removal; 
+###if  CROSSTALKFLAG == "YES", Cross talk cluster are removed if:
+### the cross talk cluster size is < CROSSTALKMAXCLUST
+### and ratio between main cluster >  CROSSTALKMINADCS
+#
+CROSSTALKFLAG      NO
+CROSSTALKMAXCLUST  3
+#CROSSTALKMINADCS  10
+#===============================================================================================================
+
+#===============================================================================================================
+### ROOTDATATYPE: keyword for the type of data in the output root tree file
+### HITS_ONLY: root tree contains only hit information: strip No, ADCs, time bin of the peak ...
+### CLUSTER_ONLY: root tree contains only cluster information: hit position, cluster ADCs, time bin ...
+### TRACKING_ONLY: root outup dedicated to tracking (still in progress ...) TRACKING runtype
+### OTHER (or nothing) output both cluster and hit information 
+#
+#ROOTDATATYPE  HITS_ONLY
+#ROOTDATATYPE  CLUSTERS_ONLY
+ROOTDATATYPE  BOTH 
+#ROOTDATATYPE  TRACKING_ONLY
+#
+#===============================================================================================================
+#
+RAWPEDFILE         /home/MTSUser/amoreSRS/results/pedestalDir/pedestal_TRKandFITZZ.root
+SAVEDMAPFILE       /home/MTSUser/amoreSRS/configFileDir/mapping_FITZZ.cfg
+#
+#===============================================================================================================
+# FIT LAGD FTBF testing June 14th, 2021
+#===============================================================================================================
+#
+MAPFILE            /home/MTSUser/amoreSRS/configFileDir/mapping_FITZZ.cfg
+PEDFILE            /home/MTSUser/amoreSRS/results/pedestalDir/pedestal_TRKandFITZZ.root
+DISPCFG            /home/MTSUser/amoreSRS/configFileDir/display_ForJared_XYHack.cfg
+HISTCFG            /home/MTSUser/amoreSRS/configFileDir/histogram_ForJared_XYHack.cfg
+OUTPUTDIR          /home/MTSUser/Desktop/Jareds_Test_Folder
+OUTPUTFILE         GEM_and_TRKs_Pedestal_Rootfile
+#
+#
+############# DIFFERENT RUNTYPES
+#RUNTYPE      RAWPEDESTAL
+#RUNTYPE      PEDESTAL
+RUNTYPE      RAWDATA    #this was being used before
+#RUNTYPE      PHYSICS
+#RUNTYPE      TRACKING
+#RUNTYPE      ROOTFILE
+#RUNTYPE      CALIBRATION 
+#RUNTYPE      FINETUNING 
