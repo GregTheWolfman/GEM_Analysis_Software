@@ -1406,7 +1406,7 @@ vector<float> Optimized_Rotation(vector<float> Tracker1HitlocVec, vector<float> 
       }
 
     
-      if(Iterator >= 20){	  
+      if(Iterator >= 10){	  
       
 	Optimized_Angles_And_XY.push_back(Total1Xshift + OptimizedXYOffests[0]); Optimized_Angles_And_XY.push_back(Total1Yshift + OptimizedXYOffests[1]);
 	Optimized_Angles_And_XY.push_back(Total2Xshift + OptimizedXYOffests[2]); Optimized_Angles_And_XY.push_back(Total2Yshift + OptimizedXYOffests[3]);
@@ -3458,8 +3458,8 @@ void APVEvent(){
   //TFile* pedFile = TFile::Open("Data/PED_dataTree01.root");
   //TFile* pedFile = TFile::Open("APV3Data/APV3_Ped_dataTree01.root");
 
-  TFile* pedFile = TFile::Open("Data/FromscratchPedestal_dataTree01.root");//this one works!
-  //TFile* pedFile = TFile::Open("Data/AddedApvIDInRootFile_Ped_dataTree01.root");
+  //TFile* pedFile = TFile::Open("Data/FromscratchPedestal_dataTree01.root");//this one works!
+  TFile* pedFile = TFile::Open("Data/TestingData_OGConfigFile_Ped_dataTree01.root");
 
   //TFile* pedFile = TFile::Open("Data/changedAPV3readoutToStandardpedestal_dataTree01.root");
   
@@ -3632,7 +3632,7 @@ void APVEvent(){
   //inputfiles["0"] = "Data/AddingfunctionsfromMikePhillipsAmore_dataTree01.root";
   //inputfiles["0"] = "Data/ChangedAPVOrientationsTo0forLAGD_dataTree01.root";
   //inputfiles["0"] = "Data/OnlyAPV3AsDet_Data_dataTree01.root";
-  inputfiles["0"] = "Data/Last_ZZ_sector_0_ROOTfile_dataTree01.root";
+  inputfiles["0"] = "Data/TestingData_OGConfigFile_Data_dataTree01.root";
 
 
 
@@ -3891,10 +3891,10 @@ void APVEvent(){
   
   int Tracker1xindex = 8;
   int Tracker1yindex = 9;
-  int Tracker2xindex = 12;
-  int Tracker2yindex = 13;
-  int Tracker3xindex = 10;
-  int Tracker3yindex = 11;
+  int Tracker2xindex = 10;
+  int Tracker2yindex = 11;
+  int Tracker3xindex = 12;
+  int Tracker3yindex = 13;
   int Tracker4xindex = 14;
   int Tracker4yindex = 15;
   
@@ -4061,7 +4061,7 @@ void APVEvent(){
       
       //if the event number is larger than what we want to plot, stop
       if(*evtID > plotnum) break;
-      plotnum = 100;
+      plotnum = 2000;
 
       
       //iterating variables
@@ -4216,7 +4216,7 @@ void APVEvent(){
 
 	  striptol[i] = mean + 5*stdev;
 	  //striptol[i] = 40;
-	  //cout << "Strip: " << i << " has noise tolerance: " << striptol[i] <<  endl;
+	  cout << "Strip: " << i << " has noise tolerance: " << striptol[i] <<  endl;
 	  //return;
 	}
 	
@@ -4592,41 +4592,41 @@ void APVEvent(){
 		  Tracker4yPedstds.push_back(striptol[i]);	      	      
 	      
 	      }
-
-	      	  //APV 3 in eta 1
-	  if(totalchannel[*evtID] >= 128*APV3index && totalchannel[*evtID] <= 64 + 128*APV3index){
-
-	    if(display_mode != 2 || display_mode != 5){
-	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
-	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
-	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
-	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
-	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
-	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
-	    }
-	      
-	    stripcharges.push_back((adc0)[i]);
-	    stripcharges.push_back((adc1)[i]);
-	    stripcharges.push_back((adc2)[i]);
-	    stripcharges.push_back((adc3)[i]);
-	    stripcharges.push_back((adc4)[i]);
-	    stripcharges.push_back((adc5)[i]);
-
-	      
-	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
-	    
-	    if(maxcharge >= striptol[i]){
-	      APV3E1maxcharges.push_back(maxcharge-striptol[i]);
-	      APV3E1maxstrips.push_back((strip)[i]);
-	    }
-	    
-	    stripcharges.clear();
-	    if(*evtID == 1)
-	      APV3E1Pedstds.push_back(striptol[i]);	      
-	    
-	  }
-	  
-	  //cout << "Left trackers?" << endl;
+	      /*
+	      //APV 3 in eta 1
+	      if(totalchannel[*evtID] >= 128*APV3index && totalchannel[*evtID] <= 64 + 128*APV3index){
+		
+		if(display_mode != 2 || display_mode != 5){
+		  APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
+		  APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
+		  APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
+		  APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
+		  APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
+		  APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
+		}
+		
+		stripcharges.push_back((adc0)[i]);
+		stripcharges.push_back((adc1)[i]);
+		stripcharges.push_back((adc2)[i]);
+		stripcharges.push_back((adc3)[i]);
+		stripcharges.push_back((adc4)[i]);
+		stripcharges.push_back((adc5)[i]);
+		
+		
+		maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
+		
+		if(maxcharge >= striptol[i]){
+		  APV3E1maxcharges.push_back(maxcharge-striptol[i]);
+		  APV3E1maxstrips.push_back((strip)[i]);
+		}
+		
+		stripcharges.clear();
+		if(*evtID == 1)
+		  APV3E1Pedstds.push_back(striptol[i]);	      
+		
+	      }
+	      */
+	      //cout << "Left trackers?" << endl;
 	}
 	//end filling tracker plots
 	
@@ -4828,9 +4828,9 @@ void APVEvent(){
 	    if(*evtID == 1)
 	      APV4E4Pedstds.push_back(striptol[i]);	      
 	  }
-	  /*
+	  
 	  //APV 3 in eta 1
-	  if(totalchannel[*evtID] >= 128*APV3index && totalchannel[*evtID] <= 64 + 128*APV3index){
+	  if(totalchannel[*evtID] >= 128*APV3index && totalchannel[*evtID] <= 63 + 128*APV3index){
 
 	    if(display_mode != 2 || display_mode != 5){
 	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -4861,9 +4861,9 @@ void APVEvent(){
 	      APV3E1Pedstds.push_back(striptol[i]);	      
 	    
 	  }
-	  */
+	  
 	  //APV 3 in eta 2
-	  if(totalchannel[*evtID] >= 64+ 128*APV3index && totalchannel[*evtID] <= 128 + 128*APV3index){
+	  if(totalchannel[*evtID] >= 64 + 128*APV3index && totalchannel[*evtID] <= 128 + 128*APV3index){
 
 	    if(display_mode != 2 || display_mode != 5){
 	      APV3E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
@@ -5121,7 +5121,7 @@ void APVEvent(){
       //float LAGDhitsnum=0;
       //float Trackerhits=0;
       //Only allow events with one peak in the hit including APV3 for now
-      /*
+      
       if(display_mode == 1 || display_mode == 2 || display_mode == 3 || display_mode == 5){
 
 	if(Tracker1xmaxstrips.empty() == 0 && Tracker1ymaxstrips.empty() == 0 && Tracker2xmaxstrips.empty() == 0 && Tracker2ymaxstrips.empty() == 0 && Tracker3xmaxstrips.empty() == 0 && Tracker3ymaxstrips.empty() == 0 && Tracker4xmaxstrips.empty() == 0 && Tracker4ymaxstrips.empty() == 0){
@@ -5178,7 +5178,7 @@ void APVEvent(){
 	  }
 	}
       }
-      */
+      
       /*
 	cout << "Tracker1x:" << endl;
 	for(auto i = Tracker1xmaxstrips.begin(); i != Tracker1xmaxstrips.end(); i++){
@@ -5308,7 +5308,7 @@ void APVEvent(){
       if(display_mode == 1 || display_mode == 2 || display_mode == 3 || display_mode == 5){
 
 	      
-	//if(GoodEvent[*evtID]){
+	if(GoodEvent[*evtID]){
 	  EventIterator.push_back(totalEventiterator);
 	  //{
 	  
@@ -5319,7 +5319,7 @@ void APVEvent(){
 	  }
 
 	  cout << "LAGD strips" << endl;
-	  for(auto i = APV4E4maxstrips.begin(); i < APV4E4maxstrips.end(); i++){
+	  for(auto i = APV3E1maxstrips.begin(); i < APV3E1maxstrips.end(); i++){
 	    cout << *i << endl;
 	  }
 	  
@@ -5374,8 +5374,8 @@ void APVEvent(){
 	    cout << *i << endl;
 	  }
 	  cout << "End of resized vector" << endl;
-	  cout << "APV4E4 strips" << endl;
-	  for(auto i = APV4E4maxstrips.begin(); i < APV4E4maxstrips.end(); i++){
+	  cout << "APV3E1 strips" << endl;
+	  for(auto i = APV3E1maxstrips.begin(); i < APV3E1maxstrips.end(); i++){
 	    cout << *i << endl;
 	  }
 	  
@@ -5491,9 +5491,9 @@ void APVEvent(){
 	    //efficiencynum++;
 	  }       
 	  
-	  Stripcorr->SetPoint(Stripcorrit, APV4E4loc, Tracker1yloc);
+	  Stripcorr->SetPoint(Stripcorrit, APV3E1loc, Tracker1yloc);
 	  TrackerStripcorr->SetPoint(Stripcorrit, Tracker1yloc, Tracker2yloc);	  
-	  LAGDstrips->SetPoint(Stripcorrit, Stripcorrit, APV4E4loc);
+	  LAGDstrips->SetPoint(Stripcorrit, Stripcorrit, APV3E1loc);
 	  Trackerstrips->SetPoint(Stripcorrit, Stripcorrit, Tracker1yloc);
 	  //Diffbtwnstrips->SetPoint(Stripcorrit, Stripcorrit, Tracker1yloc - APV3E1loc);
 	  Stripcorrit++;
@@ -5502,7 +5502,7 @@ void APVEvent(){
 	  cout << "Hit at (" << Tracker2xloc << "," << Tracker2yloc << ") in Tracker 2" << endl;
 	  cout << "Hit at (" << Tracker3xloc << "," << Tracker3yloc << ") in Tracker 3" << endl;
 	  cout << "Hit at (" << Tracker4xloc << "," << Tracker4yloc << ") in Tracker 4" << endl;
-	  cout << "Hit at (" << APV4E3loc << ")" << " in APV4E3" << endl;
+	  cout << "Hit at (" << APV3E1loc << ")" << " in APV3E1" << endl;
 	  /*
 	  cout << "Hit at (" << APV3E2loc << ")" << " in APV3E2" << endl;
 	  cout << "Hit at (" << APV4E3loc << ")" << " in APV4E3" << endl;
@@ -5515,7 +5515,7 @@ void APVEvent(){
 	  cout << "Hit at (" << APV7E2loc << ")" << " in APV7E2" << endl;
 	  */
 
-
+	  //return;
 
 	  if(display_mode == 2 || display_mode == 5){
 	    auto T1xcoord = Tracker1xloc*0.4; //0.4 = 51.2/128	    
@@ -5556,7 +5556,8 @@ void APVEvent(){
 	      Tracker4Hitmap[evtype]->Fill(T4xcoord, T4ycoord);
 	    }
 	    
-	  }	  
+	  }
+	}
       }
     
       
@@ -6588,6 +6589,7 @@ void APVEvent(){
 
   //EffperHV->Draw("A*");
   //return;
+  /*
   if(Stripcorr->GetN() == 0){cout << "No events :(" << endl;}
   else{
     auto h = new TCanvas("", "", 1000, 500);
@@ -6596,7 +6598,7 @@ void APVEvent(){
     Stripcorr->Draw("A*");
     Stripcorr->SetTitle("Correlation between Y coordinate of LAGD and Tracker Hits");
     Stripcorr->GetXaxis()->SetTitle("LAGD hit location [strip]");
-    Stripcorr->GetYaxis()->SetTitle("Tracker hit location [strip]");
+    Stripcorr->GetYaxis()->SetTitle("Tracker 1y hit location [strip]");
     
     h->cd(2);
     TrackerStripcorr->Draw("A*");  
@@ -6613,6 +6615,7 @@ void APVEvent(){
     cout << "Graph 2 totalevents: " << TrackerStripcorr->GetN() << endl;
     return;
   }
+  */
   if(display_mode == 2 && ChargeRatio){
     T1ChargeRatio->Draw("colz");
     //T1ChargeRatio->SetTitle("APV4 E4");
@@ -6655,21 +6658,21 @@ void APVEvent(){
     */
     //return;
 
-    auto BadEvents = ResCut(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords);
-    //vector<float>  BadEvents;
+    //auto BadEvents = ResCut(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords);
+    vector<float>  BadEvents;
     //return;
     vector<float> TrackerOptimizedAnglesAndXY;
     
     //auto TrackerOptimizedAnglesAndXY = Optimized_Rotation(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, TrackerOptimizedOffsets, 1);
 
-    //cout << "Next" << endl;
+    cout << "Next" << endl;
     //return;
-    auto TrackerOptimizedOffsets = Optimized_XY_shift(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, TrackerOptimizedAnglesAndXY, BadEvents, 0); //returns vector of XY Offsets for trackers 1-4 that minimize the residual)
+    auto TrackerOptimizedOffsets = Optimized_XY_shift(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, TrackerOptimizedAnglesAndXY, BadEvents, 1); //returns vector of XY Offsets for trackers 1-4 that minimize the residual)
 
     //return;
     
 
-    TrackerOptimizedAnglesAndXY = Optimized_Rotation(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, TrackerOptimizedOffsets, BadEvents, 0);
+    TrackerOptimizedAnglesAndXY = Optimized_Rotation(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, TrackerOptimizedOffsets, BadEvents, 1);
 
     //cout << "Optimized XY Offsets for Trackers after alignment 1:" << endl;
     
@@ -6680,7 +6683,7 @@ void APVEvent(){
 
     //return;
     vector<float> FinalOptimizedOffsets;
-    FinalOptimizedOffsets = Optimized_XY_Rotation(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, TrackerOptimizedAnglesAndXY, BadEvents, 0);
+    FinalOptimizedOffsets = Optimized_XY_Rotation(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, TrackerOptimizedAnglesAndXY, BadEvents, 1);
 
     //return;
     
