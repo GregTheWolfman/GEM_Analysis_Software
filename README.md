@@ -31,10 +31,10 @@ SRSOutputROOT is another important macro especially for this analysis since we a
 These are the main internal files that will need to be checked into when adding a new detector configuration. With these in order, you can finally save the data in a more usable way for other software. I will now move onto using Amore
 
 # Generating Data Files
-Using the terminal, we can now use AmoreSRS to fill usable data files. This tutorial will assume amore is already installed and running on the computer. I will also go over some generally useful commands in Amore to aid in using this software. To use amore there are two main terminal commands; the first command is `make install`.
+Using the terminal, we can now use AmoreSRS to fill usable data files. This tutorial will assume amore is already installed and running on the computer. I will also go over some generally useful commands in Amore to aid in using this software. To use amore there are two main terminal commands; the first command is `make install clean`.
 ```
 cd ~/Your_amoreSRS_Directory
-make install
+make install clean
 ```
 This command is used to build amoreSRS. This is necessary to do whenever changes are made to the internal macros (SRS-Anything.cxx). The only files that are reloaded everytime amore is used are the configuration files (Mapping and Amore). With your amoreSRS version ready to use on data, the first thing to do is ensure the configuration files are corrcet for whatever analysis youre doing with this data. Using the Amore configuration file, uncomment the run parameters necessary for the detector. For example, I wll show the process for aquiring the root data file. The first step for most analyses is to generate a pedestal file. This is done by first uncommenting the RawPedestal runtype in Amore config and running the second necessary command to start amoreSRS.
 ```
