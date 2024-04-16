@@ -1,4 +1,5 @@
 #include <vector>
+#include <TVector.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -56,6 +57,10 @@
 #include "ResCut.C"
 #include "StripSep.C"
 #include "ChiSquared.C"
+#include "TFitResult.h"
+#include "TMatrixD.h"
+#include "TFitter.h"
+
 
 //#include <gSystem.h>
 //#include <gPad.h>
@@ -152,7 +157,7 @@ void APVEvent(){
   //TFile* pedFile = TFile::Open("APV3Data/APV3_Ped_dataTree01.root");
 
   //TFile* pedFile = TFile::Open("Data/FromscratchPedestal_dataTree01.root");//this one works!
-  TFile* pedFile = TFile::Open("Data/MultiFiles_Ped_dataTree01.root");
+  TFile* pedFile = TFile::Open("Data/MappingTest_again_8connectors_APVIndexAddedBack_Ped_dataTree01.root");
 
   //TFile* pedFile = TFile::Open("Data/changedAPV3readoutToStandardpedestal_dataTree01.root");
   
@@ -288,25 +293,25 @@ void APVEvent(){
 
   //this data is for APV3 over a wide range of HV
   
-  //inputfiles["4150"] = "APV3Data/APV3_4150_dataTree01.root";
+  //inputfiles["4150"] = "Data/HVscan_MultiFiles_4150_dataTree01.root";
+   
+  //inputfiles["4250"] = "Data/HVscan_MultiFiles_4250_dataTree01.root";  
   
-  //inputfiles["4250"] = "APV3Data/APV3_4250_dataTree01.root";  
+  //inputfiles["4280"] = "Data/HVscan_MultiFiles_4280_dataTree01.root";
   
-  //inputfiles["4280"] = "APV3Data/APV3_4280_dataTree01.root";
-  /*
-  inputfiles["4310"] = "APV3Data/APV3_4310_dataTree01.root";
+  //inputfiles["4310"] = "Data/HVscan_MultiFiles_4310_dataTree01.root";
 
-  inputfiles["4340"] = "APV3Data/APV3_4340_dataTree01.root";
+  //inputfiles["4340"] = "Data/HVscan_MultiFiles_4340_dataTree01.root";
 
-  inputfiles["4370"] = "APV3Data/APV3_4370_dataTree01.root";
+  //inputfiles["4370"] = "Data/HVscan_MultiFiles_4370_dataTree01.root";
   
-  //inputfiles["4400"] = "APV3Data/APV3_4400_dataTree01.root";//weird file
-  */
-  //inputfiles["4430"] = "APV3Data/APV3_4430_dataTree01.root";
+  //inputfiles["4400"] = "Data/HVscan_MultiFiles_4400_dataTree01.root";//weird file
   
-  //inputfiles["4450"] = "APV3Data/APV3_4450_dataTree01.root"; 
+  //inputfiles["4430"] = "Data/HVscan_MultiFiles_4430_dataTree01.root";
   
-  //inputfiles["4460"] = "APV3Data/APV3_4460_dataTree01.root";//also a wierd file due to statistics
+  //inputfiles["4450"] = "Data/HVscan_MultiFiles_4450_dataTree01.root"; 
+  
+  //inputfiles["4460"] = "Data/HVscan_MultiFiles_4460_dataTree01.root";//also a wierd file due to statistics
   
   //inputfiles["4550"] = "APV3Data/APV3_4550_dataTree01.root";
   //inputfiles["4580"] = "APV3Data/APV3_4580_dataTree01.root";//4580_2400_2400  
@@ -314,67 +319,132 @@ void APVEvent(){
   //inputfiles["4600"] = "APV3Data/APV3_4600_dataTree01.root";
   //inputfiles["4620"] = "APV3Data/APV3_4620_dataTree01.root";
 
-  //From scratch data file to test
-  //inputfiles["0"] = "Data/FromscratchData_dataTree01.root";
-  //inputfiles["0"] = "Data/Data_check_dataTree01.root";//worksfine
-  //inputfiles["0"] = "Data/Data_check_1Dstrips_dataTree01.root";
-  //inputfiles["0"] = "Data/Data_check_removedmappingpart_dataTree01.root";
-  //inputfiles["0"] = "Data/Data_check_changedorientationofAPV3bothtimes_dataTree01.root";
-  //inputfiles["0"] = "Data/Check_DetectorType_CMSGEM_dataTree01.root";
-  //inputfiles["0"] = "Data/FixingAPV3issues_dataTree01.root";
-  //inputfiles["0"] = "Data/AddingfunctionsfromMikePhillipsAmore_dataTree01.root";
-  //inputfiles["0"] = "Data/ChangedAPVOrientationsTo0forLAGD_dataTree01.root";
-  //inputfiles["0"] = "Data/OnlyAPV3AsDet_Data_dataTree01.root";
+
+  //Straight strip large statistics
+  
+  //inputfiles["0"] = "Data/SS_MultiFiles_0_dataTree01.root";  
+  
+  //inputfiles["1"] = "Data/SS_MultiFiles_1_dataTree01.root";  
   /*
-  inputfiles["0"] = "Data/MultiFiles_0_dataTree01.root";  
-  inputfiles["1"] = "Data/MultiFiles_1_dataTree01.root";  
-  inputfiles["2"] = "Data/MultiFiles_2_dataTree01.root";
-  inputfiles["3"] = "Data/MultiFiles_3_dataTree01.root";
-  inputfiles["4"] = "Data/MultiFiles_4_dataTree01.root";
-  inputfiles["5"] = "Data/MultiFiles_5_dataTree01.root";
-  inputfiles["6"] = "Data/MultiFiles_6_dataTree01.root";
+  inputfiles["2"] = "Data/SS_MultiFiles_2_dataTree01.root";
+  inputfiles["3"] = "Data/SS_MultiFiles_3_dataTree01.root";
+  
+  inputfiles["4"] = "Data/SS_MultiFiles_4_dataTree01.root";
+  
+  inputfiles["5"] = "Data/SS_MultiFiles_5_dataTree01.root";
+  inputfiles["6"] = "Data/SS_MultiFiles_6_dataTree01.root";
+  
+  inputfiles["7"] = "Data/SS_MultiFiles_7_dataTree01.root";
+  
+  inputfiles["8"] = "Data/SS_MultiFiles_8_dataTree01.root";
+  inputfiles["9"] = "Data/SS_MultiFiles_9_dataTree01.root";
+  
+  inputfiles["10"] = "Data/SS_MultiFiles_10_dataTree01.root";
+  inputfiles["11"] = "Data/SS_MultiFiles_11_dataTree01.root";
+  inputfiles["12"] = "Data/SS_MultiFiles_12_dataTree01.root";
+
+  inputfiles["13"] = "Data/SS_MultiFiles_13_dataTree01.root";
+  inputfiles["14"] = "Data/SS_MultiFiles_14_dataTree01.root";
+  inputfiles["15"] = "Data/SS_MultiFiles_15_dataTree01.root";
+  inputfiles["16"] = "Data/SS_MultiFiles_16_dataTree01.root";
+  inputfiles["17"] = "Data/SS_MultiFiles_17_dataTree01.root";
+  inputfiles["18"] = "Data/SS_MultiFiles_18_dataTree01.root";
+  inputfiles["19"] = "Data/SS_MultiFiles_19_dataTree01.root";
+  inputfiles["20"] = "Data/SS_MultiFiles_20_dataTree01.root";
   */
 
-  inputfiles["1"] = "Data/FirstZigZagSector_1_dataTree01.root";
-
-
-
-
-
-
-  
-  //Files for big statistics
-  //inputfiles["0"] = "APV3Data/APV3_ADC_0_dataTree01.root";
-  //inputfiles["0"] = "APV3Data/Initialtest_2_dataTree01.root";
-  
-  //inputfiles["1"] = "APV3Data/APV3_ADC_1_dataTree01.root";
-  
-  //inputfiles["2"] = "APV3Data/APV3_ADC_2_dataTree01.root";
-  //inputfiles["3"] = "APV3Data/APV3_ADC_3_dataTree01.root";
-  //inputfiles["4"] = "APV3Data/APV3_ADC_4_dataTree01.root";
+  //Second ZigZag Sector
   /*
-  inputfiles["5"] = "APV3Data/APV3_ADC_5_dataTree01.root";
-  inputfiles["6"] = "APV3Data/APV3_ADC_6_dataTree01.root";
+  inputfiles["0"] = "Data/SecondZZ_MultiFiles_0_dataTree01.root";  
   
-  inputfiles["7"] = "APV3Data/APV3_ADC_7_dataTree01.root";
-  inputfiles["8"] = "APV3Data/APV3_ADC_8_dataTree01.root";
-  inputfiles["9"] = "APV3Data/APV3_ADC_9_dataTree01.root";
-  inputfiles["10"] = "APV3Data/APV3_ADC_10_dataTree01.root";
-  /*
-  inputfiles["11"] = "APV3Data/APV3_ADC_11_dataTree01.root";
-  inputfiles["12"] = "APV3Data/APV3_ADC_12_dataTree01.root";
-  inputfiles["13"] = "APV3Data/APV3_ADC_13_dataTree01.root";
-  inputfiles["14"] = "APV3Data/APV3_ADC_14_dataTree01.root";
-  inputfiles["15"] = "APV3Data/APV3_ADC_15_dataTree01.root";
-  inputfiles["16"] = "APV3Data/APV3_ADC_16_dataTree01.root";
-  inputfiles["17"] = "APV3Data/APV3_ADC_17_dataTree01.root";
+  inputfiles["1"] = "Data/SecondZZ_MultiFiles_1_dataTree01.root";  
   
-  inputfiles["18"] = "APV3Data/APV3_ADC_18_dataTree01.root";
+  inputfiles["2"] = "Data/SecondZZ_MultiFiles_2_dataTree01.root";
   
-  inputfiles["19"] = "APV3Data/APV3_ADC_19_dataTree01.root";
+  inputfiles["3"] = "Data/SecondZZ_MultiFiles_3_dataTree01.root";
   
-  inputfiles["20"] = "APV3Data/APV3_ADC_20_dataTree01.root";
+  inputfiles["4"] = "Data/SecondZZ_MultiFiles_4_dataTree01.root";
+  
+  inputfiles["5"] = "Data/SecondZZ_MultiFiles_5_dataTree01.root";
+  inputfiles["6"] = "Data/SecondZZ_MultiFiles_6_dataTree01.root";
+  
+  inputfiles["7"] = "Data/SecondZZ_MultiFiles_7_dataTree01.root";
+  
+  inputfiles["8"] = "Data/SecondZZ_MultiFiles_8_dataTree01.root";
+  inputfiles["9"] = "Data/SecondZZ_MultiFiles_9_dataTree01.root";
+  
+  inputfiles["10"] = "Data/SecondZZ_MultiFiles_10_dataTree01.root";
+  inputfiles["11"] = "Data/SecondZZ_MultiFiles_11_dataTree01.root";
+  inputfiles["12"] = "Data/SecondZZ_MultiFiles_12_dataTree01.root";
+
+  inputfiles["13"] = "Data/SecondZZ_MultiFiles_13_dataTree01.root";
+  inputfiles["14"] = "Data/SecondZZ_MultiFiles_14_dataTree01.root";
+  inputfiles["15"] = "Data/SecondZZ_MultiFiles_15_dataTree01.root";
+  inputfiles["16"] = "Data/SecondZZ_MultiFiles_16_dataTree01.root";
+  inputfiles["17"] = "Data/SecondZZ_MultiFiles_17_dataTree01.root";
+  inputfiles["18"] = "Data/SecondZZ_MultiFiles_18_dataTree01.root";
+  inputfiles["19"] = "Data/SecondZZ_MultiFiles_19_dataTree01.root";
+  inputfiles["20"] = "Data/SecondZZ_MultiFiles_20_dataTree01.root";
   */
+
+  //First ZigZag Sector
+  
+  inputfiles["1"] = "Data/First_ZZ_MultiFilesOtherDataPlace_1_dataTree01.root";  
+  inputfiles["2"] = "Data/First_ZZ_MultiFilesOtherDataPlace_2_dataTree01.root";  
+  inputfiles["3"] = "Data/First_ZZ_MultiFilesOtherDataPlace_3_dataTree01.root";  
+  inputfiles["4"] = "Data/First_ZZ_MultiFilesOtherDataPlace_4_dataTree01.root";  
+  inputfiles["5"] = "Data/First_ZZ_MultiFilesOtherDataPlace_5_dataTree01.root";  
+  inputfiles["6"] = "Data/First_ZZ_MultiFilesOtherDataPlace_6_dataTree01.root";  
+  inputfiles["7"] = "Data/First_ZZ_MultiFilesOtherDataPlace_7_dataTree01.root";  
+  inputfiles["8"] = "Data/First_ZZ_MultiFilesOtherDataPlace_8_dataTree01.root";  
+  inputfiles["9"] = "Data/First_ZZ_MultiFilesOtherDataPlace_9_dataTree01.root";  
+  inputfiles["10"] = "Data/First_ZZ_MultiFilesOtherDataPlace_10_dataTree01.root";  
+ 
+  
+
+  
+  //second ZZ sector pther data to test
+  /*
+  inputfiles["0"] = "Data/Second_ZZ_MultiFiles_0_dataTree01.root";  
+  
+  inputfiles["1"] = "Data/Second_ZZ_MultiFiles_1_dataTree01.root";  
+  
+  inputfiles["2"] = "Data/Second_ZZ_MultiFiles_2_dataTree01.root";
+  inputfiles["3"] = "Data/Second_ZZ_MultiFiles_3_dataTree01.root";
+  
+  inputfiles["4"] = "Data/Second_ZZ_MultiFiles_4_dataTree01.root";
+  
+  inputfiles["5"] = "Data/Second_ZZ_MultiFiles_5_dataTree01.root";
+  
+  inputfiles["6"] = "Data/Second_ZZ_MultiFiles_6_dataTree01.root";
+  
+  inputfiles["7"] = "Data/Second_ZZ_MultiFiles_7_dataTree01.root";
+  
+  inputfiles["8"] = "Data/Second_ZZ_MultiFiles_8_dataTree01.root";
+  inputfiles["9"] = "Data/Second_ZZ_MultiFiles_9_dataTree01.root";
+  
+  inputfiles["10"] = "Data/Second_ZZ_MultiFiles_10_dataTree01.root";
+  inputfiles["11"] = "Data/Second_ZZ_MultiFiles_11_dataTree01.root";
+  inputfiles["12"] = "Data/Second_ZZ_MultiFiles_12_dataTree01.root";
+
+  inputfiles["13"] = "Data/Second_ZZ_MultiFiles_13_dataTree01.root";
+  inputfiles["14"] = "Data/Second_ZZ_MultiFiles_14_dataTree01.root";
+  inputfiles["15"] = "Data/Second_ZZ_MultiFiles_15_dataTree01.root";
+  inputfiles["16"] = "Data/Second_ZZ_MultiFiles_16_dataTree01.root";
+  inputfiles["17"] = "Data/Second_ZZ_MultiFiles_17_dataTree01.root";
+  inputfiles["18"] = "Data/Second_ZZ_MultiFiles_18_dataTree01.root";
+  inputfiles["19"] = "Data/Second_ZZ_MultiFiles_19_dataTree01.root";
+  inputfiles["20"] = "Data/Second_ZZ_MultiFiles_20_dataTree01.root";
+  */
+  
+
+  //inputfiles["1"] = "Data/MappingTest_again_8connectors_APVIndexAddedBack_dataTree01.root";
+
+
+
+
+
+  
   //data for each sector
   //inputfiles["APV3&7"] = "Data/APV3and7_file5_dataTree01.root";//"Data/APV3_FixedAPVID_dataTree01.root";
   //inputfiles["APV7"] = "APV7_AllDataforAPVEvents_totalADCs_dataTree01.root";
@@ -515,7 +585,7 @@ void APVEvent(){
   vector<float> LAGDHitsVec;
   cout << "Event Display (SINGLE APV(0),  ALL(1), TRACKERS(2), LAGD APVs(3), Pedestal Data(4), Residuals(5)):";
   int display_mode=5;
-  cin >> display_mode; 
+  //cin >> display_mode; 
 
   bool displaymode0event = false;
   bool Clusterdistevents = false;
@@ -546,7 +616,7 @@ void APVEvent(){
   
   float apvnum=1;
   
-  if(display_mode == 0){
+  if(display_mode == 0 || display_mode == 5){
     
     cout << "For reference:" << endl;
     cout << "APV2: 0" << endl;//not being used
@@ -573,7 +643,7 @@ void APVEvent(){
     
     cout << "Which APV? ";
 
-    //cin >> apvnum;
+    cin >> apvnum;
     
   }
 
@@ -634,6 +704,14 @@ void APVEvent(){
   APVname[1.5] =   "APV3E2";
   APVname[0] =   "APV2";
 
+
+  map<string, vector<float>> LAGDMaxStrips;
+  map<string, vector<float>> LAGDMaxCharges;
+
+  map<string, float> LAGDnum;
+  map<string, float> LAGDtotalcharge;
+  map<string, float> LAGDloc;
+  
 
   //here we define the number of events we want to either plot or analyze
   int plotnum = 5001;
@@ -817,6 +895,7 @@ void APVEvent(){
       vector<float> Tracker3hitcoords;
       vector<float> Tracker4hitcoords;
       */
+      /*
       vector<float> APV2hitcoords;
       vector<float> APV3E1hitcoords;
       vector<float> APV3E2hitcoords;
@@ -830,7 +909,8 @@ void APVEvent(){
       vector<float> APV7E2hitcoords;
       vector<float> APV8hitcoords;
       vector<float> APV9hitcoords;
-
+      */
+      
       vector<float> maxstrips;
       vector<float> Tracker1xmaxstrips;
       vector<float> Tracker1ymaxstrips;      
@@ -841,19 +921,6 @@ void APVEvent(){
       vector<float> Tracker4xmaxstrips;
       vector<float> Tracker4ymaxstrips;
 
-      vector<float> APV2maxstrips;
-      vector<float> APV3E1maxstrips;
-      vector<float> APV3E2maxstrips;
-      vector<float> APV4E3maxstrips;
-      vector<float> APV4E4maxstrips;
-      vector<float> APV5E3maxstrips;
-      vector<float> APV5E4maxstrips;
-      vector<float> APV6E3maxstrips;
-      vector<float> APV6E4maxstrips;
-      vector<float> APV7E1maxstrips;
-      vector<float> APV7E2maxstrips;
-      vector<float> APV8maxstrips;
-      vector<float> APV9maxstrips;
       
       vector<float> maxcharges;
       vector<float> Tracker1xmaxcharges;
@@ -865,22 +932,35 @@ void APVEvent(){
       vector<float> Tracker4xmaxcharges;
       vector<float> Tracker4ymaxcharges;
 
-      vector<float> APV2maxcharges;
-      vector<float> APV3E1maxcharges;
-      vector<float> APV3E2maxcharges;
-      vector<float> APV4E3maxcharges;
-      vector<float> APV4E4maxcharges;
-      vector<float> APV5E3maxcharges;
-      vector<float> APV5E4maxcharges;
-      vector<float> APV6E3maxcharges;
-      vector<float> APV6E4maxcharges;
-      vector<float> APV7E1maxcharges;
-      vector<float> APV7E2maxcharges;
-      vector<float> APV8maxcharges;
-      vector<float> APV9maxcharges;
+      LAGDMaxCharges["APV9"].clear();
+      LAGDMaxCharges["APV8"].clear();
+      LAGDMaxCharges["APV7E1"].clear();
+      LAGDMaxCharges["APV7E2"].clear();
+      LAGDMaxCharges["APV6E3"].clear();
+      LAGDMaxCharges["APV6E4"].clear();
+      LAGDMaxCharges["APV5E3"].clear();
+      LAGDMaxCharges["APV5E4"].clear();
+      LAGDMaxCharges["APV4E3"].clear();
+      LAGDMaxCharges["APV4E4"].clear();
+      LAGDMaxCharges["APV3E1"].clear();
+      LAGDMaxCharges["APV3E2"].clear();
+      LAGDMaxCharges["APV2"].clear();
 
-    
+      LAGDMaxStrips["APV9"].clear();
+      LAGDMaxStrips["APV8"].clear();
+      LAGDMaxStrips["APV7E1"].clear();
+      LAGDMaxStrips["APV7E2"].clear();
+      LAGDMaxStrips["APV6E3"].clear();
+      LAGDMaxStrips["APV6E4"].clear();
+      LAGDMaxStrips["APV5E3"].clear();
+      LAGDMaxStrips["APV5E4"].clear();
+      LAGDMaxStrips["APV4E3"].clear();
+      LAGDMaxStrips["APV4E4"].clear();
+      LAGDMaxStrips["APV3E1"].clear();
+      LAGDMaxStrips["APV3E2"].clear();
+      LAGDMaxStrips["APV2"].clear();
       
+
       float prevstripmax=0;
       
       float futstripmax=0;
@@ -1276,8 +1356,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	  
 	    if(maxcharge >=  striptol[i]){			
-	      APV8maxcharges.push_back(maxcharge-striptol[i]);	      
-	      APV8maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV8"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxStrips["APV8"].push_back((strip)[i]%128);
 	      
 	    }
 	    
@@ -1308,8 +1388,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	  
 	    if(maxcharge >=  striptol[i]){			
-	      APV9maxcharges.push_back(maxcharge-striptol[i]);	      
-	      APV9maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV9"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxStrips["APV9"].push_back((strip)[i]%128);
 	      
 	    }
 	    
@@ -1341,8 +1421,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	  
 	    if(maxcharge >=  striptol[i]){			
-	      APV5E3maxcharges.push_back(maxcharge-striptol[i]);	      
-	      APV5E3maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV5E3"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxStrips["APV5E3"].push_back((strip)[i]%128);
 	      
 	    }
 	    
@@ -1374,8 +1454,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >=  striptol[i]){			
-	      APV5E4maxcharges.push_back(maxcharge-striptol[i]);	      
-	      APV5E4maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV5E4"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxStrips["APV5E4"].push_back((strip)[i]%128);
 	      
 	    }
 	    
@@ -1408,8 +1488,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){			
-	      APV4E3maxcharges.push_back(maxcharge-striptol[i]);	      
-	      APV4E3maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV4E3"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxStrips["APV4E3"].push_back((strip)[i]%128);
 	      
 	    }
 	    
@@ -1439,8 +1519,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){			
-	      APV4E4maxcharges.push_back(maxcharge-striptol[i]);	      
-	      APV4E4maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV4E4"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxStrips["APV4E4"].push_back((strip)[i]%128);
 	      
 	    }
 	    
@@ -1472,8 +1552,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){
-	      APV3E1maxcharges.push_back(maxcharge-striptol[i]);
-	      APV3E1maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV3E1"].push_back(maxcharge-striptol[i]);
+	      LAGDMaxStrips["APV3E1"].push_back((strip)[i]%128);
 	    }
 	    
 	    stripcharges.clear();
@@ -1505,8 +1585,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 
 	    if(maxcharge >= striptol[i]){
-	      APV3E2maxcharges.push_back(maxcharge-striptol[i]);
-	      APV3E2maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV3E2"].push_back(maxcharge-striptol[i]);
+	      LAGDMaxStrips["APV3E2"].push_back((strip)[i]%64);
 	      
 	    }
 	    
@@ -1537,8 +1617,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){			
-	      APV6E3maxcharges.push_back(maxcharge-striptol[i]);	      
-	      APV6E3maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV6E3"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxStrips["APV6E3"].push_back((strip)[i]%128);
 	      
 	    }
 	    
@@ -1569,8 +1649,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){			
-	      APV6E4maxcharges.push_back(maxcharge-striptol[i]);	      
-	      APV6E4maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV6E4"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxStrips["APV6E4"].push_back((strip)[i]%128);
 	      
 	    }
 	    
@@ -1604,8 +1684,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){			
-	      APV2maxcharges.push_back(maxcharge-striptol[i]);	      
-	      APV2maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV2"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxStrips["APV2"].push_back((strip)[i]%128);
 	      
 	    }
 	    
@@ -1639,8 +1719,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){			
-	      APV7E1maxcharges.push_back(maxcharge-striptol[i]);	      
-	      APV7E1maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV7E1"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxStrips["APV7E1"].push_back((strip)[i]%128);
 	      
 	    }
 	    
@@ -1672,8 +1752,8 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    
 	    if(maxcharge >= striptol[i]){			
-	      APV7E2maxcharges.push_back(maxcharge-striptol[i]);	      
-	      APV7E2maxstrips.push_back((strip)[i]%128);
+	      LAGDMaxCharges["APV7E2"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxStrips["APV7E2"].push_back((strip)[i]%128);
 	      
 	    }
 	    
@@ -1715,7 +1795,8 @@ void APVEvent(){
 	  */
 	  
 	}
-    
+	
+	
 	//	toleranceit++;
       }/////////////////////end of for loop over the channels in one event
 
@@ -1755,7 +1836,7 @@ void APVEvent(){
 	  }
 	*/
 
-	if(Tracker1xmaxstrips.empty() || Tracker1ymaxstrips.empty() || Tracker2xmaxstrips.empty() || Tracker2ymaxstrips.empty() || Tracker3xmaxstrips.empty() || Tracker3ymaxstrips.empty() || Tracker4xmaxstrips.empty() || Tracker4ymaxstrips.empty() || APV3E2maxstrips.empty()){
+	if(Tracker1xmaxstrips.empty() || Tracker1ymaxstrips.empty() || Tracker2xmaxstrips.empty() || Tracker2ymaxstrips.empty() || Tracker3xmaxstrips.empty() || Tracker3ymaxstrips.empty() || Tracker4xmaxstrips.empty() || Tracker4ymaxstrips.empty() || LAGDMaxCharges[APVname[apvnum]].empty()){
 	  GoodEvent[*evtID] = false;
 	  cout << "Lost Event" << endl;	  
 	}
@@ -1771,12 +1852,13 @@ void APVEvent(){
 	  auto NumSubEvents3Y = StripSep(Tracker3ymaxstrips, Tracker3ymaxcharges);
 	  auto NumSubEvents4X = StripSep(Tracker4xmaxstrips, Tracker4xmaxcharges);
 	  auto NumSubEvents4Y = StripSep(Tracker4ymaxstrips, Tracker4ymaxcharges);
-	  auto NumSubEventsAPV3E2 = StripSep(APV3E2maxstrips, APV3E2maxcharges);//this needs to be changed depending on what APV is being looked at!!
+	  cout << APVname[apvnum] << endl;
+	  auto NumSubEventsLAGD = StripSep(LAGDMaxStrips[APVname[apvnum]], LAGDMaxCharges[APVname[apvnum]]);
 
 	 
   
 	  
-	  if(NumSubEvents1X.size() > 1 || NumSubEvents1Y.size() > 1  || NumSubEvents2X.size() > 1 || NumSubEvents2Y.size() > 1  ||NumSubEvents3X.size() > 1 || NumSubEvents3Y.size() > 1  || NumSubEvents4X.size() > 1 || NumSubEvents4Y.size() > 1 || NumSubEventsAPV3E2.size() > 1)
+	  if(NumSubEvents1X.size() > 1 || NumSubEvents1Y.size() > 1  || NumSubEvents2X.size() > 1 || NumSubEvents2Y.size() > 1  ||NumSubEvents3X.size() > 1 || NumSubEvents3Y.size() > 1  || NumSubEvents4X.size() > 1 || NumSubEvents4Y.size() > 1 || NumSubEventsLAGD.size() > 1)
 	    GoodEvent[*evtID] = false;	  
 	  
 	  
@@ -1791,11 +1873,11 @@ void APVEvent(){
 	  if(*max_element(NumSubEvents3Y.begin(), NumSubEvents3Y.end()) > max_StripHits || *min_element(NumSubEvents3Y.begin(), NumSubEvents3Y.end()) < min_StripHits){GoodEvent[*evtID] = false;}
 	  if(*max_element(NumSubEvents4X.begin(), NumSubEvents4X.end()) > max_StripHits || *min_element(NumSubEvents4X.begin(), NumSubEvents4X.end()) < min_StripHits){GoodEvent[*evtID] = false;}
 	  if(*max_element(NumSubEvents4Y.begin(), NumSubEvents4Y.end()) > max_StripHits || *min_element(NumSubEvents4Y.begin(), NumSubEvents4Y.end()) < min_StripHits){GoodEvent[*evtID] = false;}
-	  if(*max_element(NumSubEventsAPV3E2.begin(), NumSubEventsAPV3E2.end()) > max_StripHits || *min_element(NumSubEventsAPV3E2.begin(), NumSubEventsAPV3E2.end()) < min_StripHits){GoodEvent[*evtID] = false;}
+	  if(*max_element(NumSubEventsLAGD.begin(), NumSubEventsLAGD.end()) > max_StripHits || *min_element(NumSubEventsLAGD.begin(), NumSubEventsLAGD.end()) < min_StripHits){GoodEvent[*evtID] = false;}
 	  
 	  if(GoodEvent[*evtID] == true){
 	    for(uint p = 0; p < NumSubEvents1Y.size();p++){
-	      SMofTheseevents.push_back(NumSubEventsAPV3E2.at(p));
+	      SMofTheseevents.push_back(NumSubEventsLAGD.at(p));
 	    }
 	  }
 	}
@@ -1821,7 +1903,7 @@ void APVEvent(){
       float Tracker3yloc=0;
       float Tracker4xloc=0;
       float Tracker4yloc=0;
-      
+      /*
       float APV2loc=0;
       float APV3E1loc=0;
       float APV3E2loc=0;
@@ -1835,6 +1917,8 @@ void APVEvent(){
       float APV7E2loc=0; 
       float APV8loc=0;
       float APV9loc=0;
+      */
+      LAGDloc[APVname[apvnum]] = 0;
       
       float num=0;
       float Tracker1xnum=0;      
@@ -1845,7 +1929,8 @@ void APVEvent(){
       float Tracker3ynum=0;
       float Tracker4xnum=0;
       float Tracker4ynum=0;
-      
+
+      /*
       float APV2num=0;
       float APV3E1num=0;
       float APV3E2num=0;
@@ -1859,6 +1944,8 @@ void APVEvent(){
       float APV7E2num=0;
       float APV8num=0;
       float APV9num=0;
+      */
+      LAGDnum[APVname[apvnum]] = 0;
       
       float totalcharge=0;      
       float Tracker1xtotalcharge=0;      
@@ -1869,7 +1956,7 @@ void APVEvent(){
       float Tracker3ytotalcharge=0;
       float Tracker4xtotalcharge=0;
       float Tracker4ytotalcharge=0;
-	
+      /*
       float APV2totalcharge=0;
       float APV3E1totalcharge=0;
       float APV3E2totalcharge=0;      
@@ -1883,7 +1970,10 @@ void APVEvent(){
       float APV7E2totalcharge=0;
       float APV8totalcharge=0;
       float APV9totalcharge=0;
+      */
 
+      LAGDtotalcharge[APVname[apvnum]] = 0;
+      
       float Currentindex=0;
       float previndex;
       float tolerance = 2;
@@ -1941,7 +2031,7 @@ void APVEvent(){
 	  }
 
 	  cout << "LAGD strips" << endl;
-	  for(auto i = APV3E2maxstrips.begin(); i < APV3E2maxstrips.end(); i++){
+	  for(auto i = LAGDMaxStrips[APVname[apvnum]].begin(); i < LAGDMaxStrips[APVname[apvnum]].end(); i++){
 	    cout << *i << endl;
 	  }
 	  
@@ -1964,40 +2054,16 @@ void APVEvent(){
 	  Tracker4xmaxcharges.resize(10,0);
 	  Tracker4ymaxcharges.resize(10,0);
 
-	  APV2maxcharges.resize(10,0);	    
-	  APV3E1maxcharges.resize(10,0);
-	  APV3E2maxcharges.resize(10,0);	    
-	  APV4E3maxcharges.resize(10,0);
-	  APV4E4maxcharges.resize(10,0);
-	  APV5E3maxcharges.resize(10,0);
-	  APV5E4maxcharges.resize(10,0);
-	  APV6E3maxcharges.resize(10,0);
-	  APV6E4maxcharges.resize(10,0);
-	  APV7E1maxcharges.resize(10,0);
-	  APV7E2maxcharges.resize(10,0);
-	  APV8maxcharges.resize(10,0);
-	  APV9maxcharges.resize(10,0);
-
-	  APV2maxstrips.resize(10,0);	    
-	  APV3E1maxstrips.resize(10,0);
-	  APV3E2maxstrips.resize(10,0);	    
-	  APV4E3maxstrips.resize(10,0);
-	  APV4E4maxstrips.resize(10,0);
-	  APV5E3maxstrips.resize(10,0);
-	  APV5E4maxstrips.resize(10,0);
-	  APV6E3maxstrips.resize(10,0);
-	  APV6E4maxstrips.resize(10,0);
-	  APV7E1maxstrips.resize(10,0);
-	  APV7E2maxstrips.resize(10,0);
-	  APV8maxstrips.resize(10,0);
-	  APV9maxstrips.resize(10,0);
-
+	  LAGDMaxStrips[APVname[apvnum]].resize(10,0);	    
+	  LAGDMaxCharges[APVname[apvnum]].resize(10,0);
+	  
 	  for(auto i = Tracker1ymaxstrips.begin(); i < Tracker1ymaxstrips.end(); i++){
 	    cout << *i << endl;
 	  }
 	  cout << "End of resized vector" << endl;
-	  cout << "APV3E2 strips" << endl;
-	  for(auto i = APV3E2maxstrips.begin(); i < APV3E2maxstrips.end(); i++){
+
+	  cout << "LAGD strips" << endl;
+	  for(auto i = LAGDMaxStrips[APVname[apvnum]].begin(); i < LAGDMaxStrips[APVname[apvnum]].end(); i++){
 	    cout << *i << endl;
 	  }
 	  
@@ -2033,42 +2099,13 @@ void APVEvent(){
 
 	    if(display_mode == 3 || display_mode == 1  || AlignmentMode == 0){
 
-	      APV2num += APV2maxstrips.at(m)*APV2maxcharges.at(m);	    
-	      APV3E1num += APV3E1maxstrips.at(m)*APV3E1maxcharges.at(m);
-	      APV3E2num += APV3E2maxstrips.at(m)*APV3E2maxcharges.at(m);	    
-	      APV4E3num += APV4E3maxstrips.at(m)*APV4E3maxcharges.at(m);
-	      APV4E4num += APV4E4maxstrips.at(m)*APV4E4maxcharges.at(m);	    
-	      APV5E3num += APV5E3maxstrips.at(m)*APV5E3maxcharges.at(m);
-	      APV5E4num += APV5E4maxstrips.at(m)*APV5E4maxcharges.at(m);	    
-	      APV6E3num += APV6E3maxstrips.at(m)*APV6E3maxcharges.at(m);
-	      APV6E4num += APV6E4maxstrips.at(m)*APV6E4maxcharges.at(m);
-	      APV7E1num += APV7E1maxstrips.at(m)*APV7E1maxcharges.at(m);
-	      APV7E2num += APV7E2maxstrips.at(m)*APV7E2maxcharges.at(m);	    
-	      APV8num += APV8maxstrips.at(m)*APV8maxcharges.at(m);
-	      APV9num += APV9maxstrips.at(m)*APV9maxcharges.at(m);	    
-	      
-	     
-	      //striphitit++;
-	      
-	    	   
-	      APV2totalcharge += APV2maxcharges.at(m);	    
-	      APV3E1totalcharge += APV3E1maxcharges.at(m);
-	      APV3E2totalcharge += APV3E2maxcharges.at(m);	    
-	      APV4E3totalcharge += APV4E3maxcharges.at(m);
-	      APV4E4totalcharge += APV4E4maxcharges.at(m);	    
-	      APV5E3totalcharge += APV5E3maxcharges.at(m);
-	      APV5E4totalcharge += APV5E4maxcharges.at(m);	    
-	      APV6E3totalcharge += APV6E3maxcharges.at(m);
-	      APV6E4totalcharge += APV6E4maxcharges.at(m);
-	      APV7E1totalcharge += APV7E1maxcharges.at(m);
-	      APV7E2totalcharge += APV7E2maxcharges.at(m);	    
-	      APV8totalcharge += APV8maxcharges.at(m);
-	      APV9totalcharge += APV9maxcharges.at(m);	  
-
+	      LAGDnum[APVname[apvnum]] += LAGDMaxStrips[APVname[apvnum]].at(m)*LAGDMaxCharges[APVname[apvnum]].at(m);
+	      LAGDtotalcharge[APVname[apvnum]] += LAGDMaxCharges[APVname[apvnum]].at(m);
+	      	     
 	    }
 
 	  }
-	  Clusterchargeoftheseevnts.push_back(APV3E2totalcharge);
+	  Clusterchargeoftheseevnts.push_back(LAGDtotalcharge[APVname[apvnum]]);
 
 	  cout << "Tx: " << Tracker1xtotalcharge << ", " << "Ty: " << Tracker1ytotalcharge << endl;
 	  T1ChargeRatio->Fill(Tracker1xtotalcharge, Tracker1ytotalcharge);
@@ -2092,31 +2129,19 @@ void APVEvent(){
 	  }
 	 
 	  if(display_mode == 1 || display_mode == 3|| AlignmentMode == 0){
-	    APV2loc = APV2num/APV2totalcharge;	    
-	    APV3E1loc = APV3E1num/APV3E1totalcharge;
-	    APV3E2loc = APV3E2num/APV3E2totalcharge;	    
-	    APV4E3loc = APV4E3num/APV4E3totalcharge;
-	    APV4E4loc = APV4E4num/APV4E4totalcharge;	    
-	    APV5E3loc = APV5E3num/APV5E3totalcharge;
-	    APV5E4loc = APV5E4num/APV5E4totalcharge;	    
-	    APV6E3loc = APV6E3num/APV6E3totalcharge;
-	    APV6E4loc = APV6E4num/APV6E4totalcharge;
-	    APV7E1loc = APV7E1num/APV7E1totalcharge;
-	    APV7E2loc = APV7E2num/APV7E2totalcharge;	    
-	    APV8loc = APV8num/APV8totalcharge;
-	    APV9loc = APV9num/APV9totalcharge;
+
+	    LAGDloc[APVname[apvnum]] = LAGDnum[APVname[apvnum]]/LAGDtotalcharge[APVname[apvnum]];
 
 	    
-	    
-	    LAGDHitsVec.push_back(APV3E2loc);
+	    LAGDHitsVec.push_back(LAGDloc[APVname[apvnum]]);
 	    EventIDs.push_back(totalEventiterator);
 	    //efficiencynum++;
 	  }       
 	  
-	  Stripcorr->SetPoint(Stripcorrit, APV3E2loc, Tracker1yloc);
+	  Stripcorr->SetPoint(Stripcorrit, LAGDloc[APVname[apvnum]], Tracker1yloc);
 	  TrackerStripcorr->SetPoint(Stripcorrit, Tracker1yloc, Tracker2yloc);	  
-	  LAGDstrips->SetPoint(Stripcorrit, Stripcorrit, APV3E2loc);
-	  Trackerstrips->SetPoint(Stripcorrit, Stripcorrit, Tracker1yloc);
+	  //LAGDstrips->SetPoint(Stripcorrit, Stripcorrit, LAGDloc[APVname[apvnum]]);
+	  //Trackerstrips->SetPoint(Stripcorrit, Stripcorrit, Tracker1yloc);
 	  //Diffbtwnstrips->SetPoint(Stripcorrit, Stripcorrit, Tracker1yloc - APV3E1loc);
 	  Stripcorrit++;
 	  
@@ -2124,7 +2149,7 @@ void APVEvent(){
 	  cout << "Hit at (" << Tracker2xloc << "," << Tracker2yloc << ") in Tracker 2" << endl;
 	  cout << "Hit at (" << Tracker3xloc << "," << Tracker3yloc << ") in Tracker 3" << endl;
 	  cout << "Hit at (" << Tracker4xloc << "," << Tracker4yloc << ") in Tracker 4" << endl;
-	  cout << "Hit at (" << APV3E2loc << ")" << " in APV3E2" << endl;
+	  cout << "Hit at (" << LAGDloc[APVname[apvnum]] << ")" << " in " << APVname[apvnum] << endl;
 	  /*
 	    cout << "Hit at (" << APV3E2loc << ")" << " in APV3E2" << endl;
 	    cout << "Hit at (" << APV4E3loc << ")" << " in APV4E3" << endl;
@@ -2145,8 +2170,8 @@ void APVEvent(){
 	    auto T2xcoord = Tracker2xloc*0.4;
 	    auto T2ycoord = Tracker2yloc*0.4;
 
-	    cout << APV3E1loc << endl;
-	    Tracker2Ystriphits->Fill(APV3E1loc);
+	    cout << LAGDloc[APVname[apvnum]] << endl;
+	    //Tracker2Ystriphits->Fill(APV3E1loc);
 	    
 	    auto T3xcoord = Tracker3xloc*0.4;
 	    auto T3ycoord = Tracker3yloc*0.4;
@@ -3205,9 +3230,76 @@ void APVEvent(){
 
   //EffperHV->Draw("A*");
   //return;
+  
+  //if(Stripcorr->GetN() == 0){cout << "No events :(" << endl;}
+  //else{
   /*
-  if(Stripcorr->GetN() == 0){cout << "No events :(" << endl;}
-  else{
+  auto h = new TCanvas("", "", 1000, 500);
+  h->Divide(2,1);
+  h->cd(1);
+  Stripcorr->Draw("A*");
+  Stripcorr->SetTitle("Correlation between Y coordinate of LAGD and Tracker Hits");
+  Stripcorr->GetXaxis()->SetTitle("LAGD hit location [strip]");
+  Stripcorr->GetYaxis()->SetTitle("Tracker 1y hit location [strip]");
+    
+  h->cd(2);
+  TrackerStripcorr->Draw("A*");  
+  TrackerStripcorr->SetTitle("Correlation between Y coordinate of 2 Tracker's Hits");
+  TrackerStripcorr->GetXaxis()->SetTitle("Tracker 1 Y hit location [strip]");
+  TrackerStripcorr->GetYaxis()->SetTitle("Tracker 3 Y hit location [strip]");
+    
+  h->Draw();
+  auto filename = inputfiles["0"];
+  filename += ".png";
+  h->SaveAs(filename);
+  
+  cout << "Graph 1 totalevents: " << Stripcorr->GetN() << endl;
+  cout << "Graph 2 totalevents: " << TrackerStripcorr->GetN() << endl;
+  return;
+  */
+
+  //this part checks to make sure the experimental sector is mapped accurately with tracker 1. note that this can be changed to other detectors above
+
+  
+  TF1* Stripfit = new TF1("stripfit","pol1");
+  //Stripcorr->Fit("stripfit","Q");
+  auto r = Stripcorr->Fit("stripfit", "S");
+  TMatrixD cor = r->GetCorrelationMatrix();
+  TMatrixD cov = r->GetCovarianceMatrix();
+  cor.Print();
+  cov.Print();
+  /*
+  TVirtualFitter *fitter = TVirtualFitter::GetFitter();
+  //TMatrixDSym cov;
+  cor.Use(fitter->GetNumberTotalParameters(),fitter->GetCovarianceMatrix());
+  TVectorD var = TMatrixDDiag(cor);
+  var.Print();
+  */
+  auto striptrackercor=cor(1,0);//Stripfit->GetCorrelationFactor(); 
+  auto striptrackercorsign = striptrackercor/abs(striptrackercor);
+
+  cout << striptrackercor << ", " << striptrackercorsign << endl;
+  
+  TF1* Trackerfit = new TF1("trackfit","pol1");
+  //Stripcorr->Fit("stripfit","Q");
+  TFitResultPtr r2 = TrackerStripcorr->Fit("trackfit", "S");
+  TMatrixD cor2 = r2->GetCorrelationMatrix();
+  TMatrixD cov2 = r2->GetCovarianceMatrix();
+  cor2.Print();
+  cov2.Print();
+
+  auto striptrackercor2 = cor2(1,0);
+  auto striptrackercorsign2 = striptrackercor2/abs(striptrackercor2);
+
+  
+  cout << striptrackercor2 << ", " << striptrackercorsign2 << endl;
+
+  cout << abs(striptrackercor2) << ", " << striptrackercorsign2 << endl;
+  cout << abs(striptrackercor) << ", " << striptrackercorsign << endl;
+  bool showplot=false;
+  if(abs(striptrackercor) < 0.5 || abs(striptrackercor2) < 0.5 || striptrackercorsign != striptrackercorsign2 || showplot){
+    cout << "Mapping problem!!!! Consult the manual" << endl;
+
     auto h = new TCanvas("", "", 1000, 500);
     h->Divide(2,1);
     h->cd(1);
@@ -3231,7 +3323,12 @@ void APVEvent(){
     cout << "Graph 2 totalevents: " << TrackerStripcorr->GetN() << endl;
     return;
   }
-  */
+	
+  
+  
+  
+    //}
+  
   if(display_mode == 2 && ChargeRatio){
     T1ChargeRatio->Draw("colz");
     //T1ChargeRatio->SetTitle("APV4 E4");
