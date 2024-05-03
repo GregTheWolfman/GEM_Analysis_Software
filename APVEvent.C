@@ -388,7 +388,7 @@ void APVEvent(){
   */
 
   //First ZigZag Sector
-  
+  /*
   inputfiles["1"] = "Data/First_ZZ_MultiFilesOtherDataPlace_1_dataTree01.root";  
   inputfiles["2"] = "Data/First_ZZ_MultiFilesOtherDataPlace_2_dataTree01.root";  
   inputfiles["3"] = "Data/First_ZZ_MultiFilesOtherDataPlace_3_dataTree01.root";  
@@ -399,7 +399,7 @@ void APVEvent(){
   inputfiles["8"] = "Data/First_ZZ_MultiFilesOtherDataPlace_8_dataTree01.root";  
   inputfiles["9"] = "Data/First_ZZ_MultiFilesOtherDataPlace_9_dataTree01.root";  
   inputfiles["10"] = "Data/First_ZZ_MultiFilesOtherDataPlace_10_dataTree01.root";  
- 
+ */
   
 
   
@@ -438,7 +438,7 @@ void APVEvent(){
   */
   
 
-  //inputfiles["1"] = "Data/MappingTest_again_8connectors_APVIndexAddedBack_dataTree01.root";
+  inputfiles["1"] = "Data/ZZ_x1500_y50_1_dataTree01.root";
 
 
 
@@ -459,9 +459,9 @@ void APVEvent(){
   
   map<int, TCanvas*> PHCanvas;
 
-  /*
+  
   map<int, TGraph2D*> PulseHeight;
-  map<int, TH2D*> PulseHeightHist;
+  //map<int, TH2D*> PulseHeightHist;
 
   map<int, TGraph2D*> Tracker1XPulseHeight;
   map<int, TGraph2D*> Tracker1YPulseHeight;
@@ -483,9 +483,8 @@ void APVEvent(){
   map<int, TGraph2D*> APV6E4PulseHeight;
   map<int, TGraph2D*> APV7E1PulseHeight;
   map<int, TGraph2D*> APV7E2PulseHeight;
-  map<int, TGraph2D*> APV8PulseHeight;
-  map<int, TGraph2D*> APV9PulseHeight;
-  */
+  map<int, TGraph2D*> APV8and9PulseHeight;
+  
   map<string, TCanvas*> TrackerCanvas;
 
   map<string, TH2F*> Tracker1Hitmap;
@@ -497,6 +496,7 @@ void APVEvent(){
   map<int, int> totalchannel;
   map<int, bool> GoodEvent;
 
+/*
   map<int, int> stripmulti;
   map<int, int> Tracker1xprevstripmulti;
   map<int, int> Tracker1yprevstripmulti;
@@ -520,7 +520,7 @@ void APVEvent(){
   map<int, TGraph2D*> APV7E2prevstripmulti;
   map<int, TGraph2D*> APV8prevstripmulti;
   map<int, TGraph2D*> APV9prevstripmulti;
-  
+ */ 
   map<string, TH1D*> Clusterdist;
 
   vector<double> Maxcluster;
@@ -585,7 +585,7 @@ void APVEvent(){
   vector<float> LAGDHitsVec;
   cout << "Event Display (SINGLE APV(0),  ALL(1), TRACKERS(2), LAGD APVs(3), Pedestal Data(4), Residuals(5)):";
   int display_mode=5;
-  //cin >> display_mode; 
+  cin >> display_mode; 
 
   bool displaymode0event = false;
   bool Clusterdistevents = false;
@@ -616,7 +616,7 @@ void APVEvent(){
   
   float apvnum=1;
   
-  if(display_mode == 0 || display_mode == 5){
+  if(display_mode == 0 || display_mode == 5 || display_mode == 3){
     
     cout << "For reference:" << endl;
     cout << "APV2: 0" << endl;//not being used
@@ -800,40 +800,12 @@ void APVEvent(){
     for(auto i = BadEventVector.begin(); i != BadEventVector.end(); i++){
       cout << *i << endl;
     }
-    */
-    auto PulseHeight = new TGraph2D(2);
-    auto PulseHeightHist = new TH2D("PHHistversion", "Title;Strip;Time;ADC Charge", 128, 0, 128, 6, 0, 6);
-    auto Tracker1XPulseHeight = new TGraph2D(2);
-    auto Tracker1YPulseHeight = new TGraph2D(2);            
-    auto Tracker2XPulseHeight = new TGraph2D(2);
-    auto Tracker2YPulseHeight = new TGraph2D(2);
-    auto Tracker3XPulseHeight = new TGraph2D(2);
-    auto Tracker3YPulseHeight = new TGraph2D(2);
-    auto Tracker4XPulseHeight = new TGraph2D(2);
-    auto Tracker4YPulseHeight = new TGraph2D(2);
-      
-     
-    //Uneccesary ATM since theyre more complicated
-      
-    auto APV2PulseHeight = new TGraph2D(2);
-    auto APV8PulseHeight = new TGraph2D(2);
-    auto APV9PulseHeight = new TGraph2D(2);
-      
-      
-    auto APV3E1PulseHeight = new TGraph2D(2);
-    auto APV3E2PulseHeight = new TGraph2D(2);
-    auto APV4E3PulseHeight = new TGraph2D(2);
-    auto APV4E4PulseHeight = new TGraph2D(2);
-    auto APV5E3PulseHeight = new TGraph2D(2);
-    auto APV5E4PulseHeight = new TGraph2D(2);
-    auto APV6E3PulseHeight = new TGraph2D(2);
-    auto APV6E4PulseHeight = new TGraph2D(2);
-    auto APV7E1PulseHeight = new TGraph2D(2);
-    auto APV7E2PulseHeight = new TGraph2D(2);          
-
+    */         
+    cout << "test" << endl;
     EventAvgCharge[evtype] = new TH1F("", "", 300, 0, 2500);
     float LAGDhitsnum=0;
     float Trackerhits=0;
+    
     while (myReader.Next()){
       cout << *nch << endl;
       //if(*nch != 2048){continue;}
@@ -857,7 +829,30 @@ void APVEvent(){
       totalchannel[*evtID] = 0;
       
       //time to define more variables that are now event based
-
+      
+    PulseHeight[*evtID] = new TGraph2D(2);
+    //auto PulseHeightHist = new TH2D("PHHistversion", "Title;Strip;Time;ADC Charge", 128, 0, 128, 6, 0, 6);
+    Tracker1XPulseHeight[*evtID] = new TGraph2D(2);
+    Tracker1YPulseHeight[*evtID] = new TGraph2D(2);            
+    Tracker2XPulseHeight[*evtID] = new TGraph2D(2);
+    Tracker2YPulseHeight[*evtID] = new TGraph2D(2);
+    Tracker3XPulseHeight[*evtID] = new TGraph2D(2);
+    Tracker3YPulseHeight[*evtID] = new TGraph2D(2);
+    Tracker4XPulseHeight[*evtID] = new TGraph2D(2);
+    Tracker4YPulseHeight[*evtID] = new TGraph2D(2);
+      
+    APV2PulseHeight[*evtID] = new TGraph2D(2);
+    APV8and9PulseHeight[*evtID] = new TGraph2D(2);    
+    APV3E1PulseHeight[*evtID] = new TGraph2D(2);
+    APV3E2PulseHeight[*evtID] = new TGraph2D(2);
+    APV4E3PulseHeight[*evtID] = new TGraph2D(2);
+    APV4E4PulseHeight[*evtID] = new TGraph2D(2);
+    APV5E3PulseHeight[*evtID] = new TGraph2D(2);
+    APV5E4PulseHeight[*evtID] = new TGraph2D(2);
+    APV6E3PulseHeight[*evtID] = new TGraph2D(2);
+    APV6E4PulseHeight[*evtID] = new TGraph2D(2);
+    APV7E1PulseHeight[*evtID] = new TGraph2D(2);
+    APV7E2PulseHeight[*evtID] = new TGraph2D(2);
       
       vector<int> PedXvals;
       for(int y = 1; y <= 128; y++)
@@ -1005,8 +1000,8 @@ void APVEvent(){
 	  mean = adcsstrip[i]->GetMean();
 	  //cout << stdev << endl;
 
-	  striptol[i] = mean + 5*stdev;
-	  //striptol[i] = 40;
+	  //striptol[i] = mean + 5*stdev;
+	  striptol[i] = 100;
 	  cout << "Strip: " << i << " has noise tolerance: " << striptol[i] <<  endl;
 	  //return;
 	}
@@ -1023,12 +1018,12 @@ void APVEvent(){
 	      PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], k, adcvals[k].at(i));
 	    }
 	    */
-	    PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
-	    PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
-	    PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
-	    PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
-	    PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
-	    PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);	    	   
+	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);
+	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
+	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
+	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
+	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
+	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);	    	   
 	  }
 	  
 	  stripcharges.push_back((adc0)[i]);	
@@ -1059,12 +1054,12 @@ void APVEvent(){
 	  if((detID)[i] ==  Tracker1DetID && (planeID)[i] == Tracker1xPlaneID){
 	  
 	    if(display_mode != 2 || display_mode != 5){
-	      Tracker1XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);	      
-	      Tracker1XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
-	      Tracker1XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
-	      Tracker1XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
-	      Tracker1XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
-	      Tracker1XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
+	      Tracker1XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);	      
+	      Tracker1XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
+	      Tracker1XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
+	      Tracker1XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
+	      Tracker1XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
+	      Tracker1XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);
 	    }
 	      
 	    stripcharges.push_back((adc0)[i]);
@@ -1094,12 +1089,12 @@ void APVEvent(){
 	  if((detID)[i] == Tracker3DetID && (planeID)[i] == Tracker3xPlaneID){//og 12 cjanged to 12, now 1
 	    
 	    if(display_mode != 2 || display_mode != 5){
-	      Tracker3XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      Tracker3XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      Tracker3XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      Tracker3XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      Tracker3XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      Tracker3XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      Tracker3XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      Tracker3XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      Tracker3XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      Tracker3XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      Tracker3XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      Tracker3XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 
 	    stripcharges.push_back((adc0)[i]);
@@ -1127,12 +1122,12 @@ void APVEvent(){
 	  if((detID)[i] == Tracker1DetID && (planeID)[i] == Tracker1yPlaneID){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      Tracker1YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      Tracker1YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      Tracker1YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      Tracker1YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      Tracker1YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);	      
-	      Tracker1YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      Tracker1YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      Tracker1YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      Tracker1YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      Tracker1YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      Tracker1YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);	      
+	      Tracker1YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	      
 	    stripcharges.push_back((adc0)[i]);
@@ -1160,12 +1155,12 @@ void APVEvent(){
 	  if((detID)[i] == Tracker3DetID && (planeID)[i] == Tracker3yPlaneID){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      Tracker3YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      Tracker3YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      Tracker3YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      Tracker3YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      Tracker3YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      Tracker3YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      Tracker3YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      Tracker3YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      Tracker3YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      Tracker3YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      Tracker3YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      Tracker3YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 
 	      
@@ -1194,12 +1189,12 @@ void APVEvent(){
 	  if((detID)[i] == Tracker2DetID && (planeID)[i] == Tracker2xPlaneID){//og 10, switched to 14, now 5
 
 	    if(display_mode != 2 || display_mode != 5){
-	      Tracker2XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);	      
-	      Tracker2XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      Tracker2XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      Tracker2XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      Tracker2XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      Tracker2XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);		
+	      Tracker2XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);	      
+	      Tracker2XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      Tracker2XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      Tracker2XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      Tracker2XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      Tracker2XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);		
 	    }
 		
 	    stripcharges.push_back((adc0)[i]);
@@ -1228,12 +1223,12 @@ void APVEvent(){
 	  if((detID)[i] == Tracker4DetID && (planeID)[i] == Tracker4xPlaneID){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      Tracker4XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      Tracker4XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      Tracker4XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      Tracker4XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      Tracker4XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      Tracker4XPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      Tracker4XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      Tracker4XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      Tracker4XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      Tracker4XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      Tracker4XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      Tracker4XPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 		
 	    stripcharges.push_back((adc0)[i]);
@@ -1263,12 +1258,12 @@ void APVEvent(){
 	  if((detID)[i] == Tracker2DetID && (planeID)[i] == Tracker2yPlaneID){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      Tracker2YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      Tracker2YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      Tracker2YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      Tracker2YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      Tracker2YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      Tracker2YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      Tracker2YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      Tracker2YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      Tracker2YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      Tracker2YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      Tracker2YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      Tracker2YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 		
 	    stripcharges.push_back((adc0)[i]);
@@ -1298,12 +1293,12 @@ void APVEvent(){
 	  if((detID)[i] == Tracker4DetID && (planeID)[i] == Tracker4yPlaneID){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      Tracker4YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      Tracker4YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      Tracker4YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      Tracker4YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      Tracker4YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      Tracker4YPulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      Tracker4YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      Tracker4YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      Tracker4YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      Tracker4YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      Tracker4YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      Tracker4YPulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 		
 	    stripcharges.push_back((adc0)[i]);
@@ -1337,12 +1332,12 @@ void APVEvent(){
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV8index){
 	     
 	    if(display_mode != 2 || display_mode != 5){
-	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV8PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV8and9PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV8and9PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV8and9PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV8and9PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV8and9PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV8and9PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	           
 	    stripcharges.push_back((adc0)[i]);
@@ -1369,12 +1364,12 @@ void APVEvent(){
 	
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV9index){
 	    if(display_mode != 2 || display_mode != 5){
-	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV9PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV8and9PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV8and9PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV8and9PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV8and9PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV8and9PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV8and9PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	    	       
 	    stripcharges.push_back((adc0)[i]);
@@ -1402,12 +1397,12 @@ void APVEvent(){
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV5index && (strip)[i]%128 < 64){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV5E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV5E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV5E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV5E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV5E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV5E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV5E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	       
 	    stripcharges.push_back((adc0)[i]);
@@ -1435,12 +1430,12 @@ void APVEvent(){
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV5index && (strip)[i]%128 >= 64){
 
 	    if(display_mode !=2 ||display_mode != 5){
-	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV5E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV5E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV5E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV5E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV5E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV5E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV5E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	           
 	    stripcharges.push_back((adc0)[i]);
@@ -1469,12 +1464,12 @@ void APVEvent(){
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV4index && (strip)[i]%128 < 64){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV4E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV4E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV4E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV4E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV4E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV4E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV4E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	           
 	    stripcharges.push_back((adc0)[i]);
@@ -1500,12 +1495,12 @@ void APVEvent(){
 	  
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV4index && (strip)[i]%128 >= 64){
 	    if(display_mode != 2 || display_mode != 5){
-	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV4E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV4E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV4E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV4E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV4E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV4E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV4E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
   	    }	    
 	    
 	    stripcharges.push_back((adc0)[i]);
@@ -1533,12 +1528,12 @@ void APVEvent(){
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV3index && (strip)[i]%128 < 64){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV3E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV3E1PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV3E1PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV3E1PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV3E1PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV3E1PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV3E1PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	      
 	    stripcharges.push_back((adc0)[i]);
@@ -1566,12 +1561,12 @@ void APVEvent(){
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV3index && (strip)[i]%128 >= 64){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      APV3E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV3E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV3E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV3E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV3E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV3E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV3E2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV3E2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV3E2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV3E2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV3E2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV3E2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	    
 	    stripcharges.push_back((adc0)[i]);
@@ -1598,12 +1593,12 @@ void APVEvent(){
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV6index && (strip)[i]%128 < 64){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      APV6E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV6E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV6E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV6E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV6E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV6E3PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV6E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV6E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV6E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV6E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV6E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV6E3PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	    
 	    stripcharges.push_back((adc0)[i]);
@@ -1630,12 +1625,12 @@ void APVEvent(){
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV6index && (strip)[i]%128 >= 64){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      APV6E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV6E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV6E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV6E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV6E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV6E4PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV6E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV6E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV6E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV6E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV6E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV6E4PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	    
 	    stripcharges.push_back((adc0)[i]);
@@ -1665,12 +1660,12 @@ void APVEvent(){
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV2index){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      APV2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	    	   
 	    stripcharges.push_back((adc0)[i]);
@@ -1700,12 +1695,12 @@ void APVEvent(){
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV7index && (strip)[i]%128 < 64){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      APV7E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV7E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV7E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV7E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV7E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV7E1PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV7E1PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV7E1PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV7E1PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV7E1PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV7E1PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV7E1PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	    	   
 	    stripcharges.push_back((adc0)[i]);
@@ -1733,12 +1728,12 @@ void APVEvent(){
 	  if((detID)[i] == LAGDDetID && (apvID)[i] == APV7index && (strip)[i]%128 >= 64){
 
 	    if(display_mode != 2 || display_mode != 5){
-	      APV7E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
-	      APV7E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
-	      APV7E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
-	      APV7E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
-	      APV7E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
-	      APV7E2PulseHeight->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
+	      APV7E2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
+	      APV7E2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 1, (adc1)[i]);
+	      APV7E2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 2, (adc2)[i]);
+	      APV7E2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 3, (adc3)[i]);
+	      APV7E2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 4, (adc4)[i]);
+	      APV7E2PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, 5, (adc5)[i]);
 	    }
 	    
 	    stripcharges.push_back((adc0)[i]);
@@ -1770,25 +1765,25 @@ void APVEvent(){
 	if(display_mode != 3 && display_mode != 1 && display_mode != 0){
 	  //cout << display_mode << " and " << *evtID << endl;
 	  
-	  APV3E1PulseHeight->Clear();
-	  APV3E2PulseHeight->Clear();
-	  APV4E3PulseHeight->Clear();
-	  APV4E4PulseHeight->Clear();
-	  APV5E3PulseHeight->Clear();
-	  APV5E4PulseHeight->Clear();
-	  APV6E3PulseHeight->Clear();
-	  APV6E4PulseHeight->Clear();
-	  APV7E1PulseHeight->Clear();
-	  APV7E2PulseHeight->Clear();
+	  APV3E1PulseHeight[*evtID]->Clear();
+	  APV3E2PulseHeight[*evtID]->Clear();
+	  APV4E3PulseHeight[*evtID]->Clear();
+	  APV4E4PulseHeight[*evtID]->Clear();
+	  APV5E3PulseHeight[*evtID]->Clear();
+	  APV5E4PulseHeight[*evtID]->Clear();
+	  APV6E3PulseHeight[*evtID]->Clear();
+	  APV6E4PulseHeight[*evtID]->Clear();
+	  APV7E1PulseHeight[*evtID]->Clear();
+	  APV7E2PulseHeight[*evtID]->Clear();
 	  
-	  Tracker1XPulseHeight->Clear();
-	  Tracker1YPulseHeight->Clear();
-	  Tracker2XPulseHeight->Clear();
-	  Tracker2YPulseHeight->Clear();
-	  Tracker3XPulseHeight->Clear();
-	  Tracker3YPulseHeight->Clear();
-	  Tracker4XPulseHeight->Clear();
-	  Tracker4YPulseHeight->Clear();
+	  Tracker1XPulseHeight[*evtID]->Clear();
+	  Tracker1YPulseHeight[*evtID]->Clear();
+	  Tracker2XPulseHeight[*evtID]->Clear();
+	  Tracker2YPulseHeight[*evtID]->Clear();
+	  Tracker3XPulseHeight[*evtID]->Clear();
+	  Tracker3YPulseHeight[*evtID]->Clear();
+	  Tracker4XPulseHeight[*evtID]->Clear();
+	  Tracker4YPulseHeight[*evtID]->Clear();
 	  /*
 	    delete PulseHeight[*evtID];
 	    PulseHeight[*evtID] = nullptr;	  
@@ -2258,15 +2253,17 @@ void APVEvent(){
 
 	  //PulseHeightHist[*evtID]->Draw("LEGO2");
 	  
-	  PulseHeight->SetMarkerStyle(20);
-	  PulseHeight->Draw("pcol");
+	  PulseHeight[*evtID]->SetMarkerStyle(20);
+	  PulseHeight[*evtID]->Draw("pcol");
 	  
-	  PulseHeight->GetXaxis()->SetTitle("Strip");
-	  PulseHeight->GetXaxis()->CenterTitle(true);
-	  PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	  PulseHeight->GetYaxis()->CenterTitle(true);
-	  PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	  PulseHeight->GetZaxis()->CenterTitle(true);
+	  PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	  PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	  PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	  PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	  PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	  PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	  PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
+	  PulseHeight[*evtID]->GetXaxis()->SetRange(10,118);
 	  	  
 	}
       }
@@ -2604,244 +2601,252 @@ void APVEvent(){
 	  	  
 	strcpy(charsubtitle, subtitle.c_str());
 	  
-	PHCanvas[*evtID] = new TCanvas(charsubtitle, chartitle, 1000, 1500);
+	PHCanvas[*evtID] = new TCanvas(charsubtitle, chartitle, 1000, 1800);
+	cout << "subtitle:" << endl;
+	cout << charsubtitle << endl;
+	cout << "title:" << endl;
+	cout << chartitle << endl;
 	//cout << "yes" << endl;
 	  
-	PHCanvas[*evtID]->Divide(5,2);
+	PHCanvas[*evtID]->Divide(6,2);
 	PHCanvas[*evtID]->Draw();
 	
 	//first column of display (APV3 and APV7)
 	PHCanvas[*evtID]->cd(1);
 	PHCanvas[*evtID]->DrawFrame(0,0,63,30);
 	  
-	//APV3E1PulseHeight->SetAxisRange(0.0,63.0,"X");
-	//APV3E1PulseHeight->SetAxisRange(0.0,400.0,"Z");
+	//APV3E1PulseHeight[*evtID]->SetAxisRange(0.0,63.0,"X");
+	//APV3E1PulseHeight[*evtID]->SetAxisRange(0.0,400.0,"Z");
 	  
-	APV3E1PulseHeight->Draw("LEGO");
+	APV3E1PulseHeight[*evtID]->Draw("LEGO");
 
-	APV3E1PulseHeight->SetTitle("APV3");
-	APV3E1PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV3E1PulseHeight->GetXaxis()->CenterTitle(true);
-	APV3E1PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV3E1PulseHeight->GetYaxis()->CenterTitle(true);
-	APV3E1PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV3E1PulseHeight->GetZaxis()->CenterTitle(true);
+	APV3E1PulseHeight[*evtID]->SetTitle("APV3");
+	APV3E1PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV3E1PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV3E1PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV3E1PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV3E1PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV3E1PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
 	  
 
-	PHCanvas[*evtID]->cd(6);
-	APV7E1PulseHeight->Draw("LEGO");
-	APV7E1PulseHeight->SetTitle("APV7");
-	APV7E1PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV7E1PulseHeight->GetXaxis()->CenterTitle(true);
-	APV7E1PulseHeight->GetXaxis()->SetRange(0,63);
-	APV7E1PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV7E1PulseHeight->GetYaxis()->CenterTitle(true);
-	APV7E1PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV7E1PulseHeight->GetZaxis()->CenterTitle(true);
-	APV7E1PulseHeight->GetZaxis()->SetRange(0,400);
+	PHCanvas[*evtID]->cd(7);
+	APV7E1PulseHeight[*evtID]->Draw("LEGO");
+	APV7E1PulseHeight[*evtID]->SetTitle("APV7");
+	APV7E1PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV7E1PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV7E1PulseHeight[*evtID]->GetXaxis()->SetRange(0,63);
+	APV7E1PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV7E1PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV7E1PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV7E1PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV7E1PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
 		  
 
 	//second column
 	PHCanvas[*evtID]->cd(2);
 	PHCanvas[*evtID]->DrawFrame(64,0,128,30);
-	APV3E2PulseHeight->GetXaxis()->SetRangeUser(64,127);
-	APV3E2PulseHeight->GetZaxis()->SetRangeUser(0,400);
+	APV3E2PulseHeight[*evtID]->GetXaxis()->SetRangeUser(64,127);
+	APV3E2PulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
 	  
-	APV3E2PulseHeight->Draw("LEGO");
+	APV3E2PulseHeight[*evtID]->Draw("LEGO");
 	  
-	APV3E2PulseHeight->SetTitle("APV3");
-	APV3E2PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV3E2PulseHeight->GetXaxis()->CenterTitle(true);
-	APV3E2PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV3E2PulseHeight->GetYaxis()->CenterTitle(true);
-	APV3E2PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV3E2PulseHeight->GetZaxis()->CenterTitle(true);
+	APV3E2PulseHeight[*evtID]->SetTitle("APV3");
+	APV3E2PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV3E2PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV3E2PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV3E2PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV3E2PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV3E2PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
 	  
 	
-	PHCanvas[*evtID]->cd(7);
-	APV7E2PulseHeight->Draw("LEGO");
-	APV7E2PulseHeight->SetTitle("APV7");
-	APV7E2PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV7E2PulseHeight->GetXaxis()->CenterTitle(true);
-	APV7E2PulseHeight->GetXaxis()->SetRangeUser(64,127);
-	APV7E2PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV7E2PulseHeight->GetYaxis()->CenterTitle(true);
-	APV7E2PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV7E2PulseHeight->GetZaxis()->CenterTitle(true);
-	APV7E2PulseHeight->GetZaxis()->SetRangeUser(0,400);
+	PHCanvas[*evtID]->cd(8);
+	APV7E2PulseHeight[*evtID]->Draw("LEGO");
+	APV7E2PulseHeight[*evtID]->SetTitle("APV7");
+	APV7E2PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV7E2PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV7E2PulseHeight[*evtID]->GetXaxis()->SetRangeUser(64,127);
+	APV7E2PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV7E2PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV7E2PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV7E2PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV7E2PulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
 	
 	//third colmun
 	/*
 	  PHCanvas[*evtID]->cd(3);
-	  APV2PulseHeight->Draw("LEGO");
-	  APV2PulseHeight->SetTitle("APV2");
-	  APV2PulseHeight->GetXaxis()->SetTitle("Strip");
-	  APV2PulseHeight->GetXaxis()->CenterTitle(true);
-	  APV2PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	  APV2PulseHeight->GetYaxis()->CenterTitle(true);
-	  APV2PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	  APV2PulseHeight->GetZaxis()->CenterTitle(true);
+	  APV2PulseHeight[*evtID]->Draw("LEGO");
+	  APV2PulseHeight[*evtID]->SetTitle("APV2");
+	  APV2PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV2PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV2PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	  APV2PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	  APV2PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	  APV2PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
 
 	  PHCanvas[*evtID]->cd(8);
-	  APV2PulseHeight->Draw("LEGO");
-	  APV2PulseHeight->SetTitle("APV2");
-	  APV2PulseHeight->GetXaxis()->SetTitle("Strip");
-	  APV2PulseHeight->GetXaxis()->CenterTitle(true);
-	  APV2PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	  APV2PulseHeight->GetYaxis()->CenterTitle(true);
-	  APV2PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	  APV2PulseHeight->GetZaxis()->CenterTitle(true);
+	  APV2PulseHeight[*evtID]->Draw("LEGO");
+	  APV2PulseHeight[*evtID]->SetTitle("APV2");
+	  APV2PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV2PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV2PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	  APV2PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	  APV2PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	  APV2PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
 	*/
 	PHCanvas[*evtID]->cd(3);
-	APV6E3PulseHeight->Draw("LEGO");
-	APV6E3PulseHeight->SetTitle("APV6");
-	APV6E3PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV6E3PulseHeight->GetXaxis()->CenterTitle(true);
-	APV6E3PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV6E3PulseHeight->GetYaxis()->CenterTitle(true);
-	APV6E3PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV6E3PulseHeight->GetZaxis()->CenterTitle(true);
-	APV6E3PulseHeight->GetZaxis()->SetRange(0,400);
+	APV6E3PulseHeight[*evtID]->Draw("LEGO");
+	APV6E3PulseHeight[*evtID]->SetTitle("APV6");
+	APV6E3PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV6E3PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV6E3PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV6E3PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV6E3PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV6E3PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV6E3PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
 	  
-	PHCanvas[*evtID]->cd(8);
-	APV6E4PulseHeight->Draw("LEGO");
-	APV6E4PulseHeight->SetTitle("APV6");
-	APV6E4PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV6E4PulseHeight->GetXaxis()->CenterTitle(true);
-	APV6E4PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV6E4PulseHeight->GetYaxis()->CenterTitle(true);
-	APV6E4PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV6E4PulseHeight->GetZaxis()->CenterTitle(true);
-	APV6E4PulseHeight->GetZaxis()->SetRange(0,400);
+	PHCanvas[*evtID]->cd(9);
+	APV6E4PulseHeight[*evtID]->Draw("LEGO");
+	APV6E4PulseHeight[*evtID]->SetTitle("APV6");
+	APV6E4PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV6E4PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV6E4PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV6E4PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV6E4PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV6E4PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV6E4PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
 	/*
 	  PHCanvas[*evtID]->cd(23);
-	  APV8PulseHeight->Draw("LEGO");
-	  APV8PulseHeight->SetTitle("APV8");
-	  APV8PulseHeight->GetXaxis()->SetTitle("Strip");
-	  APV8PulseHeight->GetXaxis()->CenterTitle(true);
-	  APV8PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	  APV8PulseHeight->GetYaxis()->CenterTitle(true);
-	  APV8PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	  APV8PulseHeight->GetZaxis()->CenterTitle(true);
+	  APV8PulseHeight[*evtID]->Draw("LEGO");
+	  APV8PulseHeight[*evtID]->SetTitle("APV8");
+	  APV8PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV8PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV8PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	  APV8PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	  APV8PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	  APV8PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
 
 	  PHCanvas[*evtID]->cd(28);
-	  APV8PulseHeight->Draw("LEGO");
-	  APV8PulseHeight->SetTitle("APV8");
-	  APV8PulseHeight->GetXaxis()->SetTitle("Strip");
-	  APV8PulseHeight->GetXaxis()->CenterTitle(true);
-	  APV8PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	  APV8PulseHeight->GetYaxis()->CenterTitle(true);
-	  APV8PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	  APV8PulseHeight->GetZaxis()->CenterTitle(true);
+	  APV8PulseHeight[*evtID]->Draw("LEGO");
+	  APV8PulseHeight[*evtID]->SetTitle("APV8");
+	  APV8PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV8PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV8PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	  APV8PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	  APV8PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	  APV8PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
 	*/
 	//fourth column
 	/*
 	  PHCanvas[*evtID]->cd(4);
-	  APV2PulseHeight->Draw("LEGO");
-	  APV2PulseHeight->SetTitle("APV2/1");
-	  APV2PulseHeight->GetXaxis()->SetTitle("Strip");
-	  APV2PulseHeight->GetXaxis()->CenterTitle(true);
-	  APV2PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	  APV2PulseHeight->GetYaxis()->CenterTitle(true);
-	  APV2PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	  APV2PulseHeight->GetZaxis()->CenterTitle(true);
+	  APV2PulseHeight[*evtID]->Draw("LEGO");
+	  APV2PulseHeight[*evtID]->SetTitle("APV2/1");
+	  APV2PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV2PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV2PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	  APV2PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	  APV2PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	  APV2PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
 
 	  PHCanvas[*evtID]->cd(9);
-	  APV2PulseHeight->Draw("LEGO");
-	  APV2PulseHeight->SetTitle("APV2/1");
-	  APV2PulseHeight->GetXaxis()->SetTitle("Strip");
-	  APV2PulseHeight->GetXaxis()->CenterTitle(true);
-	  APV2PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	  APV2PulseHeight->GetYaxis()->CenterTitle(true);
-	  APV2PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	  APV2PulseHeight->GetZaxis()->CenterTitle(true);
+	  APV2PulseHeight[*evtID]->Draw("LEGO");
+	  APV2PulseHeight[*evtID]->SetTitle("APV2/1");
+	  APV2PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV2PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV2PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	  APV2PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	  APV2PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	  APV2PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
 	*/
 	PHCanvas[*evtID]->cd(4);
-	APV5E3PulseHeight->Draw("LEGO");
-	APV5E3PulseHeight->SetTitle("APV5");
-	APV5E3PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV5E3PulseHeight->GetXaxis()->CenterTitle(true);
-	APV5E3PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV5E3PulseHeight->GetYaxis()->CenterTitle(true);
-	APV5E3PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV5E3PulseHeight->GetZaxis()->CenterTitle(true);
-	APV5E3PulseHeight->GetZaxis()->SetRange(0,400);
+	APV5E3PulseHeight[*evtID]->Draw("LEGO");
+	APV5E3PulseHeight[*evtID]->SetTitle("APV5");
+	APV5E3PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV5E3PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV5E3PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV5E3PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV5E3PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV5E3PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV5E3PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
  
-	PHCanvas[*evtID]->cd(9);
-	APV5E4PulseHeight->Draw("LEGO");
-	APV5E4PulseHeight->SetTitle("APV5");
-	APV5E4PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV5E4PulseHeight->GetXaxis()->CenterTitle(true);
-	APV5E4PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV5E4PulseHeight->GetYaxis()->CenterTitle(true);
-	APV5E4PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV5E4PulseHeight->GetZaxis()->CenterTitle(true);
-	APV5E4PulseHeight->GetZaxis()->SetRange(0,400);
+	PHCanvas[*evtID]->cd(10);
+	APV5E4PulseHeight[*evtID]->Draw("LEGO");
+	APV5E4PulseHeight[*evtID]->SetTitle("APV5");
+	APV5E4PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV5E4PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV5E4PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV5E4PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV5E4PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV5E4PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV5E4PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
 	/*
 	  PHCanvas[*evtID]->cd(24);
-	  APV8PulseHeight->Draw("LEGO");
-	  APV8PulseHeight->SetTitle("APV8");
-	  APV8PulseHeight->GetXaxis()->SetTitle("Strip");
-	  APV8PulseHeight->GetXaxis()->CenterTitle(true);
-	  APV8PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	  APV8PulseHeight->GetYaxis()->CenterTitle(true);
-	  APV8PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	  APV8PulseHeight->GetZaxis()->CenterTitle(true);
+	  APV8PulseHeight[*evtID]->Draw("LEGO");
+	  APV8PulseHeight[*evtID]->SetTitle("APV8");
+	  APV8PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV8PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV8PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	  APV8PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	  APV8PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	  APV8PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
 
 	  PHCanvas[*evtID]->cd(29);
-	  APV8PulseHeight->Draw("LEGO");
-	  APV8PulseHeight->SetTitle("APV8");
-	  APV8PulseHeight->GetXaxis()->SetTitle("Strip");
-	  APV8PulseHeight->GetXaxis()->CenterTitle(true);
-	  APV8PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	  APV8PulseHeight->GetYaxis()->CenterTitle(true);
-	  APV8PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	  APV8PulseHeight->GetZaxis()->CenterTitle(true);
+	  APV8PulseHeight[*evtID]->Draw("LEGO");
+	  APV8PulseHeight[*evtID]->SetTitle("APV8");
+	  APV8PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV8PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV8PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	  APV8PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	  APV8PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	  APV8PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
 	*/
-	//last column
+	//fith column
 
 	PHCanvas[*evtID]->cd(5);
-	APV4E3PulseHeight->Draw("LEGO");
-	APV4E3PulseHeight->SetTitle("APV4");
-	APV4E3PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV4E3PulseHeight->GetXaxis()->CenterTitle(true);
-	APV4E3PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV4E3PulseHeight->GetYaxis()->CenterTitle(true);
-	APV4E3PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV4E3PulseHeight->GetZaxis()->CenterTitle(true);
-	APV4E3PulseHeight->GetZaxis()->SetRange(0,400);
+	APV4E3PulseHeight[*evtID]->Draw("LEGO");
+	APV4E3PulseHeight[*evtID]->SetTitle("APV4");
+	APV4E3PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV4E3PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV4E3PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV4E3PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV4E3PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV4E3PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV4E3PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
 	  
-	PHCanvas[*evtID]->cd(10);
-	APV4E4PulseHeight->Draw("LEGO");
-	APV4E4PulseHeight->SetTitle("APV4");
-	APV4E4PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV4E4PulseHeight->GetXaxis()->CenterTitle(true);
-	APV4E4PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV4E4PulseHeight->GetYaxis()->CenterTitle(true);
-	APV4E4PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV4E4PulseHeight->GetZaxis()->CenterTitle(true);
-	APV4E4PulseHeight->GetZaxis()->SetRange(0,400);
-	/*
-	  PHCanvas[*evtID]->cd(25);
-	  APV9PulseHeight->Draw("LEGO");
-	  APV9PulseHeight->SetTitle("APV9");
-	  APV9PulseHeight->GetXaxis()->SetTitle("Strip");
-	  APV9PulseHeight->GetXaxis()->CenterTitle(true);
-	  APV9PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	  APV9PulseHeight->GetYaxis()->CenterTitle(true);
-	  APV9PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	  APV9PulseHeight->GetZaxis()->CenterTitle(true);
+	PHCanvas[*evtID]->cd(11);
+	APV4E4PulseHeight[*evtID]->Draw("LEGO");
+	APV4E4PulseHeight[*evtID]->SetTitle("APV4");
+	APV4E4PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV4E4PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV4E4PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV4E4PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV4E4PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV4E4PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV4E4PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
+	
+	//sixth column
+	PHCanvas[*evtID]->cd(6);
+	APV8and9PulseHeight[*evtID]->SetMarkerStyle(20);
+        APV8and9PulseHeight[*evtID]->Draw("pcol");
+	APV8and9PulseHeight[*evtID]->SetTitle("APVs 8 and 9");
+        APV8and9PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV8and9PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV8and9PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV8and9PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV8and9PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV8and9PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV8and9PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
 
-	  PHCanvas[*evtID]->cd(30);
-	  APV9PulseHeight->Draw("LEGO");
-	  APV9PulseHeight->SetTitle("APV9");
-	  APV9PulseHeight->GetXaxis()->SetTitle("Strip");
-	  APV9PulseHeight->GetXaxis()->CenterTitle(true);
-	  APV9PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	  APV9PulseHeight->GetYaxis()->CenterTitle(true);
-	  APV9PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	  APV9PulseHeight->GetZaxis()->CenterTitle(true);
-	*/
+	/*PHCanvas[*evtID]->cd(12);
+	APV9PulseHeight[*evtID]->Draw("pcol");
+	APV9PulseHeight[*evtID]->SetTitle("APV9");
+	APV9PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV9PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV9PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV9PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV9PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV9PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV9PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);*/
+	
       }
 	
       //Trackers and LAGD APVs
@@ -2877,240 +2882,253 @@ void APVEvent(){
 	//PHCanvas[*evtID]->SetTheta(-45);
 	//PHCanvas[*evtID]->SetPhi(0);
 	
-	Tracker1XPulseHeight->SetMarkerStyle(20);
-	//Tracker1XPulseHeight->SetFillColor(1);
-	Tracker1XPulseHeight->Draw("pcol");
-	Tracker1XPulseHeight->SetTitle("GEM1X");
-	Tracker1XPulseHeight->GetXaxis()->SetTitle("Strip");
-	Tracker1XPulseHeight->GetXaxis()->CenterTitle(true);
-	//Tracker1XPulseHeight->GetXaxis()->SetRangeUser(0,127);
-	Tracker1XPulseHeight->GetYaxis()->SetTitle("TimeBin");
-	Tracker1XPulseHeight->GetYaxis()->CenterTitle(true);
-	Tracker1XPulseHeight->GetZaxis()->SetTitle("ADC charge");
-	Tracker1XPulseHeight->GetZaxis()->CenterTitle(true);
-	Tracker1XPulseHeight->GetZaxis()->SetRangeUser(0,400);
+	Tracker1XPulseHeight[*evtID]->SetMarkerStyle(20);
+	//Tracker1XPulseHeight[*evtID]->SetFillColor(1);
+	Tracker1XPulseHeight[*evtID]->Draw("pcol");
+	Tracker1XPulseHeight[*evtID]->SetTitle("GEM1X");
+	Tracker1XPulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	Tracker1XPulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	//Tracker1XPulseHeight[*evtID]->GetXaxis()->SetRangeUser(0,127);
+	Tracker1XPulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	Tracker1XPulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	Tracker1XPulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	Tracker1XPulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	Tracker1XPulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
 	  
 	PHCanvas[*evtID]->cd(2);
-	Tracker1YPulseHeight->SetMarkerStyle(20);	
-	Tracker1YPulseHeight->Draw("pcol");
-	Tracker1YPulseHeight->SetTitle("GEM1Y");
-	Tracker1YPulseHeight->GetXaxis()->SetTitle("Strip");
-	Tracker1YPulseHeight->GetXaxis()->CenterTitle(true);
-	//Tracker1YPulseHeight->GetXaxis()->SetRangeUser(128,255);
-	Tracker1YPulseHeight->GetYaxis()->SetTitle("TimeBin");
-	Tracker1YPulseHeight->GetYaxis()->CenterTitle(true);
-	Tracker1YPulseHeight->GetZaxis()->SetTitle("ADC charge");
-	Tracker1YPulseHeight->GetZaxis()->CenterTitle(true);
-	Tracker1YPulseHeight->GetZaxis()->SetRangeUser(0,400);
+	Tracker1YPulseHeight[*evtID]->SetMarkerStyle(20);	
+	Tracker1YPulseHeight[*evtID]->Draw("pcol");
+	Tracker1YPulseHeight[*evtID]->SetTitle("GEM1Y");
+	Tracker1YPulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	Tracker1YPulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	//Tracker1YPulseHeight[*evtID]->GetXaxis()->SetRangeUser(128,255);
+	Tracker1YPulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	Tracker1YPulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	Tracker1YPulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	Tracker1YPulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	Tracker1YPulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
 	  
 	PHCanvas[*evtID]->cd(8);
-	Tracker2XPulseHeight->SetMarkerStyle(20);
-	Tracker2XPulseHeight->Draw("pcol");
-	Tracker2XPulseHeight->SetTitle("GEM2X");
-	Tracker2XPulseHeight->GetXaxis()->SetTitle("Strip");
-	Tracker2XPulseHeight->GetXaxis()->CenterTitle(true);
-	//Tracker2XPulseHeight->GetXaxis()->SetRangeUser(0,127);
-	Tracker2XPulseHeight->GetYaxis()->SetTitle("TimeBin");
-	Tracker2XPulseHeight->GetYaxis()->CenterTitle(true);
-	Tracker2XPulseHeight->GetZaxis()->SetTitle("ADC charge");
-	Tracker2XPulseHeight->GetZaxis()->CenterTitle(true);
-	Tracker2XPulseHeight->GetZaxis()->SetRangeUser(0,400);
+	Tracker2XPulseHeight[*evtID]->SetMarkerStyle(20);
+	Tracker2XPulseHeight[*evtID]->Draw("pcol");
+	Tracker2XPulseHeight[*evtID]->SetTitle("GEM2X");
+	Tracker2XPulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	Tracker2XPulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	//Tracker2XPulseHeight[*evtID]->GetXaxis()->SetRangeUser(0,127);
+	Tracker2XPulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	Tracker2XPulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	Tracker2XPulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	Tracker2XPulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	Tracker2XPulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
 	  
 	PHCanvas[*evtID]->cd(9);
-	Tracker2YPulseHeight->SetMarkerStyle(20);
-	Tracker2YPulseHeight->Draw("pcol");
-	Tracker2YPulseHeight->SetTitle("GEM2Y");
-	Tracker2YPulseHeight->GetXaxis()->SetTitle("Strip");
-	Tracker2YPulseHeight->GetXaxis()->CenterTitle(true);
-	//Tracker2YPulseHeight->GetXaxis()->SetRangeUser(128,255);
-	Tracker2YPulseHeight->GetYaxis()->SetTitle("TimeBin");
-	Tracker2YPulseHeight->GetYaxis()->CenterTitle(true);
-	Tracker2YPulseHeight->GetZaxis()->SetTitle("ADC charge");
-	Tracker2YPulseHeight->GetZaxis()->CenterTitle(true);
-	Tracker2YPulseHeight->GetZaxis()->SetRangeUser(0,400);
+	Tracker2YPulseHeight[*evtID]->SetMarkerStyle(20);
+	Tracker2YPulseHeight[*evtID]->Draw("pcol");
+	Tracker2YPulseHeight[*evtID]->SetTitle("GEM2Y");
+	Tracker2YPulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	Tracker2YPulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	//Tracker2YPulseHeight[*evtID]->GetXaxis()->SetRangeUser(128,255);
+	Tracker2YPulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	Tracker2YPulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	Tracker2YPulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	Tracker2YPulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	Tracker2YPulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
  
 	PHCanvas[*evtID]->cd(15);
-	Tracker3XPulseHeight->SetMarkerStyle(20);
-	Tracker3XPulseHeight->Draw("pcol");
-	Tracker3XPulseHeight->SetTitle("GEM3X");
-	Tracker3XPulseHeight->GetXaxis()->SetTitle("Strip");
-	Tracker3XPulseHeight->GetXaxis()->CenterTitle(true);
-	//Tracker3XPulseHeight->GetXaxis()->SetRangeUser(0,127);
-	Tracker3XPulseHeight->GetYaxis()->SetTitle("TimeBin");
-	Tracker3XPulseHeight->GetYaxis()->CenterTitle(true);
-	Tracker3XPulseHeight->GetZaxis()->SetTitle("ADC charge");
-	Tracker3XPulseHeight->GetZaxis()->CenterTitle(true);
-	Tracker3XPulseHeight->GetZaxis()->SetRangeUser(0,400);
+	Tracker3XPulseHeight[*evtID]->SetMarkerStyle(20);
+	Tracker3XPulseHeight[*evtID]->Draw("pcol");
+	Tracker3XPulseHeight[*evtID]->SetTitle("GEM3X");
+	Tracker3XPulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	Tracker3XPulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	//Tracker3XPulseHeight[*evtID]->GetXaxis()->SetRangeUser(0,127);
+	Tracker3XPulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	Tracker3XPulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	Tracker3XPulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	Tracker3XPulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	Tracker3XPulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
 	  
 	PHCanvas[*evtID]->cd(16);
-	Tracker3YPulseHeight->SetMarkerStyle(20);
-	Tracker3YPulseHeight->Draw("pcol");
-	Tracker3YPulseHeight->SetTitle("GEM3Y");
-	Tracker3YPulseHeight->GetXaxis()->SetTitle("Strip");
-	Tracker3YPulseHeight->GetXaxis()->CenterTitle(true);
-	//Tracker3YPulseHeight->GetXaxis()->SetRangeUser(128,255);
-	Tracker3YPulseHeight->GetYaxis()->SetTitle("TimeBin");
-	Tracker3YPulseHeight->GetYaxis()->CenterTitle(true);
-	Tracker3YPulseHeight->GetZaxis()->SetTitle("ADC charge");
-	Tracker3YPulseHeight->GetZaxis()->CenterTitle(true);
-	Tracker3YPulseHeight->GetZaxis()->SetRangeUser(0,400);
+	Tracker3YPulseHeight[*evtID]->SetMarkerStyle(20);
+	Tracker3YPulseHeight[*evtID]->Draw("pcol");
+	Tracker3YPulseHeight[*evtID]->SetTitle("GEM3Y");
+	Tracker3YPulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	Tracker3YPulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	//Tracker3YPulseHeight[*evtID]->GetXaxis()->SetRangeUser(128,255);
+	Tracker3YPulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	Tracker3YPulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	Tracker3YPulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	Tracker3YPulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	Tracker3YPulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
  
 	PHCanvas[*evtID]->cd(22);
-	Tracker4XPulseHeight->SetMarkerStyle(20);
-	Tracker4XPulseHeight->Draw("pcol");
-	Tracker4XPulseHeight->SetTitle("GEM4X");
-	Tracker4XPulseHeight->GetXaxis()->SetTitle("Strip");
-	Tracker4XPulseHeight->GetXaxis()->CenterTitle(true);
-	//Tracker4XPulseHeight->GetXaxis()->SetRangeUser(0,127);
-	Tracker4XPulseHeight->GetYaxis()->SetTitle("TimeBin");
-	Tracker4XPulseHeight->GetYaxis()->CenterTitle(true);
-	Tracker4XPulseHeight->GetZaxis()->SetTitle("ADC charge");
-	Tracker4XPulseHeight->GetZaxis()->CenterTitle(true);
-	Tracker4XPulseHeight->GetZaxis()->SetRangeUser(0,400);
+	Tracker4XPulseHeight[*evtID]->SetMarkerStyle(20);
+	Tracker4XPulseHeight[*evtID]->Draw("pcol");
+	Tracker4XPulseHeight[*evtID]->SetTitle("GEM4X");
+	Tracker4XPulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	Tracker4XPulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	//Tracker4XPulseHeight[*evtID]->GetXaxis()->SetRangeUser(0,127);
+	Tracker4XPulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	Tracker4XPulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	Tracker4XPulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	Tracker4XPulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	Tracker4XPulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
  
 	PHCanvas[*evtID]->cd(23);
-	Tracker4YPulseHeight->SetMarkerStyle(20);
-	Tracker4YPulseHeight->Draw("pcol");
-	Tracker4YPulseHeight->SetTitle("GEM4Y");
-	Tracker4YPulseHeight->GetXaxis()->SetTitle("Strip");
-	Tracker4YPulseHeight->GetXaxis()->CenterTitle(true);
-	//Tracker4YPulseHeight->GetXaxis()->SetRangeUser(128,255);
-	Tracker4YPulseHeight->GetYaxis()->SetTitle("TimeBin");
-	Tracker4YPulseHeight->GetYaxis()->CenterTitle(true);
-	Tracker4YPulseHeight->GetZaxis()->SetTitle("ADC charge");
-	Tracker4YPulseHeight->GetZaxis()->CenterTitle(true);	
-	Tracker4YPulseHeight->GetZaxis()->SetRange(0,400);
+	Tracker4YPulseHeight[*evtID]->SetMarkerStyle(20);
+	Tracker4YPulseHeight[*evtID]->Draw("pcol");
+	Tracker4YPulseHeight[*evtID]->SetTitle("GEM4Y");
+	Tracker4YPulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	Tracker4YPulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	//Tracker4YPulseHeight[*evtID]->GetXaxis()->SetRangeUser(128,255);
+	Tracker4YPulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	Tracker4YPulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	Tracker4YPulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	Tracker4YPulseHeight[*evtID]->GetZaxis()->CenterTitle(true);	
+	Tracker4YPulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
 	  
 	//Now we can add the LAGD APVs
 	PHCanvas[*evtID]->cd(10);
-	APV3E1PulseHeight->SetMarkerStyle(20);
-	APV3E1PulseHeight->Draw("pcol");
-	APV3E1PulseHeight->SetTitle("APV3 E1");
-	APV3E1PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV3E1PulseHeight->GetXaxis()->CenterTitle(true);
-	//APV3E1PulseHeight->GetXaxis()->SetRangeUser(0,63);
-	APV3E1PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV3E1PulseHeight->GetYaxis()->CenterTitle(true);
-	APV3E1PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV3E1PulseHeight->GetZaxis()->CenterTitle(true);
-	APV3E1PulseHeight->GetZaxis()->SetRange(0,400);
+	APV3E1PulseHeight[*evtID]->SetMarkerStyle(20);
+	APV3E1PulseHeight[*evtID]->Draw("pcol");
+	APV3E1PulseHeight[*evtID]->SetTitle("APV3 E1");
+	APV3E1PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV3E1PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	//APV3E1PulseHeight[*evtID]->GetXaxis()->SetRangeUser(0,63);
+	APV3E1PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV3E1PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV3E1PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV3E1PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV3E1PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
 	  
 	PHCanvas[*evtID]->cd(11);
-	APV3E2PulseHeight->SetMarkerStyle(20);
-	APV3E2PulseHeight->Draw("pcol");
-	APV3E2PulseHeight->SetTitle("APV3 E2");
-	APV3E2PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV3E2PulseHeight->GetXaxis()->CenterTitle(true);
-	//APV3E2PulseHeight->GetXaxis()->SetRangeUser(64,127);
-	APV3E2PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV3E2PulseHeight->GetYaxis()->CenterTitle(true);
-	APV3E2PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV3E2PulseHeight->GetZaxis()->CenterTitle(true);
-	APV3E2PulseHeight->GetZaxis()->SetRange(0,400);
+	APV3E2PulseHeight[*evtID]->SetMarkerStyle(20);
+	APV3E2PulseHeight[*evtID]->Draw("pcol");
+	APV3E2PulseHeight[*evtID]->SetTitle("APV3 E2");
+	APV3E2PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV3E2PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	//APV3E2PulseHeight[*evtID]->GetXaxis()->SetRangeUser(64,127);
+	APV3E2PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV3E2PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV3E2PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV3E2PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV3E2PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
 	  
 	PHCanvas[*evtID]->cd(12);
-	APV6E3PulseHeight->SetMarkerStyle(20);
-	APV6E3PulseHeight->Draw("pcol");
-	APV6E3PulseHeight->SetTitle("APV6 E3");
-	APV6E3PulseHeight->GetXaxis()->SetTitle("Strip");
-	//APV6E3PulseHeight->GetXaxis()->SetRangeUser(0,63);
-	APV6E3PulseHeight->GetXaxis()->CenterTitle(true);
-	APV6E3PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV6E3PulseHeight->GetYaxis()->CenterTitle(true);
-	APV6E3PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV6E3PulseHeight->GetZaxis()->CenterTitle(true);
-	APV6E3PulseHeight->GetZaxis()->SetRangeUser(0,400);
+	APV6E3PulseHeight[*evtID]->SetMarkerStyle(20);
+	APV6E3PulseHeight[*evtID]->Draw("pcol");
+	APV6E3PulseHeight[*evtID]->SetTitle("APV6 E3");
+	APV6E3PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	//APV6E3PulseHeight[*evtID]->GetXaxis()->SetRangeUser(0,63);
+	APV6E3PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV6E3PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV6E3PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV6E3PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV6E3PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV6E3PulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
  
 	PHCanvas[*evtID]->cd(13);
-	APV5E3PulseHeight->SetMarkerStyle(20);
-	APV5E3PulseHeight->Draw("pcol");
-	APV5E3PulseHeight->SetTitle("APV5 E3");
-	APV5E3PulseHeight->GetXaxis()->SetTitle("Strip");
-	//APV5E3PulseHeight->GetXaxis()->SetRangeUser(0,63);
-	APV5E3PulseHeight->GetXaxis()->CenterTitle(true);
-	APV5E3PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV5E3PulseHeight->GetYaxis()->CenterTitle(true);
-	APV5E3PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV5E3PulseHeight->GetZaxis()->CenterTitle(true);
-	APV5E3PulseHeight->GetZaxis()->SetRangeUser(0,400);
+	APV5E3PulseHeight[*evtID]->SetMarkerStyle(20);
+	APV5E3PulseHeight[*evtID]->Draw("pcol");
+	APV5E3PulseHeight[*evtID]->SetTitle("APV5 E3");
+	APV5E3PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	//APV5E3PulseHeight[*evtID]->GetXaxis()->SetRangeUser(0,63);
+	APV5E3PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV5E3PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV5E3PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV5E3PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV5E3PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV5E3PulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
 	  
 	PHCanvas[*evtID]->cd(14);
-	APV4E3PulseHeight->SetMarkerStyle(20);
-	APV4E3PulseHeight->Draw("pcol");
-	APV4E3PulseHeight->SetTitle("APV4 E3");
-	APV4E3PulseHeight->GetXaxis()->SetTitle("Strip");
-	//APV4E3PulseHeight->GetXaxis()->SetRangeUser(0,63);
-	APV4E3PulseHeight->GetXaxis()->CenterTitle(true);
-	APV4E3PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV4E3PulseHeight->GetYaxis()->CenterTitle(true);
-	APV4E3PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV4E3PulseHeight->GetZaxis()->CenterTitle(true);
-	APV4E3PulseHeight->GetZaxis()->SetRangeUser(0,400);
+	APV4E3PulseHeight[*evtID]->SetMarkerStyle(20);
+	APV4E3PulseHeight[*evtID]->Draw("pcol");
+	APV4E3PulseHeight[*evtID]->SetTitle("APV4 E3");
+	APV4E3PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	//APV4E3PulseHeight[*evtID]->GetXaxis()->SetRangeUser(0,63);
+	APV4E3PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV4E3PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV4E3PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV4E3PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV4E3PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV4E3PulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
 	  
 	PHCanvas[*evtID]->cd(17);
-	APV7E1PulseHeight->SetMarkerStyle(20);
-	APV7E1PulseHeight->Draw("pcol");
-	APV7E1PulseHeight->SetTitle("APV7 E1");
-	APV7E1PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV7E1PulseHeight->GetXaxis()->CenterTitle(true);
-	//APV7E1PulseHeight->GetXaxis()->SetRangeUser(0,63);
-	APV7E1PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV7E1PulseHeight->GetYaxis()->CenterTitle(true);
-	APV7E1PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV7E1PulseHeight->GetZaxis()->CenterTitle(true);
-	APV7E1PulseHeight->GetZaxis()->SetRange(0,400);
+	APV7E1PulseHeight[*evtID]->SetMarkerStyle(20);
+	APV7E1PulseHeight[*evtID]->Draw("pcol");
+	APV7E1PulseHeight[*evtID]->SetTitle("APV7 E1");
+	APV7E1PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV7E1PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	//APV7E1PulseHeight[*evtID]->GetXaxis()->SetRangeUser(0,63);
+	APV7E1PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV7E1PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV7E1PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV7E1PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV7E1PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
 	  
 	PHCanvas[*evtID]->cd(18);
-	APV7E2PulseHeight->SetMarkerStyle(20);
-	APV7E2PulseHeight->Draw("pcol");
-	APV7E2PulseHeight->SetTitle("APV7 E2");
-	APV7E2PulseHeight->GetXaxis()->SetTitle("Strip");
-	APV7E2PulseHeight->GetXaxis()->CenterTitle(true);
-	//APV7E2PulseHeight->GetXaxis()->SetRangeUser(64,127);
-	APV7E2PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV7E2PulseHeight->GetYaxis()->CenterTitle(true);
-	APV7E2PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV7E2PulseHeight->GetZaxis()->CenterTitle(true);
-	APV7E2PulseHeight->GetZaxis()->SetRange(0,400);
+	APV7E2PulseHeight[*evtID]->SetMarkerStyle(20);
+	APV7E2PulseHeight[*evtID]->Draw("pcol");
+	APV7E2PulseHeight[*evtID]->SetTitle("APV7 E2");
+	APV7E2PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	APV7E2PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	//APV7E2PulseHeight[*evtID]->GetXaxis()->SetRangeUser(64,127);
+	APV7E2PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV7E2PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV7E2PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV7E2PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV7E2PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
 	  
 	PHCanvas[*evtID]->cd(19);
-	APV6E4PulseHeight->SetMarkerStyle(20);
-	APV6E4PulseHeight->Draw("pcol");
-	APV6E4PulseHeight->SetTitle("APV6 E4");
-	APV6E4PulseHeight->GetXaxis()->SetTitle("Strip");
-	//APV6E4PulseHeight->GetXaxis()->SetRangeUser(64,127);
-	APV6E4PulseHeight->GetXaxis()->CenterTitle(true);
-	APV6E4PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV6E4PulseHeight->GetYaxis()->CenterTitle(true);
-	APV6E4PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV6E4PulseHeight->GetZaxis()->CenterTitle(true);
-	APV6E4PulseHeight->GetZaxis()->SetRangeUser(0,400);
+	APV6E4PulseHeight[*evtID]->SetMarkerStyle(20);
+	APV6E4PulseHeight[*evtID]->Draw("pcol");
+	APV6E4PulseHeight[*evtID]->SetTitle("APV6 E4");
+	APV6E4PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	//APV6E4PulseHeight[*evtID]->GetXaxis()->SetRangeUser(64,127);
+	APV6E4PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV6E4PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV6E4PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV6E4PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV6E4PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV6E4PulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
  
 	PHCanvas[*evtID]->cd(20);
-	APV5E4PulseHeight->SetMarkerStyle(20);
-	APV5E4PulseHeight->Draw("pcol");
-	APV5E4PulseHeight->SetTitle("APV5 E4");
-	APV5E4PulseHeight->GetXaxis()->SetTitle("Strip");
-	//APV5E4PulseHeight->GetXaxis()->SetRangeUser(64,127);
-	APV5E4PulseHeight->GetXaxis()->CenterTitle(true);
-	APV5E4PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV5E4PulseHeight->GetYaxis()->CenterTitle(true);
-	APV5E4PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV5E4PulseHeight->GetZaxis()->CenterTitle(true);
-	APV5E4PulseHeight->GetZaxis()->SetRangeUser(0,400);
+	APV5E4PulseHeight[*evtID]->SetMarkerStyle(20);
+	APV5E4PulseHeight[*evtID]->Draw("pcol");
+	APV5E4PulseHeight[*evtID]->SetTitle("APV5 E4");
+	APV5E4PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	//APV5E4PulseHeight[*evtID]->GetXaxis()->SetRangeUser(64,127);
+	APV5E4PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV5E4PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV5E4PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV5E4PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV5E4PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV5E4PulseHeight[*evtID]->GetZaxis()->SetRangeUser(0,400);
 	  
 	PHCanvas[*evtID]->cd(21);
-	APV4E4PulseHeight->SetMarkerStyle(20);
-	APV4E4PulseHeight->Draw("pcol");
-	APV4E4PulseHeight->SetTitle("APV4 E4");
-	APV4E4PulseHeight->GetXaxis()->SetTitle("Strip");
-	//APV4E4PulseHeight->GetXaxis()->SetRangeUser(64,127);
-	APV4E4PulseHeight->GetXaxis()->CenterTitle(true);
-	APV4E4PulseHeight->GetYaxis()->SetTitle("TimeBin");
-	APV4E4PulseHeight->GetYaxis()->CenterTitle(true);
-	APV4E4PulseHeight->GetZaxis()->SetTitle("ADC charge");
-	APV4E4PulseHeight->GetZaxis()->CenterTitle(true);
-	APV4E4PulseHeight->GetZaxis()->SetRange(0,400);
+	APV4E4PulseHeight[*evtID]->SetMarkerStyle(20);
+	APV4E4PulseHeight[*evtID]->Draw("pcol");
+	APV4E4PulseHeight[*evtID]->SetTitle("APV4 E4");
+	APV4E4PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	//APV4E4PulseHeight[*evtID]->GetXaxis()->SetRangeUser(64,127);
+	APV4E4PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV4E4PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV4E4PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV4E4PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV4E4PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV4E4PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
+	
+	PHCanvas[*evtID]->cd(24);
+	APV8and9PulseHeight[*evtID]->SetMarkerStyle(20);
+	APV8and9PulseHeight[*evtID]->Draw("pcol");
+	APV8and9PulseHeight[*evtID]->SetTitle("APVs 8 and 9");
+	APV8and9PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
+	//APV8and9PulseHeight[*evtID]->GetXaxis()->SetRangeUser(64,127);
+	APV8and9PulseHeight[*evtID]->GetXaxis()->CenterTitle(true);
+	APV8and9PulseHeight[*evtID]->GetYaxis()->SetTitle("TimeBin");
+	APV8and9PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
+	APV8and9PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
+	APV8and9PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
+	APV8and9PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
       }    
       //cout << "Maybe?" << endl;
       //cout << "Hit coordinates in Tracker 1" << endl;
