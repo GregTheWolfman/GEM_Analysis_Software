@@ -19,7 +19,15 @@ vector<float> ResCut(vector<float>& Tracker1HitlocVec, vector<float>& Tracker2Hi
   float T4Z;
 
   vector<float> BadEventIDs;
-  TH1F* resplot = new TH1F("","Residual", 50,-1,1); resplot->SetXTitle("Residual [mm]"); resplot->SetYTitle("Counts");resplot->SetLabelSize(0.045,"XY");resplot->SetTitleSize(0.045,"XY");
+  TH1F* resplotT1x = new TH1F("T1x","Residual Tracker 1x", 400,-7,7); resplotT1x->SetXTitle("Residual [mm]"); resplotT1x->SetYTitle("Counts");resplotT1x->SetLabelSize(0.045,"XY");resplotT1x->SetTitleSize(0.045,"XY");
+  TH1F* resplotT1y = new TH1F("T1y","Residual Tracker 1y", 400,-7,7); resplotT1y->SetXTitle("Residual [mm]"); resplotT1y->SetYTitle("Counts");resplotT1y->SetLabelSize(0.045,"XY");resplotT1y->SetTitleSize(0.045,"XY");
+  TH1F* resplotT2x = new TH1F("T2x","Residual Tracker 2x", 400,-7,7); resplotT2x->SetXTitle("Residual [mm]"); resplotT2x->SetYTitle("Counts");resplotT2x->SetLabelSize(0.045,"XY");resplotT2x->SetTitleSize(0.045,"XY");
+  TH1F* resplotT2y = new TH1F("T2y","Residual Tracker 2y", 400,-7,7); resplotT2y->SetXTitle("Residual [mm]"); resplotT2y->SetYTitle("Counts");resplotT2y->SetLabelSize(0.045,"XY");resplotT2y->SetTitleSize(0.045,"XY");
+  TH1F* resplotT3x = new TH1F("T3x","Residual Tracker 3x", 400,-7,7); resplotT3x->SetXTitle("Residual [mm]"); resplotT3x->SetYTitle("Counts");resplotT3x->SetLabelSize(0.045,"XY");resplotT3x->SetTitleSize(0.045,"XY");
+  TH1F* resplotT3y = new TH1F("T3y","Residual Tracker 3y", 400,-7,7); resplotT3y->SetXTitle("Residual [mm]"); resplotT3y->SetYTitle("Counts");resplotT3y->SetLabelSize(0.045,"XY");resplotT3y->SetTitleSize(0.045,"XY");
+  TH1F* resplotT4x = new TH1F("T4x","Residual Tracker 4x", 400,-7,7); resplotT4x->SetXTitle("Residual [mm]"); resplotT4x->SetYTitle("Counts");resplotT4x->SetLabelSize(0.045,"XY");resplotT4x->SetTitleSize(0.045,"XY");
+  TH1F* resplotT4y = new TH1F("T4y","Residual Tracker 4y", 400,-7,7); resplotT4y->SetXTitle("Residual [mm]"); resplotT4y->SetYTitle("Counts");resplotT4y->SetLabelSize(0.045,"XY");resplotT4y->SetTitleSize(0.045,"XY");
+  
   for(int i=0;i<Tracker1HitlocVec.size();i++){
     
     T1X.push_back(Tracker1HitlocVec.at(i));
@@ -97,12 +105,15 @@ vector<float> ResCut(vector<float>& Tracker1HitlocVec, vector<float>& Tracker2Hi
     //Calculated1xcl->Fill(Measured_Tracker1x);
     float Tracker1xRes = Measured_Tracker1x - T1X.at(i);    
     //cout << "1X Coord:: " << Measured_Tracker1x << " - " <<  Tracker1HitlocVec[i] << " = " << Measured_Tracker1x - Tracker1HitlocVec[i] << endl;
+    resplotT1x->Fill(Tracker1xRes);
+    
     
     float Measured_Tracker1y = intercepty + slopey*T1Z;
     //Calculated1ycl->Fill(Measured_Tracker1y);
     float Tracker1yRes = Measured_Tracker1y - T1Y.at(i);
-    resplot->Fill(Tracker1yRes);
-    
+    resplotT1y->Fill(Tracker1yRes);
+
+    /*
     if(Tracker1yRes > 0.531 || Tracker1yRes < 0.235){//use double gaussian fit to find the range of the main peak
       cout << T1X.at(i) << ", " << T1Y.at(i) << endl;
       cout << "Bad Event ID:  " << i << endl;
@@ -116,36 +127,41 @@ vector<float> ResCut(vector<float>& Tracker1HitlocVec, vector<float>& Tracker2Hi
       //T4X.erase(T4X.begin()+i);T4Y.erase(T4Y.begin()+i);
       
     }
-    
+    */
    
     
     float Measured_Tracker2x = interceptx + slopex*T2Z;
     ////Calculated2xcl->Fill(Measured_Tracker2x);
     float Tracker2xRes = Measured_Tracker2x - T2X.at(i);    
+    resplotT2x->Fill(Tracker2xRes);
     
     //cout << "2X Coord:: " << Measured_Tracker2x << " - " <<  Tracker2HitlocVec[i] << " = " << Measured_Tracker2x - Tracker2HitlocVec[i] << endl;
     float Measured_Tracker2y = intercepty + slopey*T2Z;
     //Calculated2ycl->Fill(Measured_Tracker2y);
     float Tracker2yRes = Measured_Tracker2y - T2Y.at(i);  
     //cout << "2Y Coord:: " << Measured_Tracker2y << " - " <<  T2Y.at(i) << " = " << Measured_Tracker2y - T2Y.at(i) << endl;
-   
+    resplotT2y->Fill(Tracker2yRes);
     
     float Measured_Tracker3x = interceptx + slopex*T3Z;
     //Calculated3xcl->Fill(Measured_Tracker3x);
     float Tracker3xRes = Measured_Tracker3x - T3X.at(i);
+    resplotT3x->Fill(Tracker3xRes);
     
     float Measured_Tracker3y = intercepty + slopey*T3Z;
     //Calculated3ycl->Fill(Measured_Tracker3y);
     float Tracker3yRes = Measured_Tracker3y - T3Y.at(i);
+    resplotT3y->Fill(Tracker3yRes);
          
     float Measured_Tracker4x = interceptx + slopex*T4Z;
     //Calculated4xcl->Fill(Measured_Tracker4x);
     float Tracker4xRes = Measured_Tracker4x - T4X.at(i);
-
+    resplotT4x->Fill(Tracker4xRes);
+    
     float Measured_Tracker4y = intercepty + slopey*T4Z;
     //Calculated4ycl->Fill(Measured_Tracker4y);
     float Tracker4yRes = Measured_Tracker4y - T4Y.at(i);
-
+    resplotT4y->Fill(Tracker4yRes);
+    
 
     
     /*   
@@ -169,17 +185,37 @@ vector<float> ResCut(vector<float>& Tracker1HitlocVec, vector<float>& Tracker2Hi
   //cout << inter << endl;
 
   
-  I2GFvalues myValues;
+  //I2GFvalues myValues;
 	
-  myValues = I2GFmainLoop(resplot,3,2,1);                           //converges!	  
-  float ResMean = myValues.mean; float ResWidth=myValues.sigma;
-  cout << ResMean << ", " << ResWidth << endl;
-  cout << "bounds: " << ResMean-5*ResWidth << ", " << ResMean+5*ResWidth << endl;
+  //myValues = I2GFmainLoop(resplot,3,2,1);                           //converges!	  
+  //float ResMean = myValues.mean; float ResWidth=myValues.sigma;
+
+  //cout << ResMean << ", " << ResWidth << endl;
+  //cout << "bounds: " << ResMean-5*ResWidth << ", " << ResMean+5*ResWidth << endl;
   //TF1* h = new TF1("h", "gaus + gaus");
   //resplot->Fit("h", "Q");
-  //resplot->Draw();
-  
-  
+  auto rescanv = new TCanvas("yes", "res", 1000, 500);
+  rescanv->Divide(2,4);
+  rescanv->cd(1);
+  resplotT1x->Draw();
+  rescanv->cd(2);
+  resplotT1y->Draw();
+  rescanv->cd(3);
+  resplotT2x->Draw();
+  rescanv->cd(4);
+  resplotT2y->Draw();
+  rescanv->cd(5);
+  resplotT3x->Draw();
+  rescanv->cd(6);
+  resplotT3y->Draw();
+  rescanv->cd(7);
+  resplotT4x->Draw();
+  rescanv->cd(8);
+  resplotT4y->Draw();
+
+  rescanv->Draw();
+
+  //return ;
   //  for(auto j = T2X.begin(); j != T2X.end(); j++){
   //  cout << *j << endl;
   //}

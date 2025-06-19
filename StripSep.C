@@ -11,12 +11,13 @@ vector<float> StripSep(vector<float>  Stripvec, vector<float>  Chargevec){
   int maxVecsize=1;
   float tolerance = 1;
   int NumSubEvents=1;
-  
+
   for(uint i = 0; i < Stripvec.size(); i++){
     Currentindx = Stripvec.at(i);
-    //cout << "Strip: " << Currentindx << "with charge " << Chargevec.at(i) << endl;
+    //cout << "Strip: " << Currentindx << " with charge " << Chargevec.at(i) << endl;
     //if current strip number is sufficiently close to the previous strip in the hit, increase the vector size and check if it's the largest
     if(Currentindx <= previndx + tolerance){
+      //cout << "in the same vector: " << Currentindx << endl;
       Vecsize++;
       //this determines the longest list in the vector. idk if it's necessary tbh
       if(Vecsize > maxVecsize)
@@ -28,6 +29,7 @@ vector<float> StripSep(vector<float>  Stripvec, vector<float>  Chargevec){
     }
     //if current strip number is NOT consecutive with the previous strip
     if(Currentindx > tolerance + previndx){
+      //cout <<  "in the next vector: " <<Currentindx << endl;
       //append the size of the previous list
       SubEventSizes.push_back(Vecsize);
       NumSubEvents++;
@@ -39,7 +41,10 @@ vector<float> StripSep(vector<float>  Stripvec, vector<float>  Chargevec){
 
     previndx = Currentindx;
   } 
-  cout << "Sub Events: " <<  NumSubEvents << ", Max SM: " << maxVecsize << endl;
-
+  //cout << "Sub Events: " <<  NumSubEvents << ", Max SM: " << maxVecsize << endl;
+  // for(int y = 0; y < SubEventSizes.size(); y++){
+  //   cout << SubEventSizes.at(y) << endl;
+  // }
+  
   return SubEventSizes;//resultstripsandcharges;
 }

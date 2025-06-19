@@ -1,5 +1,6 @@
 vector<float> Optimized_XY_Rotation(vector<float> Tracker1HitlocVec, vector<float> Tracker2HitlocVec, vector<float> Tracker3HitlocVec, vector<float> Tracker4HitlocVec, vector<float> OptimizedXYOffests, vector<float> BadEvents, bool plots){
 
+
   
   float Shift_T1x = OptimizedXYOffests[0];
   float Shift_T1y = OptimizedXYOffests[1];
@@ -9,9 +10,10 @@ vector<float> Optimized_XY_Rotation(vector<float> Tracker1HitlocVec, vector<floa
   float Shift_T3y = OptimizedXYOffests[5];
   float Shift_T4x = OptimizedXYOffests[6];
   float Shift_T4y = OptimizedXYOffests[7];
-  float angleT2 = OptimizedXYOffests[8];
-  float angleT3 = OptimizedXYOffests[9];
-  float angleT4 = OptimizedXYOffests[10];
+
+  float angleT2 = 0.0;//OptimizedXYOffests[8];
+  float angleT3 = 0.0;//OptimizedXYOffests[9];
+  float angleT4 = 0.0;//OptimizedXYOffests[10];
   
 
 
@@ -19,6 +21,11 @@ vector<float> Optimized_XY_Rotation(vector<float> Tracker1HitlocVec, vector<floa
   double mean_Tracker2xcoordRes=0.0, mean_Tracker2ycoordRes=0.0;
   double mean_Tracker3xcoordRes=0.0, mean_Tracker3ycoordRes=0.0;
   double mean_Tracker4xcoordRes=0.0, mean_Tracker4ycoordRes=0.0;  
+
+  double width_Tracker1xcoordRes=0.0, width_Tracker1ycoordRes=0.0;
+  double width_Tracker2xcoordRes=0.0, width_Tracker2ycoordRes=0.0;
+  double width_Tracker3xcoordRes=0.0, width_Tracker3ycoordRes=0.0;
+  double width_Tracker4xcoordRes=0.0, width_Tracker4ycoordRes=0.0;  
   
   int Iterator=0;
   float MeanangleT2=0.0;
@@ -144,17 +151,17 @@ vector<float> Optimized_XY_Rotation(vector<float> Tracker1HitlocVec, vector<floa
 
   //ResCut(ShiftedTracker1HitlocVec, ShiftedTracker2HitlocVec, ShiftedTracker3HitlocVec, ShiftedTracker4HitlocVec);
 
-  TGraph* xChi2PerAngleT2 = new TGraph();xChi2PerAngleT2->GetXaxis()->SetTitle("Angle [Rad]");xChi2PerAngleT2->GetYaxis()->SetTitle("#chi^2");xChi2PerAngleT2->SetTitle("#chi^2 of Tracks in X-Z projection plane of Tracker 2");//xChi2PerAngleT2
-  TGraph* yChi2PerAngleT2 = new TGraph();yChi2PerAngleT2->GetXaxis()->SetTitle("Angle [Rad]");yChi2PerAngleT2->GetYaxis()->SetTitle("#chi^2");yChi2PerAngleT2->SetTitle("#chi^2 of Tracks in Y-Z projection plane of Tracker 2");
-  TGraph* xChi2PerAngleT3 = new TGraph();xChi2PerAngleT3->GetXaxis()->SetTitle("Angle [Rad]");xChi2PerAngleT3->GetYaxis()->SetTitle("#chi^2");xChi2PerAngleT3->SetTitle("#chi^2 of track in X-Z projection plane");//xChi2PerAngleT3
+  TGraph* xChi2PerAngleT2 = new TGraph();xChi2PerAngleT2->GetXaxis()->SetTitle("Angle [Rad]");xChi2PerAngleT2->GetYaxis()->SetTitle("#chi^2");xChi2PerAngleT2->SetTitle("#chi^2 of Reconstructed Tracks in XZ plane of Tracker 2");//xChi2PerAngleT2
+  TGraph* yChi2PerAngleT2 = new TGraph();yChi2PerAngleT2->GetXaxis()->SetTitle("Angle [Rad]");yChi2PerAngleT2->GetYaxis()->SetTitle("#chi^2");yChi2PerAngleT2->SetTitle("#chi^2 of Reconstructed Tracks in YZ plane of Tracker 2");
+  TGraph* xChi2PerAngleT3 = new TGraph();xChi2PerAngleT3->GetXaxis()->SetTitle("Angle [Rad]");xChi2PerAngleT3->GetYaxis()->SetTitle("#chi^2");xChi2PerAngleT3->SetTitle("#chi^2 of Reconstructed Track in XZ plane");//xChi2PerAngleT3
   TGraph* yChi2PerAngleT3 = new TGraph();yChi2PerAngleT3->GetXaxis()->SetTitle("AngleT3");yChi2PerAngleT3->GetYaxis()->SetTitle("#chi^2");yChi2PerAngleT3->SetTitle("#chi^2 of track in Y-Z projection plane");
   TGraph* xChi2PerAngleT4 = new TGraph();xChi2PerAngleT4->GetXaxis()->SetTitle("AngleT4");xChi2PerAngleT4->GetYaxis()->SetTitle("#chi^2");xChi2PerAngleT4->SetTitle("#chi^2 of track in X-Z projection plane");//xChi2PerAngleT4
   TGraph* yChi2PerAngleT4 = new TGraph();yChi2PerAngleT4->GetXaxis()->SetTitle("AngleT4");yChi2PerAngleT4->GetYaxis()->SetTitle("#chi^2");yChi2PerAngleT4->SetTitle("#chi^2 of track in Y-Z projection plane");
 
   
   //Now rotate each angle (3) around a small range to tune the angles (just roatating Tracker 2 for now)
-  int bounds = 10;
-  float anglescale_Factor = 0.0003;//300 urad
+  int bounds = 4;
+  float anglescale_Factor = 0.0005;//500 urad
   float angleT2temp=0;
   float angleT3temp=0;
   float angleT4temp=0;
@@ -249,7 +256,7 @@ vector<float> Optimized_XY_Rotation(vector<float> Tracker1HitlocVec, vector<floa
       //TrackerRes->Divide(2,2);
       
       //TrackerRes->cd(1);
-      angleREF2->Draw();
+      //angleREF2->Draw();
 	
       return Optimized_Angles_And_XY;
 
@@ -408,22 +415,22 @@ vector<float> Optimized_XY_Rotation(vector<float> Tracker1HitlocVec, vector<floa
     */
     TCanvas* ChiSquareData = new TCanvas("", "", 1000, 1500);
     ChiSquareData->Divide(2,3);
-
+    
     ChiSquareData->cd(1);
-    xChi2PerAngleT2->Draw("A*");	 
+    xChi2PerAngleT2->Draw("AP");	 
     ChiSquareData->cd(2);
-    yChi2PerAngleT2->Draw("A*");
+    yChi2PerAngleT2->Draw("AP");
     ChiSquareData->cd(3);
-    xChi2PerAngleT3->Draw("A*");	 
+    xChi2PerAngleT3->Draw("AP");	 
     ChiSquareData->cd(4);
-    yChi2PerAngleT3->Draw("A*");
+    yChi2PerAngleT3->Draw("AP");
     ChiSquareData->cd(5);
-    xChi2PerAngleT4->Draw("A*");	 
+    xChi2PerAngleT4->Draw("AP");	 
     ChiSquareData->cd(6);
-    yChi2PerAngleT4->Draw("A*");
+    yChi2PerAngleT4->Draw("AP");
 
     ChiSquareData->SaveAs("Alignment3_chisquared.png");
-      
+    
     return Optimized_Angles_And_XY;
       
   }

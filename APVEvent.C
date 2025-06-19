@@ -238,7 +238,7 @@ void APVEvent(){
 
 	int APVind = 10;
 	/*
-	if(i >= 128*APVind && i < 128*(APVind+1)){
+	  if(i >= 128*APVind && i < 128*(APVind+1)){
 	  cout << i-APVind << ", " <<  strip[i] << ", " <<  adc0[i] << ", "<<  adc1[i] << ", "<<  adc2[i] << ", "<<  adc3[i] << ", "<<  adc4[i] << ", "<<  adc5[i] << endl;
 	  
 	  APVevent->SetPoint(pediter,i-128*APVind, 0, adc0[i]);
@@ -254,7 +254,7 @@ void APVEvent(){
 	  APVevent->SetPoint(pediter,i-128*APVind, 5, adc5[i]);
 	  pediter++;
 	  
-	}
+	  }
 	*/
       }
       //fill the histogram with the pedestal signal pulse on strip i
@@ -275,10 +275,10 @@ void APVEvent(){
     
   }
   /*
-  APVevent->SetMarkerStyle(20);
-  APVevent->Draw("pcol");
-  APVevent->SetTitle("Tracker 2X pedestal");
-  APVevent->GetXaxis()->SetTitle("Strip");
+    APVevent->SetMarkerStyle(20);
+    APVevent->Draw("pcol");
+    APVevent->SetTitle("Tracker 2X pedestal");
+    APVevent->GetXaxis()->SetTitle("Strip");
   APVevent->GetXaxis()->CenterTitle(true);
   APVevent->GetYaxis()->SetTitle("TimeBin");
   APVevent->GetYaxis()->CenterTitle(true);
@@ -291,30 +291,34 @@ void APVEvent(){
   //adcsstrip[1151]->Draw();
   
   //return;
-  
+
+  //rescor file
+  ofstream ResCorrFile("Aligned_Data/LAGD_Residual_Corrections_Merged_all.txt");
+
+   
   //data file for each APV
   //APV 3
   //the mapping of inputfiles connects the HV setting string inside to the pathway to the data string
 
   //this data is for APV3 over a wide range of HV
   
-  inputfiles["3729"] = "Data/HVscanOtherDirTest_MultiFiles_4150_dataTree01.root";
+  // inputfiles["3729"] = "Data/HVscanOtherDirTest_MultiFiles_4150_dataTree01.root";
    
-  inputfiles["3819"] = "Data/HVscanOtherDirTest_MultiFiles_4250_dataTree01.root";  
+  // inputfiles["3819"] = "Data/HVscanOtherDirTest_MultiFiles_4250_dataTree01.root";  
   
-  inputfiles["3846"] = "Data/HVscanOtherDirTest_MultiFiles_4280_dataTree01.root";
+  // inputfiles["3846"] = "Data/HVscanOtherDirTest_MultiFiles_4280_dataTree01.root";
   
-  inputfiles["3873"] = "Data/HVscanOtherDirTest_MultiFiles_4310_dataTree01.root";//corrupted
+  // inputfiles["3873"] = "Data/HVscanOtherDirTest_MultiFiles_4310_dataTree01.root";//corrupted
 
-  inputfiles["3900"] = "Data/HVscanOtherDirTest_MultiFiles_4340_dataTree01.root";
+  // inputfiles["3900"] = "Data/HVscanOtherDirTest_MultiFiles_4340_dataTree01.root";
 
-  inputfiles["3927"] = "Data/HVscanOtherDirTest_MultiFiles_4370_dataTree01.root";
+  // inputfiles["3927"] = "Data/HVscanOtherDirTest_MultiFiles_4370_dataTree01.root";
   
-  inputfiles["3953"] = "Data/HVscanOtherDirTest_MultiFiles_4400_dataTree01.root";//weird file
+  // inputfiles["3953"] = "Data/HVscanOtherDirTest_MultiFiles_4400_dataTree01.root";//weird file
   
-  inputfiles["3981"] = "Data/HVscanOtherDirTest_MultiFiles_4430_dataTree01.root";
+  // inputfiles["3981"] = "Data/HVscanOtherDirTest_MultiFiles_4430_dataTree01.root";
   
-  inputfiles["3998"] = "Data/HVscanOtherDirTest_MultiFiles_4450_dataTree01.root"; 
+  // inputfiles["3998"] = "Data/HVscanOtherDirTest_MultiFiles_4450_dataTree01.root"; 
   
   //inputfiles["4460"] = "Data/HVscanOtherDirTest_MultiFiles_4460_dataTree01.root";//also a wierd file due to statistics
   
@@ -390,37 +394,37 @@ void APVEvent(){
   
   //4th ZigZag Sector (APV4E4, 1717, 217)
   
-  // inputfiles["0"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_0_dataTree01.root";  
+  // inputfiles["0"] = "Data/szz_APV4_MultiFilesOtherDataPlace_0_dataTree01.root";  
    
-  // inputfiles["1"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_1_dataTree01.root";  
+  // inputfiles["1"] = "Data/szz_APV4_MultiFilesOtherDataPlace_1_dataTree01.root";  
   
-  // inputfiles["2"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_2_dataTree01.root";
+  // inputfiles["2"] = "Data/szz_APV4_MultiFilesOtherDataPlace_2_dataTree01.root";
   
-  // inputfiles["3"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_3_dataTree01.root";
+  // inputfiles["3"] = "Data/szz_APV4_MultiFilesOtherDataPlace_3_dataTree01.root";
   
-  // inputfiles["4"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_4_dataTree01.root";
+  // inputfiles["4"] = "Data/szz_APV4_MultiFilesOtherDataPlace_4_dataTree01.root";
   
-  // inputfiles["5"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_5_dataTree01.root";
+  // inputfiles["5"] = "Data/szz_APV4_MultiFilesOtherDataPlace_5_dataTree01.root";
   
-  // inputfiles["6"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_6_dataTree01.root";
+  // inputfiles["6"] = "Data/szz_APV4_MultiFilesOtherDataPlace_6_dataTree01.root";
   
-  // inputfiles["7"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_7_dataTree01.root";
+  // inputfiles["7"] = "Data/szz_APV4_MultiFilesOtherDataPlace_7_dataTree01.root";
   
-  // inputfiles["8"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_8_dataTree01.root";
-  // inputfiles["9"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_9_dataTree01.root";
+  // inputfiles["8"] = "Data/szz_APV4_MultiFilesOtherDataPlace_8_dataTree01.root";
+  // inputfiles["9"] = "Data/szz_APV4_MultiFilesOtherDataPlace_9_dataTree01.root";
   
-  // inputfiles["10"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_10_dataTree01.root";
-  // inputfiles["11"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_11_dataTree01.root";
-  // inputfiles["12"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_12_dataTree01.root";
+  // inputfiles["10"] = "Data/szz_APV4_MultiFilesOtherDataPlace_10_dataTree01.root";
+  // inputfiles["11"] = "Data/szz_APV4_MultiFilesOtherDataPlace_11_dataTree01.root";
+  // inputfiles["12"] = "Data/szz_APV4_MultiFilesOtherDataPlace_12_dataTree01.root";
 
-  // inputfiles["13"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_13_dataTree01.root";
-  // inputfiles["14"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_14_dataTree01.root";
-  // inputfiles["15"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_15_dataTree01.root";
-  // inputfiles["16"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_16_dataTree01.root";
-  // inputfiles["17"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_17_dataTree01.root";
-  // inputfiles["18"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_18_dataTree01.root";
-  // inputfiles["19"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_19_dataTree01.root";
-  // inputfiles["20"] = "Data/SZZ_APV4_MultiFilesOtherDataPlace_20_dataTree01.root";
+  // inputfiles["13"] = "Data/szz_APV4_MultiFilesOtherDataPlace_13_dataTree01.root";
+  // inputfiles["14"] = "Data/szz_APV4_MultiFilesOtherDataPlace_14_dataTree01.root";
+  // inputfiles["15"] = "Data/szz_APV4_MultiFilesOtherDataPlace_15_dataTree01.root";
+  // inputfiles["16"] = "Data/szz_APV4_MultiFilesOtherDataPlace_16_dataTree01.root";
+  // inputfiles["17"] = "Data/szz_APV4_MultiFilesOtherDataPlace_17_dataTree01.root";
+  // inputfiles["18"] = "Data/szz_APV4_MultiFilesOtherDataPlace_18_dataTree01.root";
+  // inputfiles["19"] = "Data/szz_APV4_MultiFilesOtherDataPlace_19_dataTree01.root";
+  // inputfiles["20"] = "Data/szz_APV4_MultiFilesOtherDataPlace_20_dataTree01.root";
    
   
   //Second ZigZag Sector
@@ -530,6 +534,120 @@ void APVEvent(){
   //inputfiles["APV5"] = "Data/APV5_dataTree01.root";
 
 
+
+  //APVs 8 and 9
+  //inputfiles["0"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_0_dataTree01.root";
+  // inputfiles["1"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_1_dataTree01.root";
+  // inputfiles["2"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_2_dataTree01.root";
+  // inputfiles["3"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_3_dataTree01.root";
+  // inputfiles["4"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_4_dataTree01.root";
+  // inputfiles["5"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_5_dataTree01.root";
+  // inputfiles["6"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_6_dataTree01.root";
+  // inputfiles["7"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_7_dataTree01.root";
+  // inputfiles["8"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_8_dataTree01.root";
+  // inputfiles["9"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_9_dataTree01.root";
+  // inputfiles["10"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_10_dataTree01.root";
+  // inputfiles["11"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_11_dataTree01.root";
+  // inputfiles["12"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_12_dataTree01.root";
+  // inputfiles["13"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_13_dataTree01.root";
+  // inputfiles["14"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_14_dataTree01.root";
+  // inputfiles["15"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_15_dataTree01.root";
+  // inputfiles["16"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_16_dataTree01.root";
+  // inputfiles["17"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_17_dataTree01.root";
+  // inputfiles["18"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_18_dataTree01.root";
+  // inputfiles["19"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_19_dataTree01.root";
+  // inputfiles["20"] = "Data/8and9_NewAPV89mapping_OG9_Standard8_20_dataTree01.root";
+  
+
+  //inputfiles["0"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_0_dataTree01.root";
+  // inputfiles["1"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_1_dataTree01.root";
+  // inputfiles["2"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_2_dataTree01.root";
+  // inputfiles["3"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_3_dataTree01.root";
+  // inputfiles["4"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_4_dataTree01.root";
+  // inputfiles["5"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_5_dataTree01.root";
+  // inputfiles["6"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_6_dataTree01.root";
+  // inputfiles["7"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_7_dataTree01.root";
+  // inputfiles["8"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_8_dataTree01.root";
+  // inputfiles["9"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_9_dataTree01.root";
+  // inputfiles["10"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_10_dataTree01.root";
+  // inputfiles["11"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_11_dataTree01.root";
+  // inputfiles["12"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_12_dataTree01.root";
+  // inputfiles["13"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_13_dataTree01.root";
+  // inputfiles["14"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_14_dataTree01.root";
+  // inputfiles["15"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_15_dataTree01.root";
+  // inputfiles["16"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_16_dataTree01.root";
+  // inputfiles["17"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_17_dataTree01.root";
+  // inputfiles["18"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_18_dataTree01.root";
+  // inputfiles["19"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_19_dataTree01.root";
+  // inputfiles["20"] = "Data/8and9_NewAPV89mapping_StandardMappingFor9_OGfor8_20_dataTree01.root";
+
+  //inputfiles["0"] = "Data/8and9_NewAPV89mappingStandardBoth_dataTree01.root";
+  
+
+
+
+
+  
+  inputfiles["0"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_0_dataTree01.root";
+  inputfiles["1"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_1_dataTree01.root";
+  inputfiles["2"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_2_dataTree01.root";
+  inputfiles["3"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_3_dataTree01.root";
+  inputfiles["4"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_4_dataTree01.root";
+  inputfiles["5"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_5_dataTree01.root";
+  inputfiles["6"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_6_dataTree01.root";
+  inputfiles["7"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_7_dataTree01.root";
+  inputfiles["8"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_8_dataTree01.root";
+  inputfiles["9"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_9_dataTree01.root";
+  inputfiles["10"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_10_dataTree01.root";
+  inputfiles["11"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_11_dataTree01.root";
+  inputfiles["12"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_12_dataTree01.root";
+  inputfiles["13"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_13_dataTree01.root";
+  inputfiles["14"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_14_dataTree01.root";
+  inputfiles["15"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_15_dataTree01.root";
+  inputfiles["16"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_16_dataTree01.root";
+  inputfiles["17"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_17_dataTree01.root";
+  inputfiles["18"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_18_dataTree01.root";
+  inputfiles["19"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_19_dataTree01.root";
+  inputfiles["20"] = "Data/8and9_NewAPV89mapping_StandardMappingForBoth_20_dataTree01.root";
+  
+  
+
+
+
+
+
+
+
+  //inputfiles["0"] = "Data/8and9_NewAPV89mapping_standard_0_dataTree01.root";
+  
+  //inputfiles["1"] = "Data/8and9_MultiFilesOtherDataPlace_1_dataTree01.root";
+  //inputfiles["2"] = "Data/8and9_MultiFilesOtherDataPlace_2_dataTree01.root";
+  //inputfiles["3"] = "Data/8and9_MultiFilesOtherDataPlace_3_dataTree01.root";
+
+  //inputfiles["0"] = "Data/8and9_NewAPV89mapping_OGfuncs_0_dataTree01.root";
+  // inputfiles["1"] = "Data/8and9_NewAPV89mapping_OGfuncs_1_dataTree01.root";
+  // inputfiles["2"] = "Data/8and9_NewAPV89mapping_OGfuncs_2_dataTree01.root";
+  // inputfiles["3"] = "Data/8and9_NewAPV89mapping_OGfuncs_3_dataTree01.root";
+  // inputfiles["4"] = "Data/8and9_NewAPV89mapping_OGfuncs_4_dataTree01.root";
+  // inputfiles["5"] = "Data/8and9_NewAPV89mapping_OGfuncs_5_dataTree01.root";
+  // inputfiles["6"] = "Data/8and9_NewAPV89mapping_OGfuncs_6_dataTree01.root";
+  // inputfiles["7"] = "Data/8and9_NewAPV89mapping_OGfuncs_7_dataTree01.root";
+  // inputfiles["8"] = "Data/8and9_NewAPV89mapping_OGfuncs_8_dataTree01.root";
+  // inputfiles["9"] = "Data/8and9_NewAPV89mapping_OGfuncs_9_dataTree01.root";
+  // inputfiles["10"] = "Data/8and9_NewAPV89mapping_OGfuncs_10_dataTree01.root";
+  // inputfiles["11"] = "Data/8and9_NewAPV89mapping_OGfuncs_11_dataTree01.root";
+  // inputfiles["12"] = "Data/8and9_NewAPV89mapping_OGfuncs_12_dataTree01.root";
+  // inputfiles["13"] = "Data/8and9_NewAPV89mapping_OGfuncs_13_dataTree01.root";
+  // inputfiles["14"] = "Data/8and9_NewAPV89mapping_OGfuncs_14_dataTree01.root";
+  // inputfiles["15"] = "Data/8and9_NewAPV89mapping_OGfuncs_15_dataTree01.root";
+  // inputfiles["16"] = "Data/8and9_NewAPV89mapping_OGfuncs_16_dataTree01.root";
+  // inputfiles["17"] = "Data/8and9_NewAPV89mapping_OGfuncs_17_dataTree01.root";
+  // inputfiles["18"] = "Data/8and9_NewAPV89mapping_OGfuncs_18_dataTree01.root";
+  // inputfiles["19"] = "Data/8and9_NewAPV89mapping_OGfuncs_19_dataTree01.root";
+  // inputfiles["20"] = "Data/8and9_NewAPV89mapping_OGfuncs_20_dataTree01.root";
+  
+ 
+  
   string location = "4250";
 
   map<string, float> LAGDXoffsets;
@@ -538,54 +656,74 @@ void APVEvent(){
 
   map<string, float> HVres;
 
-  LAGDXoffsets["Data/SS_"] = 80 + 25 + 7.2913;
-  LAGDYoffsets["Data/SS_"] = 8.30171;
-  HVres["Data/SS_"] = 0.48166;//mRad
-
+  float TrackerXoffset = -29.7665;
+  float TrackerYoffset = -15.0655;
   
-  LAGDXoffsets["Data/Fir"] = 80 + 120 + 58.68747;
-  LAGDYoffsets["Data/Fir"] = 8.31925;
-  HVres["Data/Fir"] = 0.27246;//mRad
+  LAGDXoffsets["Data/SS_"] = TrackerXoffset + 80 + 25 + 4 + 2.19394;
+  LAGDYoffsets["Data/SS_"] = TrackerYoffset + 6 + 1.66254;
+  //HVres["Data/SS_"] = 0.48166;//mRad
 
+  LAGDXoffsets["Data/Sec"] = TrackerXoffset +80+120+120+80 +13+4.59774;
+  LAGDYoffsets["Data/Sec"] = TrackerYoffset + 7+2.29806;
+  //HVres["Data/Sec"] = 0.48166;//mRad  
+  
+  LAGDXoffsets["Data/Fir"] = TrackerXoffset + 80 + 120 + 56 + 2.86419;
+  LAGDYoffsets["Data/Fir"] = TrackerYoffset + 5 + 2.78819;
+  //HVres["Data/Fir"] = 0.27246;//mRad
+
+  LAGDXoffsets["Data/SZZ"] = TrackerXoffset + 80 + 120 + 120 + 220 + 160 + 4.61756;
+  LAGDYoffsets["Data/SZZ"] = TrackerYoffset + 10 + 2.87559;
+  //HVres["Data/SZZ"] = 0.27246;//mRad
+
+  LAGDXoffsets["Data/szz"] = TrackerXoffset + 80 + 120 + 120 + 220 + 220 + 155 +3.73701;
+  LAGDYoffsets["Data/szz"] = TrackerYoffset + 7 + 2.55855;
+  //HVres["Data/SZZ"] = 0.27246;//mRad
+
+    
   LAGDXoffsets["LZZ2"] = 80+120+100+9.85;
   LAGDYoffsets["LZZ2"] = 10.96;
-  HVres["LZZ2"] = 0.74715;//not correct!
+  //HVres["LZZ2"] = 0.74715;//not correct!
+
+
+  LAGDXoffsets["Data/8an"] = TrackerXoffset  + 80+120+120+220+155+10+14.5458;
+  LAGDYoffsets["Data/8an"] = TrackerYoffset + 100 -8.20601;
   
-  LAGDXoffsets["3729"] = -29.6265 + 80 + 28 + 32.05;
-  LAGDYoffsets["3729"] = 9.05-15.6052;
-  HVres["3729"] = 0.00074715;
   
-  LAGDXoffsets["3819"] = -29.6265+ 80 + 28 + 20 + 11.65;
-  LAGDYoffsets["3819"] = -15.6052 + 5 + 3.93;
-  HVres["3819"] = 0.00062367;
+  LAGDXoffsets["3729"] = TrackerXoffset + 80 + 25 + 25 + 7.92018;
+  LAGDYoffsets["3729"] = TrackerYoffset + 5 + 3.54842;
+  HVres["3729"] = 0.000859;//0.0050;
   
-  LAGDXoffsets["3846"] = -29.6265+80 + 28 + 20 + 9.01025;
-  LAGDYoffsets["3846"] = -15.6052 + 5 + 3.80914;
-  HVres["3846"] = 0.00056946;
+  LAGDXoffsets["3819"] = TrackerXoffset + 80 + 25 + 30 + 2.55348;
+  LAGDYoffsets["3819"] = TrackerYoffset + 5 +  3.46851;
+  HVres["3819"] = 0.000591;//0.0050;
   
-  LAGDXoffsets["3873"] = -29.6265 + 80 + 28 + 20+10.7101;
-  LAGDYoffsets["3873"] = -15.6052 + 8.97935;
-  HVres["3873"] = 0.00053823;
+  LAGDXoffsets["3846"] = TrackerXoffset + 80 + 25 + 30 + 2.62803;
+  LAGDYoffsets["3846"] = TrackerYoffset + 5 + 3.51679;
+  HVres["3846"] = 0.000535;//0.0050;
   
-  LAGDXoffsets["3900"] = -29.6265 + 80+28 + 20+10.2803;
-  LAGDYoffsets["3900"] = -15.6052 +5  + 3.89424;
-  HVres["3900"] = 0.00052005;
+  LAGDXoffsets["3873"] = TrackerXoffset + 80 + 25 + 30 + 2.48517;
+  LAGDYoffsets["3873"] = TrackerYoffset + 5 + 3.58312;
+  HVres["3873"] = 0.000533;//0.0050;
   
-  LAGDXoffsets["3927"] = -29.6265 +80+28 + 20  +9.34121;
-  LAGDYoffsets["3927"] =  -15.6052 +5+  3.88302;
-  HVres["3927"] = 0.00050436;
+  LAGDXoffsets["3900"] = TrackerXoffset + 80 + 25 + 30 + 2.6789;
+  LAGDYoffsets["3900"] = TrackerYoffset + 5 + 3.6199;
+  HVres["3900"] = 0.000493;//0.0050;
   
-  LAGDXoffsets["3953"] = -29.6265 +80+28 + 20  +10.0003;
-  LAGDYoffsets["3953"] =  -15.6052 +5+  4.037;
-  HVres["3953"] = 0.00050743;
+  LAGDXoffsets["3927"] = TrackerXoffset + 80 + 25 + 30 + 2.56049;
+  LAGDYoffsets["3927"] = TrackerYoffset + 5 +3.50249;
+  HVres["3927"] = 0.000469;//0.0050;
   
-  LAGDXoffsets["3981"] = -29.6265 +80+28 + 20+9.05033;
-  LAGDYoffsets["3981"] = -15.6052 +5 + 3.76143;
-  HVres["3981"] = 0.00048578;
+  LAGDXoffsets["3953"] = TrackerXoffset + 80 + 25 + 30 + 2.50433;
+  LAGDYoffsets["3953"] = TrackerYoffset + 5 + 3.54714;
+  HVres["3953"] = 0.000449;//0.0050;
+  
+  LAGDXoffsets["3981"] = TrackerXoffset + 80 + 25 + 30 + 2.49222;
+  LAGDYoffsets["3981"] = TrackerYoffset + 5 + 3.514;
+  HVres["3981"] = 0.000428;//0.0050;
  
-  LAGDXoffsets["3998"] = + -29.6265 +80+28 + 20 + 11.0005;
-  LAGDYoffsets["3998"] = -15.6052 + 5+3.74;
-  HVres["3998"] = 0.00048723;
+  LAGDXoffsets["3998"] = TrackerXoffset + 80 + 25 + 25 + 8.03452;
+  LAGDYoffsets["3998"] = TrackerYoffset + 5 + 3.51035;
+  HVres["3998"] = 0.000381;//0.0050;
 
 
 
@@ -601,7 +739,7 @@ void APVEvent(){
 
   
   map<int, TGraph2D*> PulseHeight;
- 
+  map<int, TGraph*> PulseHeight1D;
   map<int, TGraph2D*> Tracker1XPulseHeight;
   map<int, TGraph2D*> Tracker1YPulseHeight;
   map<int, TGraph2D*> Tracker2XPulseHeight;
@@ -623,6 +761,14 @@ void APVEvent(){
   map<int, TGraph2D*> APV7E1PulseHeight;
   map<int, TGraph2D*> APV7E2PulseHeight;
   map<int, TGraph2D*> APV8and9PulseHeight;
+  map<int, TGraph*> APV8PulseHeight1D;
+  map<int, TGraph*> APV9PulseHeight1D;
+  map<int, TGraph*> APV89combinedPulseHeight1D;
+  map<int, TGraph*> APV8PulseHeight1DShrunk;
+  map<int, TGraph*> APV9PulseHeight1DShrunk;
+  
+  
+  
   
   //map<string, TCanvas*> TrackerCanvas;
 
@@ -655,6 +801,11 @@ void APVEvent(){
   map<int, int> APV7E1Pit;
   map<int, int> APV7E2Pit;
   map<int, int> APV8and9Pit;
+  map<int, int> APV8Pit;
+  map<int, int> APV9Pit;
+  map<int, int> APV89Pitcombined;
+  
+  
   
   map<int, int> totalchannel;
   map<int, bool> GoodEvent;
@@ -749,18 +900,29 @@ void APVEvent(){
   cout << "Event Display (SINGLE APV(0),  ALL(1), TRACKERS(2), LAGD APVs(3), Pedestal Data(4), Residuals(5)):";
   int display_mode=5;
   cin >> display_mode; 
+  int Eff=0;
+  if(display_mode == 5){
+    cout << "Efficiency or no? (1/0)";
+    
+    cin >> Eff; 
+  }
+  
+  bool Efficiency = false;
+  if(Eff == 1)
+    Efficiency = true;
 
+  
   bool displaymode0event = false;
   bool Clusterdistevents = false;
   bool Gaininfo = false;
   bool ChargeRatio = false;
   bool ClusterChargeDist = false;
-  bool Efficiency = false;
+  
   TH1D* ClusterChargeAllFiles = new TH1D("", "Cluster Charge Distribution of (1100, 217);Cluster Charge [AU];Events", 100, 0, 10000);
   bool EventCutflow = false;
   int displaymode0dataoutput;
   int AlignmentMode=0;
-  
+  bool Interweavedtest=false;
   /*
   if(display_mode == 5){
     cout << "What Alignment do you want?" << endl;
@@ -773,21 +935,21 @@ void APVEvent(){
   
   if(display_mode == 0){
     cout << "What data do you want to see?" << endl;
-    cout << "Events? (0), Cluster data? (1), Gain data? (2), ChargeRatio (3), Cluster Charge Dist (4), Event Cut Info (5), Efficiency (6)?: " << endl;
+    cout << "Events? (0), Cluster data? (1), Gain data? (2), Cluster Charge Dist (3), Event Cut Info (4)?, Interweaved sector (5)?: " << endl;
     cin >> displaymode0dataoutput;
 
     if(displaymode0dataoutput == 0) displaymode0event = true;
     if(displaymode0dataoutput == 1) Clusterdistevents = true;
     if(displaymode0dataoutput == 2) Gaininfo = true;
-    if(displaymode0dataoutput == 3) ChargeRatio = true;
-    if(displaymode0dataoutput == 4) ClusterChargeDist = true;
-    if(displaymode0dataoutput == 5) EventCutflow = true;
-    if(displaymode0dataoutput == 6) Efficiency = true;
+    if(displaymode0dataoutput == 3) ClusterChargeDist = true;
+    if(displaymode0dataoutput == 4) EventCutflow = true;
+    if(displaymode0dataoutput == 5) Interweavedtest = true;
+    
   }
   
   float apvnum=1;
   
-  if(display_mode == 0 || display_mode == 5 || display_mode == 3){
+  if((display_mode == 0 && !Interweavedtest) || display_mode == 5 || display_mode == 3){
     
     cout << "For reference:" << endl;
     cout << "APV2: 0" << endl;//not being used
@@ -817,15 +979,10 @@ void APVEvent(){
     cin >> apvnum;
     
   }
-
-  ofstream ResCorrFile("Aligned_Data/LAGD_Residual_Corrections_Efftest.txt");
-  //ofstream ResCorrFileSM2("LAGD_Residual_Corrections_4250_SM2.txt");    
-  //ofstream ResCorrFileSM3("LAGD_Residual_Corrections_4250_SM3.txt");    
-  //ofstream ResCorrFileSM4("LAGD_Residual_Corrections_4250_SM4.txt");    
-  //ofstream ResCorrFileSM5("LAGD_Residual_Corrections_4250_SM5.txt");    
+  if(Interweavedtest){apvnum = 6;}
   
-  //return;
 
+ 
   //APVindex's
 
   //OG locations
@@ -907,7 +1064,7 @@ void APVEvent(){
     plotnum = 1;
   if(display_mode == 2 || display_mode == 5)
     plotnum = 5000;
-  if(displaymode0event || display_mode == 1 || display_mode == 3){ 
+  if(displaymode0event || display_mode == 1 || display_mode == 3 || Interweavedtest){ 
     cout << "How many events? ";
     cin >> plotnum;    
   }
@@ -920,11 +1077,16 @@ void APVEvent(){
   auto LAGDstrips = new TGraph();
   auto Trackerstrips = new TGraph();
   auto Diffbtwnstrips = new TGraph();
-  
+  auto ChargeHistAPV = new TH1D("", "Charge Dist from APV 9 with SM 3; ADC Charge [AU]; Counts",200, 0, 2500);
   vector<float> EfficiencyPerHV;
   vector<float> EfficiencyErrorPerHV;
   vector<float> NumNoLAGDEvent(9);
   vector<float> NumNoLAGDEventSeen(9);
+  vector<float> BadLAGDHitsGoodTracker(9);
+  vector<int> NumNoLAGDEventSeenEventIDs;
+  vector<int> EffNums;
+  vector<int> EffDens;
+  
   
 
     
@@ -935,7 +1097,17 @@ void APVEvent(){
   vector<int> BadEvents_OGIndex;
   vector<int> GoodEvents_OGIndex;
   auto StripChargeHist = new TH1F("StripCharges", "Strip Charge Distribution of Poorly Recreated Events; Charge (AU); Counts/4",200 , 0, 800);
-  auto ClusterChargeHist = new TH1F("ClusterCharges", "Cluster Charge Distribution of (1100, 217); Charge (AU); Counts/25", 80, 0, 2000);
+  auto ClusterChargeHist = new TH1F("ClusterCharges", "Cluster Charge Distribution); Charge (AU); Frequency", 90, 0, 5000);
+  auto ClusterChargePerYHist = new TGraph();
+  auto ClusterChargePerXHist = new TGraph();
+  auto ClusterChargePerXYHist = new TGraph2D();
+  auto ClusterChargePerLAGDangle = new TGraph();
+  auto ClusterChargeRatiofor8and9 = new TGraph();
+  int index=0;
+  auto ChargeClusterRatioHist = new TH1D("", "Distribution of Cluster Charge ratio of APV 9 to 8 with SM 3; Ratio of Cluster Charges; Frequency", 21, -0.5, 20.5);
+  int clustit=0;
+  int stripit=0;
+  
   auto ClusterNumberHist = new TH1F("Clusterhits", "Cluster Number Distribution at (1200, 217); Number of Clusters per event; Events/4",11 , -0.5, 10.5);
   auto StripsHist = new TH1F("Strips", "Strip Distribution of Poorly Recreated Events; Strip (ID); Counts/4", 300, 0, 128);
   //auto ClusterChargeHist = new TH1F("ClusterCharges", "Cluster Charge Distribution of Correctly Recreated Events; Charge (AU); Counts/4",200 , 0, 1500);
@@ -943,7 +1115,7 @@ void APVEvent(){
   int striphitit=0;
   int toleranceit = 0;
   TH1D* Tracker2Ystriphits = new TH1D("", "", 128, 0, 128);
-  TH1D* ClusterdistAll = new TH1D("Clusterdist", "Strip Multiplicty Distribution of all data at 1200, 217", 10, 0.5, 10.5);
+  TH1D* ClusterdistAll = new TH1D("Clusterdist", "Strip Multiplicty Distribution of all Data", 10, 0.5, 10.5);
   TH1D* EventsLostToTrackers = new TH1D("LostEvents", "Events Lost distribution", 2, 0.5,2.5);
   //cout << inputfiles.size() << endl;
   //this for loop will iterate through the data files
@@ -953,7 +1125,9 @@ void APVEvent(){
   vector<int> TrackerEventCutflowinfo(10); //Tracker1x num clusters == 1,2,3; AND Tracker1y num clusters == 1,2,3; AND Tracker2x num clusters == 1,2,3; ....  
   vector<int> TrackerEventCutflowinfo2(10); //Tracker1x num clusters == 1,2; AND Tracker1y num clusters == 1,2; AND Tracker2x num clusters == 1,2; .... 
   vector<int> TrackerEventCutflowinfo3(10); //Tracker1x num clusters == 1; AND Tracker1y num clusters == 1; AND Tracker2x num clusters == 1; .... 
-
+  vector<int> Effcutflow(7);
+  int cutflowit = 0;
+  
   auto xHits0 = new TH1D("0xhit", "Instances of N number of trackers with 0 x hit; N Trackers; Instances", 4, 0.5, 4.5);
   auto xHits1 = new TH1D("1xhit", "Instances of N number of trackers with 1 x hit; N Trackers; Instances", 4, 0.5, 4.5);
   auto xHits2 = new TH1D("2xhit", "Instances of N number of trackers with 2 x hits; N Trackers; Instances", 4, 0.5, 4.5);
@@ -981,6 +1155,8 @@ void APVEvent(){
 
 
   int lostcounter=0;
+
+  
   
   for(map<string,TString>::iterator i = inputfiles.begin(); i != inputfiles.end(); i++){
     TFile* myFile = TFile::Open(i->second);
@@ -1032,7 +1208,7 @@ void APVEvent(){
     
 
     //define other file-based histograms for other display modes
-    Clusterdist[evtype] = new TH1D("Clusterdist", ("Strip Multiplicty Distribution with HV "+evtype).c_str(), 6, 1, 7);
+    Clusterdist[evtype] = new TH1D(("Clusterdist"+evtype).c_str(), ("Strip Multiplicty Distribution with HV "+evtype).c_str(), 6, 0.5, 6.5);
     
     
     //iterate through each event
@@ -1044,15 +1220,16 @@ void APVEvent(){
     }
     */
     
-    EventAvgCharge[evtype] = new TH1F("", "", 300, 0, 2500);
+    EventAvgCharge[evtype] = new TH1F("", "", 30, 0, 3000);
     
     bool GoodFile = true;
     float LAGDhitsnum=0;
     float Trackerhits=0;
     
-    while (myReader.Next() && GoodFile){// && *nch == 2048){
+    
+    while (myReader.Next()){// && *nch == 2048){
       cout << "total channels: " << *nch << endl;
-
+      
       // if(*nch != 2048){
       // 	cout << "Channel number mismatch! check file " << inputfiles[evtype] << " :(" << endl;
       // 	BadFiles.push_back(evtype);
@@ -1079,8 +1256,9 @@ void APVEvent(){
       
       //if the event number is larger than what we want to plot, stop
       if(*evtID > plotnum) break;
-      //plotnum = 2;
-      //if(totalEventiterator != 1316 && totalEventiterator != 1){continue;}//need to include event 1 or else tolerance wont be set to discriminate hits from noise
+
+      
+      //if(totalEventiterator != 3806 && totalEventiterator != 1){continue;}//need to include event 1 or else tolerance wont be set to discriminate hits from noise
       // cout << "continues after?" << endl;
       
       //iterating variables
@@ -1107,6 +1285,9 @@ void APVEvent(){
       APV7E1Pit[*evtID] = 0;
       APV7E2Pit[*evtID] = 0;
       APV8and9Pit[*evtID] = 0;
+      APV9Pit[*evtID] = 0;
+      APV8Pit[*evtID] = 0;
+      APV89Pitcombined[*evtID] = 0;
       
       totalchannel[*evtID] = 0;
       
@@ -1145,6 +1326,7 @@ void APVEvent(){
       vector<float> Hitcoords;
       cout << display_mode << endl;
       if(display_mode != 5){
+	PulseHeight1D[*evtID] = new TGraph();
 	PulseHeight[*evtID] = new TGraph2D(2);
 	//cout << "Better not be here rn" << endl;
 	Tracker1XPulseHeight[*evtID] = new TGraph2D(2);
@@ -1161,6 +1343,13 @@ void APVEvent(){
       
 	APV2PulseHeight[*evtID] = new TGraph2D(2);
 	APV8and9PulseHeight[*evtID] = new TGraph2D(2);
+	APV8PulseHeight1D[*evtID] = new TGraph();
+	APV9PulseHeight1D[*evtID] = new TGraph();
+	APV89combinedPulseHeight1D[*evtID] = new TGraph();
+	APV8PulseHeight1DShrunk[*evtID] = new TGraph();
+	APV9PulseHeight1DShrunk[*evtID] = new TGraph();
+	
+	
 	APV3E1PulseHeight[*evtID] = new TGraph2D(2);
 	APV3E2PulseHeight[*evtID] = new TGraph2D(2);
 	APV4E3PulseHeight[*evtID] = new TGraph2D(2);
@@ -1172,7 +1361,14 @@ void APVEvent(){
 	APV7E1PulseHeight[*evtID] = new TGraph2D(2);
 	APV7E2PulseHeight[*evtID] = new TGraph2D(2);          
       }
-
+      auto zerosupHits = new TGraph();
+      int zerosupint = 0;
+      auto Event8Zipped = new TGraph();
+      int zipped8int = 0;
+      auto Event9Zipped = new TGraph();
+      int zipped9int = 0;
+      
+      
       /*
       vector<float> Tracker1hitcoords;//stored as (X, Y, Z)
       vector<float> Tracker2hitcoords;
@@ -1300,12 +1496,12 @@ void APVEvent(){
 	  
 	  if((strip)[i]%128 == 0)
 	    cout << "|     " << (detID)[i] << "     |    " << (strip)[i] << "    |    " << (planeID)[i] << "    |   " << (apvID)[i] << "   |    " << endl;   
-	  /*
+	  
 	  if((detID)[i] == 0)
 	    cout << "From Event: " << *evtID << "; this is Strip: " << (strip)[i]  << " from APV: " << (apvID)[i] + 2 << " of plane: " << (planeID)[i] << endl;
 	  if((detID)[i] > 0)
 	    cout << "From Event: " << *evtID << "; this is Strip: " << (strip)[i]  << " from APV: " << (apvID)[i]  << " of plane: " << (planeID)[i] << endl;
-	  */
+	  
 	  //toliter = (*evtID)*(*nch) + i;
 	  
 	  float stdev=0;
@@ -1315,8 +1511,8 @@ void APVEvent(){
 	  stdev = adcsstrip[i]->GetStdDev();///sqrt(adcsstrip[i]->GetEntries());
 	  mean = adcsstrip[i]->GetMean();
 	  //cout << stdev << endl;
-
-	  striptol[i] = mean + 5*stdev;
+	  //set multiplier to 10.7 for APV8&9, 5 for everywhere else
+	  striptol[i] = mean + 10.7*stdev;
 	  //striptol[i] = 40;
 	  cout << "Strip: " << i << " has noise tolerance: " << striptol[i] <<  endl;
 	  //return;
@@ -1326,16 +1522,17 @@ void APVEvent(){
 	//cout << "Here " << i <<  endl;
 
 	//this chunk is for visualizing individual APV events
-	
-	if(display_mode == 0 && totalchannel[*evtID] >= 128*apvnum && totalchannel[*evtID] <= 64 + 128*apvnum){	 
-	   
+	float mean = adcsstrip[i]->GetMean();
+	if(display_mode == 0 && totalchannel[*evtID] >= 128*apvnum && totalchannel[*evtID] <= 127 + 128*apvnum){	 
+	  
+	  //cout << mean << endl;
 	  if(displaymode0event){	    
-	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i]);	      
-	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i]);
-	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i]);
-	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i]);
-	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i]);
-	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i]);	 
+	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 0, (adc0)[i] - mean);	      
+	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 1, (adc1)[i] - mean);
+	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 2, (adc2)[i] - mean);
+	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 3, (adc3)[i] - mean);
+	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 4, (adc4)[i] - mean);
+	    PulseHeight[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i], 5, (adc5)[i] - mean);	 
 	  }
 	  
 	  stripcharges.push_back((adc0)[i]);	
@@ -1347,20 +1544,78 @@ void APVEvent(){
 	  
 	  
 	  maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
+	  //cout << "Mx charge?: " << maxcharge << endl;
 	  auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(),stripcharges.end()));
-	  
+
+	  PulseHeight1D[*evtID]->SetPoint(Pit[*evtID]++, (strip)[i]%128, maxcharge - mean);
+	  Pit[*evtID]--;
+	      
 	  if(maxcharge >= striptol[i]){
-	    maxcharges.push_back(maxcharge-striptol[i]);
+	    cout << "Strip #: " << (strip)[i] << endl;
+	    cout << "Ped: " << striptol[i] << endl;
+	    
+	    maxcharges.push_back(maxcharge);
 	    maxstrips.push_back((strip)[i]);
 	    maxtimebin.push_back(timebin);
 	    cout << "Hit timebin: " << timebin << endl;
-	  
-	    StripChargeHist->Fill(maxcharge-striptol[i]);
+
+
+	    
+	    StripChargeHist->Fill(maxcharge);
 	    StripsHist->Fill((strip)[i]);
 
 	  }	  
 	  stripcharges.clear();	  
 	}
+
+	if(display_mode == 0 && Interweavedtest){
+	  if(totalchannel[*evtID] >= 128*APV8index && totalchannel[*evtID] <= 127 + 128*APV8index){	 	   
+	    stripcharges.push_back((adc0)[i]);	
+	    stripcharges.push_back((adc1)[i]);
+	    stripcharges.push_back((adc2)[i]);
+	    stripcharges.push_back((adc3)[i]);
+	    stripcharges.push_back((adc4)[i]);
+	    stripcharges.push_back((adc5)[i]);	  
+	  	  
+	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
+	    APV8PulseHeight1D[*evtID]->SetPoint(APV8Pit[*evtID]++, (strip)[i]%128, maxcharge-mean);
+	    if((strip)[i]%2 == 1){
+	      APV89combinedPulseHeight1D[*evtID]->SetPoint(APV8Pit[*evtID]++, (strip)[i]%128, maxcharge-mean);
+	      APV8Pit[*evtID]--;
+	      APV8PulseHeight1DShrunk[*evtID]->SetPoint(APV8Pit[*evtID]++, (((strip)[i]%128)+1)/2, maxcharge-mean);
+	      APV8Pit[*evtID]--;	     
+	    }
+	    else {
+	      APV8PulseHeight1DShrunk[*evtID]->SetPoint(APV8Pit[*evtID]++, (((strip)[i]%128)+1)/2, 0);
+	      APV8Pit[*evtID]--;
+	    }
+	    stripcharges.clear();
+	  }
+	  
+	  if(totalchannel[*evtID] >= 128*APV9index && totalchannel[*evtID] <= 127 + 128*APV9index){	 	   
+	    stripcharges.push_back((adc0)[i]);	
+	    stripcharges.push_back((adc1)[i]);
+	    stripcharges.push_back((adc2)[i]);
+	    stripcharges.push_back((adc3)[i]);
+	    stripcharges.push_back((adc4)[i]);
+	    stripcharges.push_back((adc5)[i]);	  
+	  	  
+	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
+	    APV9PulseHeight1D[*evtID]->SetPoint(APV9Pit[*evtID]++, (strip)[i]%128, maxcharge-mean);
+	    if((strip)[i]%2 == 0){
+	      APV89combinedPulseHeight1D[*evtID]->SetPoint(APV9Pit[*evtID]++, (strip)[i]%128, maxcharge-mean);
+	      APV9Pit[*evtID]--;
+	      APV9PulseHeight1DShrunk[*evtID]->SetPoint(APV9Pit[*evtID]++, (((strip)[i]%128))/2, maxcharge-mean);
+	      APV9Pit[*evtID]--;	      
+	    }
+	    else {
+	      APV9PulseHeight1DShrunk[*evtID]->SetPoint(APV9Pit[*evtID]++, (((strip)[i]%128))/2, 0);
+	      APV9Pit[*evtID]--;
+	    }
+	    stripcharges.clear();
+	  }
+	}      
+	
 	
 	
 	if(display_mode == 0 || display_mode == 1 || display_mode == 2 || display_mode == 4 || display_mode == 5){
@@ -1369,7 +1624,7 @@ void APVEvent(){
 	  if((detID)[i] ==  Tracker1DetID && (planeID)[i] == Tracker1xPlaneID){
 	  
 	    if(display_mode != 2 && display_mode != 5 && display_mode != 0){
-	      cout << "doesnt go here I hope" << endl;
+	      //cout << "doesnt go here I hope" << endl;
 	      Tracker1XPulseHeight[*evtID]->SetPoint(Tracker1xPit[*evtID]++, (strip)[i], 0, (adc0)[i]);	      
 	      Tracker1XPulseHeight[*evtID]->SetPoint(Tracker1xPit[*evtID]++, (strip)[i], 1, (adc1)[i]);
 	      Tracker1XPulseHeight[*evtID]->SetPoint(Tracker1xPit[*evtID]++, (strip)[i], 2, (adc2)[i]);
@@ -1391,7 +1646,7 @@ void APVEvent(){
 	  
 	    if(maxcharge >= striptol[i]){
 		
-	      Tracker1xmaxcharges.push_back(maxcharge-striptol[i]);				
+	      Tracker1xmaxcharges.push_back(maxcharge);				
 	      Tracker1xmaxstrips.push_back((strip)[i]%128);
 	      Tracker1xtimebin.push_back(timebin);
 		
@@ -1427,7 +1682,7 @@ void APVEvent(){
 	  
 	    if(maxcharge >=  striptol[i]){
 		
-	      Tracker3xmaxcharges.push_back(maxcharge-striptol[i]);
+	      Tracker3xmaxcharges.push_back(maxcharge);
 	      Tracker3xmaxstrips.push_back((strip)[i]%128);
 	      Tracker3xtimebin.push_back(timebin);
 	    }
@@ -1461,7 +1716,7 @@ void APVEvent(){
 	    
 	    if(maxcharge >= striptol[i]){
 		  
-	      Tracker1ymaxcharges.push_back(maxcharge-striptol[i]);		  
+	      Tracker1ymaxcharges.push_back(maxcharge);		  
 	      Tracker1ymaxstrips.push_back((strip)[i]%128);
 	      Tracker1ytimebin.push_back(timebin);
 	    }
@@ -1495,7 +1750,7 @@ void APVEvent(){
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(),stripcharges.end()));
 	    if(maxcharge >=  striptol[i]){
 
-	      Tracker3ymaxcharges.push_back(maxcharge-striptol[i]);
+	      Tracker3ymaxcharges.push_back(maxcharge);
 	      Tracker3ymaxstrips.push_back((strip)[i]%128);
 	      Tracker3ytimebin.push_back(timebin);
 	    }
@@ -1530,7 +1785,7 @@ void APVEvent(){
 	    
 	    if(maxcharge >=  striptol[i]){
 
-	      Tracker2xmaxcharges.push_back(maxcharge-striptol[i]);
+	      Tracker2xmaxcharges.push_back(maxcharge);
 	      Tracker2xmaxstrips.push_back((strip)[i]%128);
 	      Tracker2xtimebin.push_back(timebin);
 	    }
@@ -1565,7 +1820,7 @@ void APVEvent(){
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(),stripcharges.end()));
 
 	    if(maxcharge >=  striptol[i]){
-	      Tracker4xmaxcharges.push_back(maxcharge-striptol[i]);
+	      Tracker4xmaxcharges.push_back(maxcharge);
 	      Tracker4xmaxstrips.push_back((strip)[i]%128);
 	      Tracker4xtimebin.push_back(timebin);
 	    }
@@ -1601,7 +1856,7 @@ void APVEvent(){
 		    
 	    if(maxcharge >=  striptol[i]){
 	      //cout << "Here?" << endl;
-	      Tracker2ymaxcharges.push_back(maxcharge-striptol[i]);
+	      Tracker2ymaxcharges.push_back(maxcharge);
 	      Tracker2ymaxstrips.push_back((strip)[i]%128);
 	      Tracker2ytimebin.push_back(timebin);
 		  
@@ -1636,7 +1891,7 @@ void APVEvent(){
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(),stripcharges.end()));
 
 	    if(maxcharge >=  striptol[i]){
-	      Tracker4ymaxcharges.push_back(maxcharge-striptol[i]);
+	      Tracker4ymaxcharges.push_back(maxcharge);
 	      Tracker4ymaxstrips.push_back((strip)[i]%128);
 	      Tracker4ytimebin.push_back(timebin);
 	    }
@@ -1653,7 +1908,6 @@ void APVEvent(){
 	if(display_mode == 1 || display_mode == 2 || display_mode == 3 || display_mode == 4 || display_mode == 5){
 	  //start LAGD APVs
 	  
-	  //To save space, we do not need APVs 2, 8, and 9 for now
 	  if((detID)[i] == APV8index && (apvID)[i] == APV8index){
 	     
 	    if(display_mode != 2 && display_mode != 5 && display_mode != 0){
@@ -1676,8 +1930,10 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(),stripcharges.end()));
 	    
-	    if(maxcharge >=  striptol[i]){			
-	      LAGDMaxCharges["APV8"].push_back(maxcharge-striptol[i]);	      
+	    if(maxcharge >=  striptol[i]){
+	      //cout << "pedestal: " << striptol[i] << endl;
+	      // cout << "APV8 Strip number: " << (strip)[i]%128 << " and charge: " << maxcharge << endl;
+	      LAGDMaxCharges["APV8"].push_back(maxcharge);	      
 	      LAGDMaxStrips["APV8"].push_back((strip)[i]%128);
 	      LAGDTimeBin["APV8"].push_back(timebin);
 	    }
@@ -1687,7 +1943,7 @@ void APVEvent(){
 	      APV8Pedstds.push_back(striptol[i]);	      	      	      	
 	  }
 	  
-	
+	  
 	  if((detID)[i] == APV9index && (apvID)[i] == APV9index){
 	    if(display_mode != 2 && display_mode != 5 && display_mode != 0){
 	      APV8and9PulseHeight[*evtID]->SetPoint(APV8and9Pit[*evtID]++, (strip)[i]%128, 0, (adc0)[i]);
@@ -1709,8 +1965,9 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(), stripcharges.end()));
 	  
-	    if(maxcharge >=  striptol[i]){			
-	      LAGDMaxCharges["APV9"].push_back(maxcharge-striptol[i]);	      
+	    if(maxcharge >=  striptol[i]){
+	      //cout << "APV9 Strip number: " << (strip)[i]%128 <<  " and charge: " << maxcharge   - striptol[i]<< endl;
+	      LAGDMaxCharges["APV9"].push_back(maxcharge);	      
 	      LAGDMaxStrips["APV9"].push_back((strip)[i]%128);
 	      LAGDTimeBin["APV9"].push_back(timebin);
 	      
@@ -1745,7 +2002,7 @@ void APVEvent(){
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(), stripcharges.end()));
 	  
 	    if(maxcharge >=  striptol[i]){			
-	      LAGDMaxCharges["APV5E3"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxCharges["APV5E3"].push_back(maxcharge);	      
 	      LAGDMaxStrips["APV5E3"].push_back((strip)[i]%128);
 	      LAGDTimeBin["APV5E3"].push_back(timebin);
 	      
@@ -1780,7 +2037,7 @@ void APVEvent(){
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(), stripcharges.end()));
 	    
 	    if(maxcharge >=  striptol[i]){			
-	      LAGDMaxCharges["APV5E4"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxCharges["APV5E4"].push_back(maxcharge);	      
 	      LAGDMaxStrips["APV5E4"].push_back((strip)[i]%128);
 	      LAGDTimeBin["APV5E4"].push_back(timebin);
 	      
@@ -1816,7 +2073,7 @@ void APVEvent(){
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(), stripcharges.end()));
 	    
 	    if(maxcharge >= striptol[i]){			
-	      LAGDMaxCharges["APV4E3"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxCharges["APV4E3"].push_back(maxcharge);	      
 	      LAGDMaxStrips["APV4E3"].push_back((strip)[i]%128);
 	      LAGDTimeBin["APV4E3"].push_back(timebin);
 	      
@@ -1849,7 +2106,7 @@ void APVEvent(){
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(), stripcharges.end()));
 	    
 	    if(maxcharge >= striptol[i]){			
-	      LAGDMaxCharges["APV4E4"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxCharges["APV4E4"].push_back(maxcharge);	      
 	      LAGDMaxStrips["APV4E4"].push_back((strip)[i]%128);
 	      LAGDTimeBin["APV4E4"].push_back(timebin);
 	      
@@ -1883,11 +2140,22 @@ void APVEvent(){
 	    maxcharge = *max_element(stripcharges.begin(), stripcharges.end());
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(), stripcharges.end()));
 	    
+	      
 	    if(maxcharge >= striptol[i]){
-	      LAGDMaxCharges["APV3E1"].push_back(maxcharge-striptol[i]);
+	      LAGDMaxCharges["APV3E1"].push_back(maxcharge);
 	      LAGDMaxStrips["APV3E1"].push_back((strip)[i]%128);
 	      LAGDTimeBin["APV3E1"].push_back(timebin);
+	      // if(*evtID == 11){
+	      // 	zerosupHits->SetPoint(zerosupint,(strip)[i]%128, maxcharge-striptol[i]);
+	      // 	zerosupint++;
+	      // }
 	    }
+	    // else {
+	    //   if(*evtID == 11){
+	    // 	zerosupHits->SetPoint(zerosupint,(strip)[i]%128, 0);
+	    // 	zerosupint++;
+	    //   }
+	    // }
 	    
 	    stripcharges.clear();
 	    if(*evtID == 1)
@@ -1919,7 +2187,7 @@ void APVEvent(){
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(), stripcharges.end()));
 
 	    if(maxcharge >= striptol[i]){
-	      LAGDMaxCharges["APV3E2"].push_back(maxcharge-striptol[i]);
+	      LAGDMaxCharges["APV3E2"].push_back(maxcharge);
 	      LAGDMaxStrips["APV3E2"].push_back((strip)[i]%64);
 	      LAGDTimeBin["APV3E2"].push_back(timebin);
 	      
@@ -1954,7 +2222,7 @@ void APVEvent(){
 	    
 	    if(maxcharge >= striptol[i]){
 	      cout << "what about here? " << endl;
-	      LAGDMaxCharges["APV6E3"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxCharges["APV6E3"].push_back(maxcharge);	      
 	      LAGDMaxStrips["APV6E3"].push_back((strip)[i]%128);
 	      LAGDTimeBin["APV6E3"].push_back(timebin);
 	      
@@ -1988,7 +2256,7 @@ void APVEvent(){
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(), stripcharges.end()));
 	    
 	    if(maxcharge >= striptol[i]){			
-	      LAGDMaxCharges["APV6E4"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxCharges["APV6E4"].push_back(maxcharge);	      
 	      LAGDMaxStrips["APV6E4"].push_back((strip)[i]%128);
 	      LAGDTimeBin["APV6E4"].push_back(timebin);
 	      
@@ -2025,7 +2293,7 @@ void APVEvent(){
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(), stripcharges.end()));
 	    
 	    if(maxcharge >= striptol[i]){			
-	      LAGDMaxCharges["APV2"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxCharges["APV2"].push_back(maxcharge);	      
 	      LAGDMaxStrips["APV2"].push_back((strip)[i]%128);
 	      LAGDTimeBin["APV2"].push_back(timebin);
 	      
@@ -2062,7 +2330,7 @@ void APVEvent(){
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(), stripcharges.end()));
 	    
 	    if(maxcharge >= striptol[i]){			
-	      LAGDMaxCharges["APV7E1"].push_back(maxcharge-striptol[i]);	      
+	      LAGDMaxCharges["APV7E1"].push_back(maxcharge);	      
 	      LAGDMaxStrips["APV7E1"].push_back((strip)[i]%128);
 	      LAGDTimeBin["APV7E1"].push_back(timebin);
 	      
@@ -2100,10 +2368,9 @@ void APVEvent(){
 	    auto timebin = distance(stripcharges.begin(), max_element(stripcharges.begin(), stripcharges.end()));
 	    
 	    if(maxcharge >= striptol[i]){			
-	      LAGDMaxCharges["APV7E2"].push_back(maxcharge-striptol[i]);	      
-	      LAGDMaxStrips["APV7E2"].push_back((strip)[i]%128);
-	      LAGDTimeBin["APV7E2"].push_back(timebin);
-	      
+	      LAGDMaxCharges["APV7E2"].push_back(maxcharge);	      
+	      LAGDMaxStrips["APV7E2"].push_back((strip)[i]%64);
+	      LAGDTimeBin["APV7E2"].push_back(timebin);	      
 	    }
 	    
 	    stripcharges.clear();
@@ -2151,6 +2418,19 @@ void APVEvent(){
 	
 	//	toleranceit++;
       }/////////////////////end of for loop over the channels in one event
+
+      // if(*evtID == 11){
+      // 	zerosupHits->SetMarkerStyle(20);
+      // 	zerosupHits->SetFillColor(38);
+      // 	zerosupHits->Draw("AB");
+      // 	zerosupHits->SetTitle("Zero Suppressed Hit in Sector A");
+      // 	zerosupHits->GetXaxis()->SetTitle("Strip");
+      // 	zerosupHits->GetXaxis()->CenterTitle(true);
+      // 	zerosupHits->GetYaxis()->SetRangeUser(0,1000);
+      // 	zerosupHits->GetYaxis()->SetTitle("Charge [ADC counts]");
+      // 	zerosupHits->GetYaxis()->CenterTitle(true);
+      // 	return;
+      // }
       /*
       auto avg=0.0;
       for(auto h = maxtimebin.begin(); h < maxtimebin.end(); h++){
@@ -2163,6 +2443,9 @@ void APVEvent(){
       
       //now that hits have beem identified in the different APVs, we need to create a quality flag. This currently only allows events with one hit in them, and restricts the stip multiplicity of the hit to between 2 and 5
       //triggers
+
+
+
       
       cout << "Done Loop over all channels" << endl;
       GoodEvent[totalEventiterator] = true;
@@ -2211,16 +2494,29 @@ void APVEvent(){
       vector<float> NewNumSubEventsLAGD;
       
       if(display_mode == 0){
+	cout << "here?" << endl;
+	cout << maxstrips.empty() << endl;
+	int maxstrip=0;
+	if(!maxstrips.empty()){
+	  maxstrip = *max_element(maxstrips.begin(), maxstrips.end());
+	  cout << maxstrip << endl;
+	}
+	
+	cout << maxstrip << endl;
+	
+	//if(maxstrip < 90){continue;}
 	if(trackerinvolvement){
 	  if(maxstrips.size() == 0){
 	    cout << "No event seen?" << endl;	 
 	    ClusterNumberHist->Fill(0);
-	    NumNoLAGDEvent.at(fileit)++;
+	    cout << "here??" << endl;
+	    
 	    //LAGDEventCutflowinfo[1]++;//<=5
 	    //LAGDEventCutflowinfo[2]++;//<=4
 	    //LAGDEventCutflowinfo[3]++;//<=3
 	    //LAGDEventCutflowinfo[4]++;//<=2
-	    //LAGDEventCutflowinfo[5]++;//==1	    
+	    //LAGDEventCutflowinfo[5]++;//==1
+	    cout << "here??" << endl;
 	  }
 	  else{	    
 	    NumSubEventsAPV = StripSep(maxstrips, maxcharges);
@@ -2250,7 +2546,7 @@ void APVEvent(){
 	      }
 	    }
 	  }
-	  
+	  cout << "Got to here?" << endl;
 	  if((Tracker1xmaxstrips.empty() || Tracker1ymaxstrips.empty() || Tracker2xmaxstrips.empty() || Tracker2ymaxstrips.empty() || Tracker3xmaxstrips.empty() || Tracker3ymaxstrips.empty() || Tracker4xmaxstrips.empty() || Tracker4ymaxstrips.empty()) && (NumSubEventsAPV.size() != 0 && NumSubEventsAPV.size() <= 5)){
 	    EventsLostToTrackers->Fill(1);
 	    numEventsWith0hitclusterintrackers++;
@@ -2509,9 +2805,44 @@ void APVEvent(){
 	  // }
 	  
 	  
-	 
-	  cout << maxstrips.empty() << endl;
-	  cout << LAGDMaxStrips[APVname[apvnum]].empty() << endl;
+	  //int MissingLAGDhit = 0;
+	  
+	  // cout << maxstrips.empty() << endl;
+	  // cout << LAGDMaxStrips[APVname[apvnum]].empty() << endl;
+	
+	  // if(!Tracker1xmaxstrips.empty() && !Tracker1ymaxstrips.empty() && !Tracker2xmaxstrips.empty() && !Tracker2ymaxstrips.empty() && !Tracker3xmaxstrips.empty() && !Tracker3ymaxstrips.empty() && !Tracker4xmaxstrips.empty() && !Tracker4ymaxstrips.empty() && maxstrips.empty()){
+	  //   cout << "here?" << endl;
+	  //   //MissingLAGDhit++;
+
+	  //   auto NewNumSubEvents1X = StripSep(Tracker1xmaxstrips, Tracker1xmaxcharges);
+	  //   auto NewNumSubEvents1Y = StripSep(Tracker1ymaxstrips, Tracker1ymaxcharges);
+	  //   auto NewNumSubEvents2X = StripSep(Tracker2xmaxstrips, Tracker2xmaxcharges);
+	  //   auto NewNumSubEvents2Y = StripSep(Tracker2ymaxstrips, Tracker2ymaxcharges);
+	  //   auto NewNumSubEvents3X = StripSep(Tracker3xmaxstrips, Tracker3xmaxcharges);
+	  //   auto NewNumSubEvents3Y = StripSep(Tracker3ymaxstrips, Tracker3ymaxcharges);
+	  //   auto NewNumSubEvents4X = StripSep(Tracker4xmaxstrips, Tracker4xmaxcharges);
+	  //   auto NewNumSubEvents4Y = StripSep(Tracker4ymaxstrips, Tracker4ymaxcharges);
+	  //   cout << "here?" << endl;
+	  //   int Trackmax_StripHits = 10;
+	  //   int Trackmin_StripHits = 1;//strip multiplicities will be between min and below max (not including the values themselves)
+	    
+	  //   //int LAGDmax_StripHits = 10;
+	  //   //int LAGDmin_StripHits = 1;
+	  //   if(*max_element(NewNumSubEvents1X.begin(), NewNumSubEvents1X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents1X.begin(), NewNumSubEvents1X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;}	  
+	  //   if(*max_element(NewNumSubEvents1Y.begin(), NewNumSubEvents1Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents1Y.begin(), NewNumSubEvents1Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;}
+	  //   if(*max_element(NewNumSubEvents2X.begin(), NewNumSubEvents2X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents2X.begin(), NewNumSubEvents2X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;}
+	  //   if(*max_element(NewNumSubEvents2Y.begin(), NewNumSubEvents2Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents2Y.begin(), NewNumSubEvents2Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;}
+	  //   if(*max_element(NewNumSubEvents3X.begin(), NewNumSubEvents3X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents3X.begin(), NewNumSubEvents3X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;}
+	  //   if(*max_element(NewNumSubEvents3Y.begin(), NewNumSubEvents3Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents3Y.begin(), NewNumSubEvents3Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;}
+	  //   if(*max_element(NewNumSubEvents4X.begin(), NewNumSubEvents4X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents4X.begin(), NewNumSubEvents4X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;}
+	  //   if(*max_element(NewNumSubEvents4Y.begin(), NewNumSubEvents4Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents4Y.begin(), NewNumSubEvents4Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;}
+	  //   cout << "here?" << endl;
+	  //   if(GoodEvent[totalEventiterator])
+	  //     NumNoLAGDEvent.at(fileit)++;
+	    
+
+	  //   //GoodEvent[totalEventiterator] == true;
+	  // }
 	  
 	  if(Tracker1xmaxstrips.empty() || Tracker1ymaxstrips.empty() || Tracker2xmaxstrips.empty() || Tracker2ymaxstrips.empty() || Tracker3xmaxstrips.empty() || Tracker3ymaxstrips.empty() || Tracker4xmaxstrips.empty() || Tracker4ymaxstrips.empty() || maxstrips.empty()){	    
 	  GoodEvent[totalEventiterator] = false;
@@ -2534,10 +2865,7 @@ void APVEvent(){
 
 	    
 
-	    // if((NumSubEvents1X.size() > 1 || NumSubEvents1Y.size() > 1  || NumSubEvents2X.size() > 1 || NumSubEvents2Y.size() > 1  ||NumSubEvents3X.size() > 1 || NumSubEvents3Y.size() > 1  || NumSubEvents4X.size() > 1 || NumSubEvents4Y.size() > 1) && (NumSubEventsLAGD.size() == 1)){
-	      
-	      
-	    // }
+	    
 	      
 	    int Trackerclustnum = 5;
 	    if(NumSubEvents1X.size() > Trackerclustnum || NumSubEvents1Y.size() > Trackerclustnum  || NumSubEvents2X.size() > Trackerclustnum || NumSubEvents2Y.size() > Trackerclustnum  ||NumSubEvents3X.size() > Trackerclustnum || NumSubEvents3Y.size() > Trackerclustnum  || NumSubEvents4X.size() > Trackerclustnum || NumSubEvents4Y.size() > Trackerclustnum || NumSubEventsLAGD.size() > Trackerclustnum){
@@ -2551,6 +2879,7 @@ void APVEvent(){
 	    if(GoodEvent[totalEventiterator]){
 	      auto Newtrackerhits = MultiClusterReducer(Tracker1xmaxstrips, Tracker1xmaxcharges, Tracker1ymaxstrips, Tracker1ymaxcharges,Tracker2xmaxstrips, Tracker2xmaxcharges,Tracker2ymaxstrips, Tracker2ymaxcharges, Tracker3xmaxstrips, Tracker3xmaxcharges, Tracker3ymaxstrips, Tracker3ymaxcharges,Tracker4xmaxstrips, Tracker4xmaxcharges,Tracker4ymaxstrips, Tracker4ymaxcharges, maxstrips, maxcharges, LAGDXoffsets[location], LAGDYoffsets[location]);
 	      cout << "past this?" << endl;
+	      
 	      if(Newtrackerhits.empty()){// || *evtID == 514){
 		cout << "For now, bad!" << endl;
 		lostcounter++;
@@ -2601,13 +2930,19 @@ void APVEvent(){
 	      NewNumSubEvents4Y = StripSep(ReducedTracker4ymaxstrips, ReducedTracker4ymaxcharges);
 	      NewNumSubEventsLAGD = StripSep(ReducedLAGDmaxstrips, ReducedLAGDmaxcharges);
 	      
-	      
+	      for(auto i = NewNumSubEventsLAGD.begin(); i != NewNumSubEventsLAGD.end(); i++){
+		cout << "This eventplot had a strip multiplicity of " << *i << endl;
+		if(*i >= 1 && *i <6){
+		  ClusterdistAll->Fill(*i);
+		  Clusterdist[evtype]->Fill(*i);
+		}
+	      }
 	      
 
 	      int Trackmax_StripHits = 10;
-	      int Trackmin_StripHits = 1;//strip multiplicities will be between min and below max (not including the values themselves)
+	      int Trackmin_StripHits = 0;//strip multiplicities will be between min and below max (not including the values themselves)
 	    
-	      int LAGDmax_StripHits = 5;
+	      int LAGDmax_StripHits = 6;
 	      int LAGDmin_StripHits = 0;
 	      bool eventlostduetoSM = false;
 	      if(*max_element(NewNumSubEvents1X.begin(), NewNumSubEvents1X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents1X.begin(), NewNumSubEvents1X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;eventlostduetoSM = true;SMloss->Fill(1);}	  
@@ -2619,9 +2954,14 @@ void APVEvent(){
 	      if(*max_element(NewNumSubEvents4X.begin(), NewNumSubEvents4X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents4X.begin(), NewNumSubEvents4X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;eventlostduetoSM = true;SMloss->Fill(7);}
 	      if(*max_element(NewNumSubEvents4Y.begin(), NewNumSubEvents4Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents4Y.begin(), NewNumSubEvents4Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;eventlostduetoSM = true;SMloss->Fill(8);}
 
-	      if(Efficiency && GoodEvent[totalEventiterator])
-		Trackerhits++;
-	      
+	      //int test = 0;
+	      // if(GoodEvent[totalEventiterator]){
+	      // 	Trackerhits++;
+	      // 	//MissingLAGDhit++;
+	      // 	test++;
+	
+		
+	      // }
 	      
 	      if(*max_element(NewNumSubEventsLAGD.begin(), NewNumSubEventsLAGD.end()) >= LAGDmax_StripHits || *min_element(NewNumSubEventsLAGD.begin(), NewNumSubEventsLAGD.end()) <= LAGDmin_StripHits){GoodEvent[totalEventiterator] = false;eventlostduetoSM = true;SMloss->Fill(9);}
 	      if(eventlostduetoSM == true){
@@ -2629,23 +2969,41 @@ void APVEvent(){
 	      
 	      }
 
-	      if(Efficiency && GoodEvent[totalEventiterator]){
-		cout << ReducedLAGDmaxstrips.size() << endl;
-		int LAGDhit = EffCounter(ReducedTracker1xmaxstrips, ReducedTracker1xmaxcharges, ReducedTracker1ymaxstrips, ReducedTracker1ymaxcharges,ReducedTracker2xmaxstrips, ReducedTracker2xmaxcharges,ReducedTracker2ymaxstrips, ReducedTracker2ymaxcharges, ReducedTracker3xmaxstrips, ReducedTracker3xmaxcharges, ReducedTracker3ymaxstrips, ReducedTracker3ymaxcharges,ReducedTracker4xmaxstrips, ReducedTracker4xmaxcharges,ReducedTracker4ymaxstrips, ReducedTracker4ymaxcharges, ReducedLAGDmaxstrips, ReducedLAGDmaxcharges, LAGDXoffsets[location], LAGDYoffsets[location], HVres[location]);
+	      // if(!GoodEvent[totalEventiterator] && test == 1){
+	      // 	BadLAGDHitsGoodTracker++;
+	      // }
+		 
+	      // if(Clusterdistevents && GoodEvent[totalEventiterator]){		
+	      // 	Clusterdist[evtype]->Fill(NewNumSubEventsLAGD.at(0));
+	      // 	cout << "Hit size: " << NewNumSubEventsLAGD.at(0) << endl;
+	      // }
+	      
+	      // if(Efficiency && GoodEvent[totalEventiterator]){
+	      // 	cout << ReducedLAGDmaxstrips.size() << endl;
+	      // 	int LAGDhit = EffCounter(ReducedTracker1xmaxstrips, ReducedTracker1xmaxcharges, ReducedTracker1ymaxstrips, ReducedTracker1ymaxcharges,ReducedTracker2xmaxstrips, ReducedTracker2xmaxcharges,ReducedTracker2ymaxstrips, ReducedTracker2ymaxcharges, ReducedTracker3xmaxstrips, ReducedTracker3xmaxcharges, ReducedTracker3ymaxstrips, ReducedTracker3ymaxcharges,ReducedTracker4xmaxstrips, ReducedTracker4xmaxcharges,ReducedTracker4ymaxstrips, ReducedTracker4ymaxcharges, ReducedLAGDmaxstrips, ReducedLAGDmaxcharges, LAGDXoffsets[location], LAGDYoffsets[location], HVres[location]);
 
-		cout << "Hit or no?: " << LAGDhit << endl;
-		if(LAGDhit == 0)
-		  NumNoLAGDEventSeen.at(fileit)++;
-
+	      // 	cout << "Hit or no?: " << LAGDhit << endl;
+	      // 	if(LAGDhit == -1){
+	      // 	  cout << "lost event here" << endl;
+		  
+	      // 	  continue;
+	      // 	}
 		
-		LAGDhitsnum += LAGDhit;
-		cout << LAGDhitsnum << endl;
-
-		if(LAGDhitsnum >  Trackerhits){return;}
-		// if(LAGDhit == 1)
-		//   return;
+	      // 	if(LAGDhit == 0){
+	      // 	  NumNoLAGDEventSeen.at(fileit)++;
+	      // 	  NumNoLAGDEventSeenEventIDs.push_back(totalEventiterator);
+	      // 	  //return;
+	      // 	}
+	      // 	if(LAGDhit == 1){
+	      // 	  LAGDhitsnum += LAGDhit;
+	      // 	  cout << LAGDhitsnum << endl;
+	      // 	}
 		
-	      }
+	      // 	if(LAGDhitsnum >  Trackerhits){return;}
+	      // 	// if(LAGDhit == 1)
+	      // 	//   return;
+		
+	      // }
 	    }
 	  }
 	}
@@ -2654,7 +3012,11 @@ void APVEvent(){
 	  if(maxstrips.empty())
 	    GoodEvent[totalEventiterator] = false;
 	  else{
-	    auto NumSubEvents = StripSep(maxstrips, maxcharges);	
+	    auto NumSubEvents = StripSep(maxstrips, maxcharges);
+	    for(auto i = NumSubEvents.begin(); i != NumSubEvents.end(); i++){
+	      Clusterdist[evtype]->Fill(*i);
+	    }
+	    
 	    if(NumSubEvents.size() > 1)
 	      GoodEvent[totalEventiterator] = false;
 	    
@@ -2671,20 +3033,311 @@ void APVEvent(){
       
       if(display_mode == 1 || display_mode == 2 || display_mode == 3 || display_mode == 5){
 	cout << "Enters here??" << endl;
+	bool combineapvs = true;
+	
+	if(combineapvs){
+	  if(apvnum == 6 || apvnum == 7){
+	    //combine APVs 8 and 9 since hits are combined here
+	    //To map to combined sector, APV9 needs strip# +1
+	    //cout << "did this work?" << endl;
+	    // for(auto i = 0; i < LAGDMaxStrips["APV9"].size(); i++){
+	    //   cout << LAGDMaxStrips["APV9"].at(i) << endl;
+	    //   LAGDMaxStrips["APV9"].at(i) = LAGDMaxStrips["APV9"].at(i)+1;
+	    // }
+	    if(LAGDMaxStrips["APV8"].empty() || LAGDMaxStrips["APV9"].empty()){continue;}
+
+	    vector<vector<float>> UsableAPV8stripsandCharges;
+	    vector<vector<float>> UsableAPV9stripsandCharges;
+	    
+
+	    float ChargeMult = 1;
+	    //apvnum = 6;
+	    cout << "APV8 hit strips:" << endl;
+	    //if(apvnum == 6){
+	    for(auto i = 0; i < LAGDMaxStrips["APV8"].size(); i++){
+	      if(int(LAGDMaxStrips["APV8"].at(i))%2 == 1){
+		// cout << "Hey" << endl;
+		// cout << LAGDMaxStrips["APV8"].at(i) << endl;
+		// cout << LAGDMaxStrips["APV8"].at(i)-1 << endl;
+		  
+		// int cnt = count(LAGDMaxStrips["APV8"].begin(), LAGDMaxStrips["APV8"].end(), LAGDMaxStrips["APV8"].at(i)-1);
+		// cout << "Hey" << endl;
+		// if(cnt > 0){
+		//   cout << "Hey" << endl;
+		//   cout << "Hey" << endl;
+		//   cout << LAGDMaxStrips["APV8"].at(i) << " with charge: " << LAGDMaxCharges["APV8"].at(i)  + LAGDMaxCharges["APV8"].at(i)-1<< endl;
+		//   vector<float> subduo;
+		//   subduo.push_back(LAGDMaxStrips["APV8"].at(i));
+		//   subduo.push_back(LAGDMaxCharges["APV8"].at(i) + LAGDMaxCharges["APV8"].at(i)-1);
+		  
+		//   UsableAPV8stripsandCharges.push_back(subduo);
+		//   subduo.clear();
+		// }
+		// else {
+		cout << LAGDMaxStrips["APV8"].at(i) << " with charge: " << LAGDMaxCharges["APV8"].at(i) << endl;
+		vector<float> subduo;
+		subduo.push_back(LAGDMaxStrips["APV8"].at(i));
+		subduo.push_back(ChargeMult*LAGDMaxCharges["APV8"].at(i));
+		
+		UsableAPV8stripsandCharges.push_back(subduo);
+		subduo.clear();
+		//} 
+		//}
+	      }
+	    }
+	    
+	    //if(apvnum == 7){
+	    cout << "APV9 hit strips:" << endl;
+	    for(auto i = 0; i < LAGDMaxStrips["APV9"].size(); i++){
+	      if(int(LAGDMaxStrips["APV9"].at(i))%2 == 0){
+		cout << LAGDMaxStrips["APV9"].at(i) << " with charge: " << LAGDMaxCharges["APV9"].at(i) << endl;
+		vector<float> subduo;
+		subduo.push_back(LAGDMaxStrips["APV9"].at(i));
+		subduo.push_back(LAGDMaxCharges["APV9"].at(i));
+		
+		UsableAPV9stripsandCharges.push_back(subduo);
+		subduo.clear();		  
+	      }
+	    }
+	    //}
+
+	    //if(UsableAPV8stripsandCharges.empty() || UsableAPV9stripsandCharges.empty()){continue;}
+
+	    	    
+	    //int SM = 5;
+	    
+	    // if(UsableAPV9stripsandCharges.size() + UsableAPV8stripsandCharges.size() != SM){
+	    //   continue;
+	    // }
+
+	    // //shrinking code
+	    // for(auto i = 0; i < UsableAPV9stripsandCharges.size(); i++){	      
+	    //   UsableAPV9stripsandCharges[i][0] = int(UsableAPV9stripsandCharges[i][0])/2.0;
+	    // }
+
+	    // for(auto i = 0; i < UsableAPV8stripsandCharges.size(); i++){	      
+	    //   UsableAPV8stripsandCharges[i][0] = int((UsableAPV8stripsandCharges[i][0]+1))/2.0;
+	    // }
+
+	    // //Add shrunk vectors to zerosuppresed vectors for analysis
+	    // LAGDMaxStrips[APVname[apvnum]].clear();
+	    // LAGDMaxCharges[APVname[apvnum]].clear();
 
 
-	//cout << "Is event good?: " << GoodEvent[totalEventiterator] << endl;
+	    // if(apvnum == 6){
+	    //   for(auto i =0; i < UsableAPV8stripsandCharges.size(); i++){
+	    // 	LAGDMaxStrips[APVname[apvnum]].push_back(UsableAPV8stripsandCharges[i][0]);
+	    // 	LAGDMaxCharges[APVname[apvnum]].push_back(UsableAPV8stripsandCharges[i][1]);
+	    //   }
+	    // }
+
+	    // if(apvnum == 7){
+	    //   for(auto i =0; i < UsableAPV9stripsandCharges.size(); i++){
+	    // 	LAGDMaxStrips[APVname[apvnum]].push_back(UsableAPV9stripsandCharges[i][0]);
+	    // 	LAGDMaxCharges[APVname[apvnum]].push_back(UsableAPV9stripsandCharges[i][1]);
+	    //   }
+	    // }
+
+	    
+	    //Charge Multiplier based on Cluster SM
+	    vector<vector<float>> ChargeAdjustedUsableAPV8stripsandCharges;
+
+	    int EventSM = UsableAPV8stripsandCharges.size() + UsableAPV9stripsandCharges.size();
+
+	    vector<float> Multipliers = {1.0, 1.0, 8.65, 2.75, 2.77, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+	    //vector<float> Multipliers = {1.0, 1.0, 3.79, 4.27, 2.70, 2.3, 1.92, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+	    
+	    for(auto i : UsableAPV8stripsandCharges){
+	      vector<float> subduo;
+	      subduo.push_back(i[0]);
+	      if(UsableAPV8stripsandCharges.size() < Multipliers.size()){
+		//cout << "Earlier CM: " << Multipliers[EventSM] << endl;
+		subduo.push_back(Multipliers[EventSM]*i[1]);
+	      }
+	      else {
+		subduo.push_back(i[1]);
+	      }
+	      ChargeAdjustedUsableAPV8stripsandCharges.push_back(subduo);
+	      subduo.clear();
+	    }
+	    
+	    //merging code
+	    cout << "Sector 8" << endl;
+	    for(auto i : ChargeAdjustedUsableAPV8stripsandCharges)
+	      cout << i[0] << " " << i[1] << endl;
+	    
+	    cout << "Sector 9" << endl;
+	    for(auto i : UsableAPV9stripsandCharges)
+	      cout << i[0] << " " << i[1] << endl;
+	    
+	    
+	    vector<vector<float>> mergedSectors(ChargeAdjustedUsableAPV8stripsandCharges.size() + UsableAPV9stripsandCharges.size());
+
+	    merge(ChargeAdjustedUsableAPV8stripsandCharges.begin(), ChargeAdjustedUsableAPV8stripsandCharges.end(), UsableAPV9stripsandCharges.begin(), UsableAPV9stripsandCharges.end(), mergedSectors.begin());
+
+	    cout << "Merged Sectors" << endl;
+	    for(auto i : mergedSectors)
+	      cout << i[0] << " " << i[1] << endl;
+	    
+	    //cout << EventSM << endl;
+
+	    //Add merged vectors to zerosuppresed vectors for analysis
+	    LAGDMaxStrips[APVname[apvnum]].clear();
+	    LAGDMaxCharges[APVname[apvnum]].clear();
+	    
+	    for(auto i =0; i < mergedSectors.size(); i++){
+	      LAGDMaxStrips[APVname[apvnum]].push_back(mergedSectors[i][0]);
+	      LAGDMaxCharges[APVname[apvnum]].push_back(mergedSectors[i][1]);
+	    }
+	    
+
+	    // for(auto i = 0; i < UsableAPV8strips.size(); i++){
+	    //   APV89combinedPulseHeight1D[*evtID]->SetPoint(APV89Pitcombined[*evtID]++, UsableAPV8strips.at(i), UsableAPV8charges.at(i));	         
+	    // }
+	    // for(auto i = 0; i < UsableAPV9strips.size(); i++){
+	    //   APV89combinedPulseHeight1D[*evtID]->SetPoint(APV89Pitcombined[*evtID]++, UsableAPV9strips.at(i), UsableAPV9charges.at(i));	         
+	    // }
+	    
+	    // if(*evtID == 13){	      
+	    //   auto quickcanv = new TCanvas("", "", 500 ,500);
+	      
+	    //   APV89combinedPulseHeight1D[*evtID]->SetMarkerStyle(20);
+	    //   APV89combinedPulseHeight1D[*evtID]->SetFillColor(38);
+	    //   APV89combinedPulseHeight1D[*evtID]->Draw("AB");
+	    //   APV89combinedPulseHeight1D[*evtID]->SetTitle("Sector 8 Odd strips and sector 9 Even strips combined");
+	    //   APV89combinedPulseHeight1D[*evtID]->GetXaxis()->SetTitle("Strip");
+	    //   APV89combinedPulseHeight1D[*evtID]->GetXaxis()->CenterTitle(true);
+	    //   APV89combinedPulseHeight1D[*evtID]->GetYaxis()->SetRangeUser(0,500);
+	    //   APV89combinedPulseHeight1D[*evtID]->GetYaxis()->SetTitle("Charge [ADC counts]");
+	    //   APV89combinedPulseHeight1D[*evtID]->GetYaxis()->CenterTitle(true);
+
+	    //   quickcanv->Draw();
+	    //   return;
+	    // }
 
 
-	// if(ReducedTracker1xmaxstrips.empty() || ReducedTracker1ymaxstrips.empty() || ReducedTracker2xmaxstrips.empty() || ReducedTracker2ymaxstrips.empty() || ReducedTracker3xmaxstrips.empty() || ReducedTracker3ymaxstrips.empty() || ReducedTracker4xmaxstrips.empty() || ReducedTracker4ymaxstrips.empty() || LAGDMaxCharges[APVname[apvnum]].empty()){
-	//   GoodEvent[totalEventiterator] = false;
-	//   cout << "Lost Event" << endl;	  
-	// }
-	if(Tracker1xmaxstrips.empty() || Tracker1ymaxstrips.empty() || Tracker2xmaxstrips.empty() || Tracker2ymaxstrips.empty() || Tracker3xmaxstrips.empty() || Tracker3ymaxstrips.empty() || Tracker4xmaxstrips.empty() || Tracker4ymaxstrips.empty() || LAGDMaxCharges[APVname[apvnum]].empty()){
-	  GoodEvent[totalEventiterator] = false;
-	  cout << "Lost Event" << endl;	  
+	    //vector<int>
+	    
+	    // vector<int> intersection;
+
+	    // set_intersection(LAGDMaxStrips["APV9"].begin(), LAGDMaxStrips["APV9"].end(), LAGDMaxStrips["APV8"].begin(), LAGDMaxStrips["APV8"].end(), back_inserter(intersection));
+	    // //cout
+	    // for(auto i : intersection)
+	    //   cout << i << " ";
+	    // cout << endl;
+
+	    // int minstrip = *min_element(intersection.begin(), intersection.end());
+	    // int maxstrip = *max_element(intersection.begin(), intersection.end());
+
+	    // vector<float> PrunedUsableAPV8strips;
+	    // vector<float> PrunedUsableAPV8charges;
+	    // vector<float> PrunedUsableAPV9strips;
+	    // vector<float> PrunedUsableAPV9charges;
+
+	    // int j =0;
+
+	    
+	    // if(!intersection.empty()){
+	    //   if(apvnum == 7){
+	    // 	cout << "Initial APV9 strips and charges" << endl;
+	    // 	for(auto i = 0; i < UsableAPV9strips.size(); i++){
+	    // 	  cout << UsableAPV9strips.at(i) << " " << UsableAPV9charges.at(i) << endl;
+	    // 	}
+	    // 	cout << endl;
+
+	    // 	for(auto i = 0; i < UsableAPV9strips.size(); i++){	      
+	    // 	  if(LAGDMaxStrips["APV9"].at(i) >= minstrip){
+	    // 	    PrunedUsableAPV9strips.push_back(minstrip+j);
+	    // 	    LAGDMaxStrips[APVname[apvnum]].push_back(minstrip+j);
+	    // 	    PrunedUsableAPV9charges.push_back(UsableAPV9charges.at(i));
+	    // 	    LAGDMaxCharges[APVname[apvnum]].push_back(UsableAPV9charges.at(i));
+	    // 	    j++;
+	    // 	    if(LAGDMaxStrips["APV9"].at(i) == maxstrip){break;}
+	    // 	  }
+	    // 	}
+
+	    // 	cout << "Reindexed APV9 strips" << endl;
+	    // 	for(auto i = 0; i < PrunedUsableAPV9strips.size(); i++){
+	    // 	  cout << PrunedUsableAPV9strips.at(i) << " " << PrunedUsableAPV9charges.at(i) << endl;
+	    // 	}
+	    // 	cout << endl;
+	    //   }
+	      
+	    //   if(apvnum == 6){
+	    // 	for(auto i = 0; i < UsableAPV8strips.size(); i++){	      
+	    // 	  if(LAGDMaxStrips["APV8"].at(i) >= minstrip){
+	    // 	    PrunedUsableAPV8strips.push_back(minstrip+j);
+	    // 	    LAGDMaxStrips[APVname[apvnum]].push_back(minstrip+j);
+	    // 	    PrunedUsableAPV8charges.push_back(UsableAPV8charges.at(i));
+	    // 	    LAGDMaxCharges[APVname[apvnum]].push_back(UsableAPV8charges.at(i));
+	    // 	    j++;
+	    // 	    if(LAGDMaxStrips["APV8"].at(i) == maxstrip){break;}
+	    // 	  }
+	    // 	}
+	    //   }
+	    // }
+	    
+	    //cout << endl;
+	    
+	    
+	    
+	    
+	    //method 1
+	    //transfer intersection to these vectors, odd strips get APV 8 charge, even gets APV 9 charge
+	    // vector<float> APV8clonestrips = LAGDMaxStrips["APV8"];
+	    // vector<float> APV8clonecharges = LAGDMaxCharges["APV8"];
+	    // vector<float> APV9clonestrips = LAGDMaxStrips["APV9"];
+	    // vector<float> APV9clonecharges = LAGDMaxCharges["APV9"];
+	    
+	    
+	    // cout << "Average charge on same strips: " << endl;
+	    // for(auto i : intersection){
+	    //   auto chargelocation8 = find(APV8clonestrips.begin(), APV8clonestrips.end(), i);
+	    //   auto chargelocation9 = find(APV9clonestrips.begin(), APV9clonestrips.end(), i);
+	    //   auto avgcharge89 = (APV8clonecharges.at(chargelocation8-APV8clonestrips.begin()) + APV9clonecharges.at(chargelocation9-APV9clonestrips.begin()))/2;
+
+	    //   cout << i << ", " << avgcharge89 << endl;
+	    
+	    //   LAGDMaxStrips[APVname[apvnum]].push_back(i);
+	    //   LAGDMaxCharges[APVname[apvnum]].push_back(avgcharge89);
+	    // }
+	    // cout << "combined version: " << endl;
+	    // for(auto i : intersection){
+	    //   LAGDMaxStrips[APVname[apvnum]].push_back(i);
+	    //   if(i%2 == 1){	      
+	    //     auto chargelocation = find(APV8clonestrips.begin(), APV8clonestrips.end(), i);
+	    //     cout << i << ", " << APV8clonecharges.at(chargelocation-APV8clonestrips.begin()) << endl;
+	    //     LAGDMaxCharges[APVname[apvnum]].push_back(APV8clonecharges.at(chargelocation - APV8clonestrips.begin()));
+	    //   }
+	    //   if(i%2 == 0){
+	    //     auto chargelocation = find(APV9clonestrips.begin(), APV9clonestrips.end(), i);
+	    //     cout << i << ", " << APV9clonecharges.at(chargelocation-APV9clonestrips.begin()) << endl;
+	    //     LAGDMaxCharges[APVname[apvnum]].push_back(APV9clonecharges.at(chargelocation - APV9clonestrips.begin()));
+	    //   }
+	    // }
+	  
+	  }//end of if(apvnum...)
 	}
-	else{
+
+	
+	// cout << "Done" << endl;
+	//tracker params
+	int Trackerclustnum = 5;
+	int Trackmax_StripHits = 11;
+	int Trackmin_StripHits = 0;//strip multiplicities will be between min and below max (not including the values themselves)
+
+	//LAGD params
+	int LAGDclustnum = 5;
+	int LAGDmax_StripHits = 6;//6
+	int LAGDmin_StripHits = 0;//1
+
+	//test trackers first
+	
+	if(Tracker1xmaxstrips.empty() || Tracker1ymaxstrips.empty() || Tracker2xmaxstrips.empty() || Tracker2ymaxstrips.empty() || Tracker3xmaxstrips.empty() || Tracker3ymaxstrips.empty() || Tracker4xmaxstrips.empty() || Tracker4ymaxstrips.empty()){
+	GoodEvent[totalEventiterator] = false;
+	cout << "Lost Event to trackers" << endl;	  
+	}        
+	else if(GoodEvent[totalEventiterator]){
 	  //cout << "Is event good?: " << GoodEvent[totalEventiterator] << endl;
 	  cout << "here?" << endl;
 	  auto NumSubEvents1X = StripSep(Tracker1xmaxstrips, Tracker1xmaxcharges);
@@ -2695,26 +3348,24 @@ void APVEvent(){
 	  auto NumSubEvents3Y = StripSep(Tracker3ymaxstrips, Tracker3ymaxcharges);
 	  auto NumSubEvents4X = StripSep(Tracker4xmaxstrips, Tracker4xmaxcharges);
 	  auto NumSubEvents4Y = StripSep(Tracker4ymaxstrips, Tracker4ymaxcharges);
-	  cout << APVname[apvnum] << endl;
-	  auto NumSubEventsLAGD = StripSep(LAGDMaxStrips[APVname[apvnum]], LAGDMaxCharges[APVname[apvnum]]);
-
+	  
 	 
-	  //cout << "Is event good?: " << GoodEvent[totalEventiterator] << endl;
-
 	  
-	  int Trackerclustnum = 3;
-	  if(NumSubEvents1X.size() > Trackerclustnum || NumSubEvents1Y.size() > Trackerclustnum  || NumSubEvents2X.size() > Trackerclustnum || NumSubEvents2Y.size() > Trackerclustnum  ||NumSubEvents3X.size() > Trackerclustnum || NumSubEvents3Y.size() > Trackerclustnum  || NumSubEvents4X.size() > Trackerclustnum || NumSubEvents4Y.size() > Trackerclustnum || NumSubEventsLAGD.size() > Trackerclustnum){
-	    GoodEvent[totalEventiterator] = false;
-	    //cout << "JHerererer?" << endl;	    
+	  
+	  
+	  //make sure each trackers set of clusters have lass than 5 sub clusters
+	  if(NumSubEvents1X.size() > Trackerclustnum || NumSubEvents1Y.size() > Trackerclustnum  || NumSubEvents2X.size() > Trackerclustnum || NumSubEvents2Y.size() > Trackerclustnum  ||NumSubEvents3X.size() > Trackerclustnum || NumSubEvents3Y.size() > Trackerclustnum  || NumSubEvents4X.size() > Trackerclustnum || NumSubEvents4Y.size() > Trackerclustnum){
+	  GoodEvent[totalEventiterator] = false;
+	  cout << "Tracker det has too many clusters" << endl;	    
 	  }
-	  
-	  //cout << "Is event good?: " << GoodEvent[totalEventiterator] << endl;
 
+	  //with all tracker hits now having the right number of clusters, find the ideal clusters for each tracker
 
-	  if(GoodEvent[totalEventiterator] == true){
-	    //cout << "Evtype: " << evtype << endl;
-	    auto Newtrackerhits = MultiClusterReducer(Tracker1xmaxstrips, Tracker1xmaxcharges, Tracker1ymaxstrips, Tracker1ymaxcharges,Tracker2xmaxstrips, Tracker2xmaxcharges,Tracker2ymaxstrips, Tracker2ymaxcharges, Tracker3xmaxstrips, Tracker3xmaxcharges, Tracker3ymaxstrips, Tracker3ymaxcharges,Tracker4xmaxstrips, Tracker4xmaxcharges,Tracker4ymaxstrips, Tracker4ymaxcharges, LAGDMaxStrips[APVname[apvnum]], LAGDMaxCharges[APVname[apvnum]], LAGDXoffsets[location], LAGDYoffsets[location]);
-	    cout << "past this?" << endl;
+	  if(GoodEvent[totalEventiterator]){
+	    cout << "here too" << endl;
+	    auto Newtrackerhits = MultiClusterReducer(Tracker1xmaxstrips, Tracker1xmaxcharges, Tracker1ymaxstrips, Tracker1ymaxcharges,Tracker2xmaxstrips, Tracker2xmaxcharges,Tracker2ymaxstrips, Tracker2ymaxcharges, Tracker3xmaxstrips, Tracker3xmaxcharges, Tracker3ymaxstrips, Tracker3ymaxcharges,Tracker4xmaxstrips, Tracker4xmaxcharges,Tracker4ymaxstrips, Tracker4ymaxcharges);//, LAGDMaxStrips[APVname[apvnum]], LAGDMaxCharges[APVname[apvnum]], LAGDXoffsets[location], LAGDYoffsets[location]);
+	    
+	    //cout << "past this?" << endl;
 	    if(Newtrackerhits.empty()){// || *evtID == 514){
 	      cout << "For now, bad!" << endl;
 	      lostcounter++;
@@ -2722,8 +3373,11 @@ void APVEvent(){
 	      //return;
 	    }
 	    else{
+	      //cout << "here too??" << endl;
 	      //break;
 	      ReducedTracker1xmaxstrips = Newtrackerhits[0];
+	      //cout << "1st ReducedTracker1xmaxstrips: " << ReducedTracker1xmaxstrips.at(0) << endl;
+	      
 	      ReducedTracker1xmaxcharges = Newtrackerhits[1];
 	      ReducedTracker2xmaxstrips = Newtrackerhits[2];
 	      ReducedTracker2xmaxcharges = Newtrackerhits[3];
@@ -2739,20 +3393,9 @@ void APVEvent(){
 	      ReducedTracker3ymaxstrips = Newtrackerhits[12];
 	      ReducedTracker3ymaxcharges = Newtrackerhits[13];
 	      ReducedTracker4ymaxstrips = Newtrackerhits[14];
-	      ReducedTracker4ymaxcharges = Newtrackerhits[15];
-
-	      ReducedLAGDmaxstrips = Newtrackerhits[16];
-	      ReducedLAGDmaxcharges = Newtrackerhits[17];
+	      ReducedTracker4ymaxcharges = Newtrackerhits[15];	      
 	    }
-	    
-	    cout << "In main code: " << endl;
-	    for(int y = 0; y < Newtrackerhits.size(); y++){
-	      for(int j = 0; j < Newtrackerhits[y].size(); j++){
-		cout << Newtrackerhits[y][j] << ", ";
-	      }
-	      cout << endl;
-	    }
-	    //break;
+	    //cout << "here too??????" << endl;
 	    NewNumSubEvents1X = StripSep(ReducedTracker1xmaxstrips, ReducedTracker1xmaxcharges);
 	    NewNumSubEvents1Y = StripSep(ReducedTracker1ymaxstrips, ReducedTracker1ymaxcharges);
 	    NewNumSubEvents2X = StripSep(ReducedTracker2xmaxstrips, ReducedTracker2xmaxcharges);
@@ -2761,80 +3404,266 @@ void APVEvent(){
 	    NewNumSubEvents3Y = StripSep(ReducedTracker3ymaxstrips, ReducedTracker3ymaxcharges);
 	    NewNumSubEvents4X = StripSep(ReducedTracker4xmaxstrips, ReducedTracker4xmaxcharges);
 	    NewNumSubEvents4Y = StripSep(ReducedTracker4ymaxstrips, ReducedTracker4ymaxcharges);
-	    NewNumSubEventsLAGD = StripSep(ReducedLAGDmaxstrips, ReducedLAGDmaxcharges);
+	    //cout << "here too????????????????" << endl;
+	   
 	    
-	    //cout << GoodEvent[totalEventiterator] << endl;
+	    if(*max_element(NewNumSubEvents1X.begin(), NewNumSubEvents1X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents1X.begin(), NewNumSubEvents1X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(1);}
+
+	    for(auto y = 0; y < NewNumSubEvents1X.size(); y++)
+	      SM1x->Fill(NewNumSubEvents1X.at(y));
+	    
+	    if(*max_element(NewNumSubEvents1Y.begin(), NewNumSubEvents1Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents1Y.begin(), NewNumSubEvents1Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(2);}
+
+	    for(auto y = 0; y < NewNumSubEvents1Y.size(); y++)
+	      SM1y->Fill(NewNumSubEvents1Y.at(y));
+	  
+	    if(*max_element(NewNumSubEvents2X.begin(), NewNumSubEvents2X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents2X.begin(), NewNumSubEvents2X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(3);}
+
+	    for(auto y = 0; y < NewNumSubEvents2X.size(); y++)
+	      SM2x->Fill(NewNumSubEvents2X.at(y));
+	    
+	    if(*max_element(NewNumSubEvents2Y.begin(), NewNumSubEvents2Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents2Y.begin(), NewNumSubEvents2Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(4);}
+	    
+	    for(auto y = 0; y < NewNumSubEvents2Y.size(); y++)
+	      SM2y->Fill(NewNumSubEvents2Y.at(y));
+
+	    if(*max_element(NewNumSubEvents3X.begin(), NewNumSubEvents3X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents3X.begin(), NewNumSubEvents3X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(5);}
+
+	    for(auto y = 0; y < NewNumSubEvents3X.size(); y++)
+	      SM3x->Fill(NewNumSubEvents3X.at(y));
+
+	    if(*max_element(NewNumSubEvents3Y.begin(), NewNumSubEvents3Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents3Y.begin(), NewNumSubEvents3Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(6);}
+	    for(auto y = 0; y < NewNumSubEvents3Y.size(); y++)
+	      SM3y->Fill(NewNumSubEvents3Y.at(y));
+
+	    if(*max_element(NewNumSubEvents4X.begin(), NewNumSubEvents4X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents4X.begin(), NewNumSubEvents4X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(7);}
+
+	    for(auto y = 0; y < NewNumSubEvents4X.size(); y++)
+	      SM4x->Fill(NewNumSubEvents4X.at(y));
+
+	    if(*max_element(NewNumSubEvents4Y.begin(), NewNumSubEvents4Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents4Y.begin(), NewNumSubEvents4Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(8);}
+
+	    for(auto y = 0; y < NewNumSubEvents4Y.size(); y++)
+	      SM4y->Fill(NewNumSubEvents4Y.at(y));
+	
+	    cout << "here too????????????????????" << endl;
+	  
 	    if(GoodEvent[totalEventiterator]){
-	      int Trackmax_StripHits = 10;
-	      int Trackmin_StripHits = 1;//strip multiplicities will be between min and below max (not including the values themselves)
+	      Trackerhits++;
+	    }
 	  
-	      int LAGDmax_StripHits = 5;
-	      int LAGDmin_StripHits = 1;
-	  
-	      if(*max_element(NewNumSubEvents1X.begin(), NewNumSubEvents1X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents1X.begin(), NewNumSubEvents1X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(1);
-		cout << *max_element(NewNumSubEvents1X.begin(), NewNumSubEvents1X.end()) << endl;
-		cout << *min_element(NewNumSubEvents1X.begin(), NewNumSubEvents1X.end()) << endl;
+	    //onto LAGD SC
+	    cutflowit = 0;
+	    bool LAGDinvolvemnt = true;
+	    if(LAGDinvolvemnt){
+	      if(Efficiency)
+		LAGDclustnum = 20;
 	    
-	      }
-	      ////cout << "Is event good?: " << GoodEvent[totalEventiterator] << endl;
-	      for(auto y = 0; y < NewNumSubEvents1X.size(); y++)
-		SM1x->Fill(NewNumSubEvents1X.at(y));
-	      //cout << "after 1x: Is event good?: " << GoodEvent[totalEventiterator] << endl;
-
-
-	  
-	      if(*max_element(NewNumSubEvents1Y.begin(), NewNumSubEvents1Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents1Y.begin(), NewNumSubEvents1Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(2);}
-	      ////cout << "Is event good?: " << GoodEvent[totalEventiterator] << endl;
-	      for(auto y = 0; y < NewNumSubEvents1Y.size(); y++)
-		SM1y->Fill(NewNumSubEvents1Y.at(y));
-	      //cout << "after 1y: Is event good?: " << GoodEvent[totalEventiterator] << endl;
-
-
-
-	      if(*max_element(NewNumSubEvents2X.begin(), NewNumSubEvents2X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents2X.begin(), NewNumSubEvents2X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(3);}
-	      for(auto y = 0; y < NewNumSubEvents2X.size(); y++)
-		SM2x->Fill(NewNumSubEvents2X.at(y));
-	      //cout << "after 2x: Is event good?: " << GoodEvent[totalEventiterator] << endl;
-	      if(*max_element(NewNumSubEvents2Y.begin(), NewNumSubEvents2Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents2Y.begin(), NewNumSubEvents2Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(4);
-		cout << *max_element(NewNumSubEvents2Y.begin(), NewNumSubEvents2Y.end()) << endl;
-		cout << *min_element(NewNumSubEvents2Y.begin(), NewNumSubEvents2Y.end()) << endl;}
-	      for(auto y = 0; y < NewNumSubEvents2Y.size(); y++)
-		SM2y->Fill(NewNumSubEvents2Y.at(y));
-	      //cout << "after 2y: Is event good?: " << GoodEvent[totalEventiterator] << endl;
-	      if(*max_element(NewNumSubEvents3X.begin(), NewNumSubEvents3X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents3X.begin(), NewNumSubEvents3X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(5);}
-	      for(auto y = 0; y < NewNumSubEvents3X.size(); y++)
-		SM3x->Fill(NewNumSubEvents3X.at(y));
-	      //cout << "after 3x: Is event good?: " << GoodEvent[totalEventiterator] << endl;
-	      //cout << "B4 3y: " << GoodEvent[totalEventiterator] << endl;
-	      if(*max_element(NewNumSubEvents3Y.begin(), NewNumSubEvents3Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents3Y.begin(), NewNumSubEvents3Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(6);}
-	      for(auto y = 0; y < NewNumSubEvents3Y.size(); y++)
-		SM3y->Fill(NewNumSubEvents3Y.at(y));
-	      //cout << "after 3y: Is event good?: " << GoodEvent[totalEventiterator] << endl;
-	      //cout << "4fter 3y: " <<  GoodEvent[totalEventiterator] << endl;
-	      if(*max_element(NewNumSubEvents4X.begin(), NewNumSubEvents4X.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents4X.begin(), NewNumSubEvents4X.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(7);}
-	      for(auto y = 0; y < NewNumSubEvents4X.size(); y++)
-		SM4x->Fill(NewNumSubEvents4X.at(y));
-	      //cout << "after 4x: Is event good?: " << GoodEvent[totalEventiterator] << endl;
-	      if(*max_element(NewNumSubEvents4Y.begin(), NewNumSubEvents4Y.end()) >= Trackmax_StripHits || *min_element(NewNumSubEvents4Y.begin(), NewNumSubEvents4Y.end()) <= Trackmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(8);}
-	      for(auto y = 0; y < NewNumSubEvents4Y.size(); y++)
-		SM4y->Fill(NewNumSubEvents4Y.at(y));
-	      //cout << "after 4y: Is event good?: " << GoodEvent[totalEventiterator] << endl;
-	      if(*max_element(NewNumSubEventsLAGD.begin(), NewNumSubEventsLAGD.end()) >= LAGDmax_StripHits || *min_element(NewNumSubEventsLAGD.begin(), NewNumSubEventsLAGD.end()) <= LAGDmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(9);}
-	      for(auto y = 0; y < NewNumSubEventsLAGD.size(); y++)
-		SMLAGD->Fill(NewNumSubEventsLAGD.at(y));
-	      //cout << "after LAGD: Is event good?: " << GoodEvent[totalEventiterator] << endl;
-	      //cout << GoodEvent[totalEventiterator] << endl;       
-	      if(GoodEvent[totalEventiterator] == true){
-		for(uint p = 0; p < NewNumSubEventsLAGD.size();p++){
-		  SMofTheseevents.push_back(NewNumSubEventsLAGD.at(p));
+	    
+	      if(LAGDMaxStrips[APVname[apvnum]].empty()){
+		if(Efficiency){
+		  BadLAGDHitsGoodTracker.at(fileit)++;
+		  Effcutflow.at(0)++;		
+		}
+		GoodEvent[totalEventiterator] = false;
+		//cutflowit++;
 	      
+		cout << "Lost Event to LAGD" << endl;
+	      }	  	    
+	      else if(GoodEvent[totalEventiterator]){
+		// if(GoodEvent[totalEventiterator]){
+		// 	Trackerhits++;
+		// }
+	      
+		auto NumSubEventsLAGD = StripSep(LAGDMaxStrips[APVname[apvnum]], LAGDMaxCharges[APVname[apvnum]]);
+	    
+		if(NumSubEventsLAGD.size() > LAGDclustnum){
+		  if(Efficiency){
+		    BadLAGDHitsGoodTracker.at(fileit)++;
+		    Effcutflow.at(1)++;	      
+		  }
+		
+		  GoodEvent[totalEventiterator] = false; 
+		
+		  cout << "LAGD has too many clusters" << endl;
 		}
 	      }
-	      cout << "After SM counter?" << endl;
-	      //cout << "Is event good?: " << GoodEvent[totalEventiterator] << endl;
+
+	  
+	      if(GoodEvent[totalEventiterator]){
+
+		auto Newtrackerhits = MultiClusterReducer(ReducedTracker1xmaxstrips, ReducedTracker1xmaxcharges, ReducedTracker1ymaxstrips, ReducedTracker1ymaxcharges, ReducedTracker2xmaxstrips, ReducedTracker2xmaxcharges, ReducedTracker2ymaxstrips, ReducedTracker2ymaxcharges, ReducedTracker3xmaxstrips, ReducedTracker3xmaxcharges, ReducedTracker3ymaxstrips, ReducedTracker3ymaxcharges, ReducedTracker4xmaxstrips, ReducedTracker4xmaxcharges, ReducedTracker4ymaxstrips, ReducedTracker4ymaxcharges, LAGDMaxStrips[APVname[apvnum]], LAGDMaxCharges[APVname[apvnum]], LAGDXoffsets[location], LAGDYoffsets[location]);
+	    
+		cout << "past this?" << endl;
+		if(Newtrackerhits.empty()){// || *evtID == 514){
+		  cout << "For now, bad!" << endl;
+		  lostcounter++;
+		  //cutflowit++;
+		  Effcutflow.at(2)++;
+	      
+	    
+		  continue;
+		  //return;
+		}	    
+		else{	     
+		  //break;
+		  //i know this is redundant, but its easier to just redefine these variables for now
+		  ReducedTracker1xmaxstrips = Newtrackerhits[0];
+
+		  //cout << "ReducedTracker1xmaxstrips: " << ReducedTracker1xmaxstrips.at(0) << endl;
+	      
+		  ReducedTracker1xmaxcharges = Newtrackerhits[1];
+		  ReducedTracker2xmaxstrips = Newtrackerhits[2];
+		  ReducedTracker2xmaxcharges = Newtrackerhits[3];
+		  ReducedTracker3xmaxstrips = Newtrackerhits[4];
+		  ReducedTracker3xmaxcharges = Newtrackerhits[5];
+		  ReducedTracker4xmaxstrips = Newtrackerhits[6];
+		  ReducedTracker4xmaxcharges = Newtrackerhits[7];
+	    
+		  ReducedTracker1ymaxstrips = Newtrackerhits[8];
+		  ReducedTracker1ymaxcharges = Newtrackerhits[9];
+		  ReducedTracker2ymaxstrips = Newtrackerhits[10];
+		  ReducedTracker2ymaxcharges = Newtrackerhits[11];
+		  ReducedTracker3ymaxstrips = Newtrackerhits[12];
+		  ReducedTracker3ymaxcharges = Newtrackerhits[13];
+		  ReducedTracker4ymaxstrips = Newtrackerhits[14];
+		  ReducedTracker4ymaxcharges = Newtrackerhits[15];
+
+		  ReducedLAGDmaxstrips = Newtrackerhits[16];
+		  ReducedLAGDmaxcharges = Newtrackerhits[17];
+		}
+	    
+		// cout << "In main code: " << endl;
+		// for(int y = 0; y < Newtrackerhits.size(); y++){
+		//   for(int j = 0; j < Newtrackerhits[y].size(); j++){
+		// 	cout << Newtrackerhits[y][j] << ", ";
+		//   }
+		//   cout << endl;
+		// }
+		//break;
+	   
+		NewNumSubEventsLAGD = StripSep(ReducedLAGDmaxstrips, ReducedLAGDmaxcharges);
+	    
+		//cout << GoodEvent[totalEventiterator] << endl;
+		if(GoodEvent[totalEventiterator]){
+	     
+		
+		
+		  if(Efficiency)
+		    LAGDmax_StripHits = 20;
+	  
+	    
+	      
+		  if(*max_element(NewNumSubEventsLAGD.begin(), NewNumSubEventsLAGD.end()) >= LAGDmax_StripHits || *min_element(NewNumSubEventsLAGD.begin(), NewNumSubEventsLAGD.end()) <= LAGDmin_StripHits){GoodEvent[totalEventiterator] = false;SMloss->Fill(9); cutflowit++;Effcutflow.at(3)++;}
+
+
+		  LAGDMaxStrips[APVname[apvnum]].clear();
+		  LAGDMaxCharges[APVname[apvnum]].clear();
+		  
+		  LAGDMaxStrips[APVname[apvnum]] = ReducedLAGDmaxstrips;
+		  LAGDMaxCharges[APVname[apvnum]] = ReducedLAGDmaxcharges;
+		  
+		  bool intersector = false;
+		  if(intersector && GoodEvent[totalEventiterator]){
+		    //SM plots for Interweaved sectors
+		    cout << "This event made it!" << endl;
+		    //for charge ratio plot
+		    vector<vector<float>> IWLAGDHits;
+		    //vector<float> Multipliers = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, };
+		    //vector<float> Multipliers = {1.0, 1.0, 3.95, 4.5, 2.78, 2.61, 2.0, 2.42, 1.0, 1.0, 1.0, 1.0};
+		    cout << "Event SM: " << ReducedLAGDmaxstrips.size() << endl;
+		    
+		    for(auto i =0; i < ReducedLAGDmaxstrips.size(); i++){
+		      vector<float> subduo;
+		      subduo.push_back(ReducedLAGDmaxstrips.at(i));		      	     
+		      subduo.push_back(ReducedLAGDmaxcharges.at(i));
+		      IWLAGDHits.push_back(subduo);
+		      subduo.clear();
+		    }
+
+		    float sum8=0;	   
+		    float sum9=0;	    
+		    //APV8 Odd strips
+		    //APV9 Even
+		  
+		    for(auto i : IWLAGDHits){
+		      cout << i[0] << " " << i[1] << endl;
+		      if(int(i[0])%2 == 0){
+			sum9 += i[1];
+		      
+		      }
+
+		      if(int(i[0])%2 == 1){
+			sum8 += i[1];
+		      
+		      }		      
+		    }
+		    IWLAGDHits.clear();
+		    		    		    
+		    cout << "9/8: " << sum9 << " / " << sum8 << " = " << sum9/sum8 << endl;
+		    ChargeClusterRatioHist->Fill(sum9/sum8);
+		    ClusterChargeRatiofor8and9->SetPoint(index, sum8, sum9);
+		    index++;
+		    
+		  }
+		  
+
+		  if(!GoodEvent[totalEventiterator] && Efficiency){
+		    BadLAGDHitsGoodTracker.at(fileit)++;
+		  }
+	      
+		  if(GoodEvent[totalEventiterator] && Efficiency){
+
+		    int LAGDhit = EffCounter(ReducedTracker1xmaxstrips, ReducedTracker1xmaxcharges, ReducedTracker1ymaxstrips, ReducedTracker1ymaxcharges,ReducedTracker2xmaxstrips, ReducedTracker2xmaxcharges,ReducedTracker2ymaxstrips, ReducedTracker2ymaxcharges, ReducedTracker3xmaxstrips, ReducedTracker3xmaxcharges, ReducedTracker3ymaxstrips, ReducedTracker3ymaxcharges,ReducedTracker4xmaxstrips, ReducedTracker4xmaxcharges,ReducedTracker4ymaxstrips, ReducedTracker4ymaxcharges, ReducedLAGDmaxstrips, ReducedLAGDmaxcharges, LAGDXoffsets[location], LAGDYoffsets[location], HVres[location]);
+		 
+		    cout << "Hit or no?: " << LAGDhit << endl;
+		    if(LAGDhit == -1){
+		      cout << "lost event here" << endl;
+		      cutflowit++;
+		      Effcutflow.at(4)++;
+		      continue;
+		    }
+		
+		    if(LAGDhit == 0){
+		      cutflowit++;
+		      Effcutflow.at(5)++;
+		      NumNoLAGDEventSeen.at(fileit)++;
+		  
+		      //NumNoLAGDEventSeenEventIDs.push_back(totalEventiterator);
+		      //return;
+		    }
+		
+		    if(LAGDhit == 1){
+		      LAGDhitsnum += LAGDhit;
+		      cout << LAGDhitsnum << endl;
+		      cutflowit++;
+		      Effcutflow.at(6)++;
+
+
+		      
+		    }
+		
+		    //if(LAGDhitsnum >  Trackerhits){return;}
+		    // if(LAGDhit == 1)
+		    //   return;
+		
+		  }
+
+	       
+		  for(auto y = 0; y < NewNumSubEventsLAGD.size(); y++)
+		    SMLAGD->Fill(NewNumSubEventsLAGD.at(y));
+		  
+		  if(GoodEvent[totalEventiterator] == true){
+		    for(uint p = 0; p < NewNumSubEventsLAGD.size();p++){
+		      SMofTheseevents.push_back(NewNumSubEventsLAGD.at(p));
+		  
+		    }
+		  }
+		}
+	      }
 	    }
 	  }
-	}
+	}	
       }
       
       /*
@@ -2842,7 +3671,7 @@ void APVEvent(){
 	for(auto i = Tracker1xmaxstrips.begin(); i != Tracker1xmaxstrips.end(); i++){
 	cout << *i << endl;	      
 	}
-
+	
 	
       */
       
@@ -2858,15 +3687,15 @@ void APVEvent(){
       float Tracker4xloc=0;
       float Tracker4yloc=0;
       /*
-      float APV2loc=0;
-      float APV3E1loc=0;
-      float APV3E2loc=0;
-      float APV4E3loc=0;
-      float APV4E4loc=0;
-      float APV5E3loc=0;
-      float APV5E4loc=0;
-      float APV6E3loc=0;
-      float APV6E4loc=0;
+	float APV2loc=0;
+	float APV3E1loc=0;
+	float APV3E2loc=0;
+	float APV4E3loc=0;
+	float APV4E4loc=0;
+	float APV5E3loc=0;
+	float APV5E4loc=0;
+	float APV6E3loc=0;
+	float APV6E4loc=0;
       float APV7E1loc=0; 
       float APV7E2loc=0; 
       float APV8loc=0;
@@ -2958,13 +3787,7 @@ void APVEvent(){
 	
 	  cout << "Length of each Sub Event: " << endl;
 	
-	  for(auto i = NumSubEvents.begin(); i != NumSubEvents.end(); i++){
-	    cout << "This eventplot had a strip multiplicity of " << *i << endl;
-	    ClusterdistAll->Fill(*i);
-	    if(*i > 1){//only allow hits with more than one strip
-	      Clusterdist[evtype]->Fill(*i);	      
-	    }
-	  }
+	 
         	
 	  previndex = maxstrips.at(0);	
 	  for(auto i = 0; i < abs(int(maxcharges.size())); i++){
@@ -2975,7 +3798,7 @@ void APVEvent(){
 	
 	  cout << num << ", " << totalcharge << endl;
 	  cout << num/totalcharge << endl;
-	  ClusterChargeHist->Fill(totalcharge);
+	 
 	  //if(Currentindex > tolerance + previndex){	    
 	  EventAvgCharge[evtype]->Fill(totalcharge);
 		
@@ -2984,60 +3807,14 @@ void APVEvent(){
 	}
       }
       
-      if(display_mode == 1 || display_mode == 2 || display_mode == 3 || display_mode == 5){
+      if((display_mode == 1 || display_mode == 2 || display_mode == 3 || display_mode == 5) && (!Efficiency)){
 
 	      
 	if(GoodEvent[totalEventiterator]){
 	  cout << "What event is in here?: " << *evtID << endl;
 	  
 	  EventIterator.push_back(totalEventiterator);
-	  //{
-	  /*
-	  if(LAGDMaxStrips[APVname[apvnum]].size() == 2){
-	    for(auto i = LAGDMaxStrips[APVname[apvnum]].begin(); i < LAGDMaxStrips[APVname[apvnum]].end(); i++){
-	      ResCorrFileSM2 << *i << " ";
-	    }
-	    ResCorrFileSM2 << endl;;
-	    for(auto i = LAGDMaxCharges[APVname[apvnum]].begin(); i < LAGDMaxCharges[APVname[apvnum]].end(); i++){
-	      ResCorrFileSM2 << *i << " ";
-	    }    
-	    ResCorrFileSM2 << endl;
 
-	  }
-	  if(LAGDMaxStrips[APVname[apvnum]].size() == 3){
-	    for(auto i = LAGDMaxStrips[APVname[apvnum]].begin(); i < LAGDMaxStrips[APVname[apvnum]].end(); i++){
-	      ResCorrFileSM3 << *i << " ";
-	    }
-	    ResCorrFileSM3 << endl;;
-	    for(auto i = LAGDMaxCharges[APVname[apvnum]].begin(); i < LAGDMaxCharges[APVname[apvnum]].end(); i++){
-	      ResCorrFileSM3 << *i << " ";
-	    }    
-	    ResCorrFileSM3 << endl;
-
-	  }
-	  if(LAGDMaxStrips[APVname[apvnum]].size() == 4){
-	    for(auto i = LAGDMaxStrips[APVname[apvnum]].begin(); i < LAGDMaxStrips[APVname[apvnum]].end(); i++){
-	      ResCorrFileSM4 << *i << " ";
-	    }
-	    ResCorrFileSM4 << endl;;
-	    for(auto i = LAGDMaxCharges[APVname[apvnum]].begin(); i < LAGDMaxCharges[APVname[apvnum]].end(); i++){
-	      ResCorrFileSM4 << *i << " ";
-	    }    
-	    ResCorrFileSM4 << endl;
-
-	  }
-	  if(LAGDMaxStrips[APVname[apvnum]].size() == 5){
-	    for(auto i = LAGDMaxStrips[APVname[apvnum]].begin(); i < LAGDMaxStrips[APVname[apvnum]].end(); i++){
-	      ResCorrFileSM5 << *i << " ";
-	    }
-	    ResCorrFileSM5 << endl;;
-	    for(auto i = LAGDMaxCharges[APVname[apvnum]].begin(); i < LAGDMaxCharges[APVname[apvnum]].end(); i++){
-	      ResCorrFileSM5 << *i << " ";
-	    }    
-	    ResCorrFileSM5 << endl;
-
-	  }
-	  */
 	  for(auto i = LAGDMaxStrips[APVname[apvnum]].begin(); i < LAGDMaxStrips[APVname[apvnum]].end(); i++){
 	    ResCorrFile << *i << " ";
 	  }
@@ -3046,28 +3823,18 @@ void APVEvent(){
 	    ResCorrFile << *i << " ";
 	  }    
 	  ResCorrFile << endl;
-
 	  
 	  
-	    //loop to find exact hit location
-	    //cout << "Here?" << endl;
+	  //loop to find exact hit location
+	  //cout << "Here?" << endl;
 	  // for(auto i = ReducedTracker1ymaxstrips.begin(); i < ReducedTracker1ymaxstrips.end(); i++){
 	  //   cout << *i << endl;
 	  // }
-
+	  
 	  // cout << "LAGD strips" << endl;
 	  // for(auto i = LAGDMaxStrips[APVname[apvnum]].begin(); i < LAGDMaxStrips[APVname[apvnum]].end(); i++){
 	  //   cout << *i << endl;
 	  // }
-
-
-
-	  
-	  
-
-
-	  
-
 
 	  
 	  cout << "End of OG vector" << endl;
@@ -3108,7 +3875,8 @@ void APVEvent(){
 	      num += maxstrips.at(m)*maxcharges.at(m);
 	      totalcharge += maxcharges.at(m);	      
 	    }
-	    
+
+	    ClusterChargeHist->Fill(totalcharge);
 	  
 	    if(display_mode == 1 || display_mode == 2 || display_mode == 5){
 	      Tracker1xnum += ReducedTracker1xmaxstrips.at(m)*ReducedTracker1xmaxcharges.at(m);
@@ -3136,17 +3904,29 @@ void APVEvent(){
 
 	      LAGDnum[APVname[apvnum]] += LAGDMaxStrips[APVname[apvnum]].at(m)*LAGDMaxCharges[APVname[apvnum]].at(m);
 	      LAGDtotalcharge[APVname[apvnum]] += LAGDMaxCharges[APVname[apvnum]].at(m);
-	      	     
+
+	      ClusterChargePerLAGDangle->SetPoint(stripit, LAGDMaxStrips[APVname[apvnum]].at(m) , LAGDMaxCharges[APVname[apvnum]].at(m));
+	      stripit++;
 	    }
 
 	  }
+	  if(display_mode == 0)
+	    cout << "DisplayMode_0 hit location: " << num/totalcharge << endl; 
+	  
+	 
+	  cout << "Total Charge of this cluster: " << LAGDtotalcharge[APVname[apvnum]] << endl;
 	  Clusterchargeoftheseevnts.push_back(LAGDtotalcharge[APVname[apvnum]]);
 
+	  if(LAGDtotalcharge[APVname[apvnum]] != 0)
+	    //cout << "total charge of event: " << LAGDtotalcharge[APVname[apvnum]] << endl;
+	    ChargeHistAPV->Fill(LAGDtotalcharge[APVname[apvnum]]);
+
+	  
 	  cout << "Tx: " << Tracker1xtotalcharge << ", " << "Ty: " << Tracker1ytotalcharge << endl;
 	  T1ChargeRatio->Fill(Tracker1xtotalcharge, Tracker1ytotalcharge);
 	      
 	  //Other hits
-	  //cout << "num: " << num << " and total charge " << totalcharge << endl;
+	  cout << "num: " << num << " and total charge " << totalcharge << endl;
 	  //if(display_mode == 0)
 	  //  loc = num/totalcharge;
 	  //	cout << "Hit at location: " << loc << endl;
@@ -3171,21 +3951,28 @@ void APVEvent(){
 	    LAGDHitsVec.push_back(LAGDloc[APVname[apvnum]]);
 	    EventIDs.push_back(totalEventiterator);
 	    //efficiencynum++;
-	  }       
+	  }
 	  
+	  
+	  ClusterChargePerXHist->SetPoint(clustit, Tracker1xloc*0.4 , LAGDtotalcharge[APVname[apvnum]]);
+	  ClusterChargePerYHist->SetPoint(clustit, Tracker1yloc*0.4 , LAGDtotalcharge[APVname[apvnum]]);
+	  ClusterChargePerXYHist->SetPoint(clustit, Tracker1xloc*0.4, Tracker1yloc*0.4, 0.5*(Tracker1xtotalcharge + Tracker1ytotalcharge));
+	  clustit++;
 	  //Stripcorr->SetPoint(Stripcorrit, Tracker1yloc, LAGDloc[APVname[apvnum]]);
 	  //TrackerStripcorr->SetPoint(Stripcorrit, Tracker1yloc, Tracker2yloc);
-	  cout << "going here?" << endl;
-	  cout << Tracker1yloc << ", " << LAGDloc[APVname[apvnum]] << endl;
+	  //cout << "going here?" << endl;
+	  //cout << Tracker1yloc << ", " << LAGDloc[APVname[apvnum]] << endl;
+
+	  //REMOVED THESE TOO
 	  Stripcorr->Fill(Tracker1yloc, LAGDloc[APVname[apvnum]]);
 	  TrackerStripcorr->Fill(Tracker1yloc, Tracker3yloc);
 	  
 	  StripcorrProf->Fill(Tracker1yloc, LAGDloc[APVname[apvnum]]);
 	  TrackerStripcorrProf->Fill(Tracker1yloc, Tracker3yloc);
 	  
-	  //LAGDstrips->SetPoint(Stripcorrit, Stripcorrit, LAGDloc[APVname[apvnum]]);
-	  //Trackerstrips->SetPoint(Stripcorrit, Stripcorrit, Tracker1yloc);
-	  //Diffbtwnstrips->SetPoint(Stripcorrit, Stripcorrit, Tracker1yloc - APV3E1loc);
+	  // LAGDstrips->SetPoint(Stripcorrit, Stripcorrit, LAGDloc[APVname[apvnum]]);
+	  // Trackerstrips->SetPoint(Stripcorrit, Stripcorrit, Tracker1yloc);
+	  // Diffbtwnstrips->SetPoint(Stripcorrit, Stripcorrit, Tracker1yloc - APV3E1loc);
 	  Stripcorrit++;
 	  
 	  cout << "Hit at (" << Tracker1xloc << "," << Tracker1yloc << ") in Tracker 1" << endl;
@@ -3314,14 +4101,14 @@ void APVEvent(){
       
 	
 	  PHCanvas[*evtID] = new TCanvas(charsubtitle, chartitle, 500, 500);
-      
-
-	  PHCanvas[*evtID]->Draw();
-
+	  PHCanvas[*evtID]->Divide(2,1);
+	  PHCanvas[*evtID]->cd(1);
+	  
 	  //PulseHeight[*evtID]Hist[*evtID]->Draw("LEGO2");
 	  //gPad->DrawFrame(0,64,0,300);
 	  PulseHeight[*evtID]->SetMarkerStyle(20);
 	  PulseHeight[*evtID]->Draw("LEGO");
+	  PulseHeight[*evtID]->GetXaxis()->SetRangeUser(-0.5,127.5);	  
 	  PulseHeight[*evtID]->SetNpx(128);
 	  PulseHeight[*evtID]->SetNpy(6);
 	  PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
@@ -3330,10 +4117,112 @@ void APVEvent(){
 	  PulseHeight[*evtID]->GetYaxis()->CenterTitle(true);
 	  PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
 	  PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
-	  	  
+
+	  PHCanvas[*evtID]->cd(2);
+	  //PulseHeight1D[*evtID]->Draw();
+	  PulseHeight1D[*evtID]->SetMarkerStyle(20);
+	  PulseHeight1D[*evtID]->SetFillColor(38);
+	  PulseHeight1D[*evtID]->Draw("AB");
+	  //PulseHeight1D[*evtID]->GetXaxis()->SetRangeUser(0,127);	  
+	  //PulseHeight1D[*evtID]->SetNpx(128);
+	  //PulseHeight1D[*evtID]->SetNpy(6);
+	  PulseHeight1D[*evtID]->GetXaxis()->SetTitle("Strip");
+	  PulseHeight1D[*evtID]->GetXaxis()->CenterTitle(true);
+	  PulseHeight1D[*evtID]->GetYaxis()->SetTitle("Charge [ADC counts]");
+	  PulseHeight1D[*evtID]->GetYaxis()->CenterTitle(true);
+
+	  
+	  
+	  PHCanvas[*evtID]->Draw();
+
 	}
-      }
-      
+	if(Interweavedtest){
+	  title += to_string(*evtID);
+	  title += rest;
+	  title += inputfiles[evtype];
+	  title += restAPV;
+	  title += APVname[apvnum];
+	  int n=title.length();
+	  
+	  char chartitle[n];
+	  strcpy(chartitle, title.c_str());
+	  
+	  //cout << "1 here?" << endl;
+	  
+	  subtitle += to_string(*evtID);
+	  subtitle += inputfiles[evtype];
+	  subtitle += apvnum;
+	  
+	  n=subtitle.length();
+	  char charsubtitle[n];
+	  	  
+	  strcpy(charsubtitle, subtitle.c_str());	  
+	
+	  PHCanvas[*evtID] = new TCanvas(charsubtitle, chartitle, 2500, 500);
+	  PHCanvas[*evtID]->Divide(5,1);
+	  PHCanvas[*evtID]->cd(1);
+	  	 
+	  APV8PulseHeight1D[*evtID]->SetMarkerStyle(20);
+	  APV8PulseHeight1D[*evtID]->SetFillColor(38);
+	  APV8PulseHeight1D[*evtID]->Draw("AB");
+	  APV8PulseHeight1D[*evtID]->SetTitle("APV 8");
+	  APV8PulseHeight1D[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV8PulseHeight1D[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV8PulseHeight1D[*evtID]->GetYaxis()->SetRangeUser(0,500);
+	  APV8PulseHeight1D[*evtID]->GetYaxis()->SetTitle("Charge [ADC counts]");
+	  APV8PulseHeight1D[*evtID]->GetYaxis()->CenterTitle(true);
+
+	  PHCanvas[*evtID]->cd(2);
+
+	  APV9PulseHeight1D[*evtID]->SetMarkerStyle(20);
+	  APV9PulseHeight1D[*evtID]->SetFillColor(38);
+	  APV9PulseHeight1D[*evtID]->Draw("AB");
+	  APV9PulseHeight1D[*evtID]->SetTitle("APV 9");
+	  APV9PulseHeight1D[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV9PulseHeight1D[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV9PulseHeight1D[*evtID]->GetYaxis()->SetRangeUser(0,500);
+	  APV9PulseHeight1D[*evtID]->GetYaxis()->SetTitle("Charge [ADC counts]");
+	  APV9PulseHeight1D[*evtID]->GetYaxis()->CenterTitle(true);
+	  
+	  PHCanvas[*evtID]->cd(3);
+	  APV89combinedPulseHeight1D[*evtID]->SetMarkerStyle(20);
+	  APV89combinedPulseHeight1D[*evtID]->SetFillColor(38);
+	  APV89combinedPulseHeight1D[*evtID]->Draw("AB");
+	  APV89combinedPulseHeight1D[*evtID]->SetTitle("Sector 8 Odd strips and sector 9 Even strips combined");
+	  APV89combinedPulseHeight1D[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV89combinedPulseHeight1D[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV89combinedPulseHeight1D[*evtID]->GetYaxis()->SetRangeUser(0,500);
+	  APV89combinedPulseHeight1D[*evtID]->GetYaxis()->SetTitle("Charge [ADC counts]");
+	  APV89combinedPulseHeight1D[*evtID]->GetYaxis()->CenterTitle(true);
+
+	  PHCanvas[*evtID]->cd(4);
+	  	 
+	  APV8PulseHeight1DShrunk[*evtID]->SetMarkerStyle(20);
+	  APV8PulseHeight1DShrunk[*evtID]->SetFillColor(38);
+	  APV8PulseHeight1DShrunk[*evtID]->Draw("AB");
+	  gStyle->SetBarWidth(2);
+	  APV8PulseHeight1DShrunk[*evtID]->SetTitle("APV 8 Shrunk Hits");
+	  APV8PulseHeight1DShrunk[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV8PulseHeight1DShrunk[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV8PulseHeight1DShrunk[*evtID]->GetYaxis()->SetRangeUser(0,500);
+	  APV8PulseHeight1DShrunk[*evtID]->GetYaxis()->SetTitle("Charge [ADC counts]");
+	  APV8PulseHeight1DShrunk[*evtID]->GetYaxis()->CenterTitle(true);
+	  
+	  PHCanvas[*evtID]->cd(5);
+
+	  APV9PulseHeight1DShrunk[*evtID]->SetMarkerStyle(20);
+	  APV9PulseHeight1DShrunk[*evtID]->SetFillColor(38);
+	  APV9PulseHeight1DShrunk[*evtID]->Draw("AB");
+	  APV9PulseHeight1DShrunk[*evtID]->SetTitle("APV 9 Shrunk Hits");
+	  APV9PulseHeight1DShrunk[*evtID]->GetXaxis()->SetTitle("Strip");
+	  APV9PulseHeight1DShrunk[*evtID]->GetXaxis()->CenterTitle(true);
+	  APV9PulseHeight1DShrunk[*evtID]->GetYaxis()->SetRangeUser(0,500);
+	  APV9PulseHeight1DShrunk[*evtID]->GetYaxis()->SetTitle("Charge [ADC counts]");
+	  APV9PulseHeight1DShrunk[*evtID]->GetYaxis()->CenterTitle(true);
+	  
+	  PHCanvas[*evtID]->Draw();	  
+	}
+      }      
       
       //Pedestal display mode
       if(display_mode == 4){
@@ -3529,7 +4418,7 @@ void APVEvent(){
 
 	PedCanvas1->cd(1);
 	APV3E1PedData->Draw();
-	APV3E1PedData->SetTitle("APV3E1 Pedestal Std Devs");
+	APV3E1PedData->SetTitle("APV3E1 Pedestal Derived Tolerances");
 	APV3E1PedData->GetXaxis()->SetTitle("Strip Number");
 	APV3E1PedData->GetXaxis()->CenterTitle(true);
 	APV3E1PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -3537,7 +4426,7 @@ void APVEvent(){
 		
 	PedCanvas1->cd(6);
 	APV7E1PedData->Draw();
-	APV7E1PedData->SetTitle("APV7E1 Pedestal Std Devs");
+	APV7E1PedData->SetTitle("APV7E1 Pedestal Derived Tolerances");
 	APV7E1PedData->GetXaxis()->SetTitle("Strip Number");
 	APV7E1PedData->GetXaxis()->CenterTitle(true);
 	APV7E1PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -3545,7 +4434,7 @@ void APVEvent(){
 	
 	PedCanvas1->cd(2);
 	APV3E2PedData->Draw();
-	APV3E2PedData->SetTitle("APV3E2 Pedestal Std Devs");
+	APV3E2PedData->SetTitle("APV3E2 Pedestal Derived Tolerances");
 	APV3E2PedData->GetXaxis()->SetTitle("Strip Number");
 	APV3E2PedData->GetXaxis()->CenterTitle(true);
 	APV3E2PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -3553,7 +4442,7 @@ void APVEvent(){
 	
 	PedCanvas1->cd(7);
 	APV7E2PedData->Draw();
-	APV7E2PedData->SetTitle("APV7E2 Pedestal Std Devs");
+	APV7E2PedData->SetTitle("APV7E2 Pedestal Derived Tolerances");
 	APV7E2PedData->GetXaxis()->SetTitle("Strip Number");
 	APV7E2PedData->GetXaxis()->CenterTitle(true);
 	APV7E2PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -3561,7 +4450,7 @@ void APVEvent(){
 
 	PedCanvas1->cd(3);
         APV6E3PedData->Draw();
-	APV6E3PedData->SetTitle("APV6E3 Pedestal Std Devs");
+	APV6E3PedData->SetTitle("APV6E3 Pedestal Derived Tolerances");
 	APV6E3PedData->GetXaxis()->SetTitle("Strip Number");
 	APV6E3PedData->GetXaxis()->CenterTitle(true);
 	APV6E3PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -3569,7 +4458,7 @@ void APVEvent(){
 	
 	PedCanvas1->cd(8);
 	APV6E4PedData->Draw();
-	APV6E4PedData->SetTitle("APV6E4 Pedestal Std Devs");
+	APV6E4PedData->SetTitle("APV6E4 Pedestal Derived Tolerances");
 	APV6E4PedData->GetXaxis()->SetTitle("Strip Number");
 	APV6E4PedData->GetXaxis()->CenterTitle(true);
 	APV6E4PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -3577,7 +4466,7 @@ void APVEvent(){
 	
 	PedCanvas1->cd(4);
 	APV5E3PedData->Draw();
-	APV5E3PedData->SetTitle("APV5E3 Pedestal Std Devs");
+	APV5E3PedData->SetTitle("APV5E3 Pedestal Derived Tolerances");
 	APV5E3PedData->GetXaxis()->SetTitle("Strip Number");
 	APV5E3PedData->GetXaxis()->CenterTitle(true);
 	APV5E3PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -3585,7 +4474,7 @@ void APVEvent(){
 	
 	PedCanvas1->cd(9);
 	APV5E4PedData->Draw();
-	APV5E4PedData->SetTitle("APV5E4 Pedestal Std Devs");
+	APV5E4PedData->SetTitle("APV5E4 Pedestal Derived Tolerances");
 	APV5E4PedData->GetXaxis()->SetTitle("Strip Number");
 	APV5E4PedData->GetXaxis()->CenterTitle(true);
 	APV5E4PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -3593,7 +4482,7 @@ void APVEvent(){
 
 	PedCanvas1->cd(5);
 	APV4E3PedData->Draw();
-	APV4E3PedData->SetTitle("APV4E3 Pedestal Std Devs");
+	APV4E3PedData->SetTitle("APV4E3 Pedestal Derived Tolerances");
 	APV4E3PedData->GetXaxis()->SetTitle("Strip Number");
 	APV4E3PedData->GetXaxis()->CenterTitle(true);
 	APV4E3PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -3601,7 +4490,7 @@ void APVEvent(){
 	
 	PedCanvas1->cd(10);
 	APV4E4PedData->Draw();
-	APV4E4PedData->SetTitle("APV4E4 Pedestal Std Devs");
+	APV4E4PedData->SetTitle("APV4E4 Pedestal Derived Tolerances");
 	APV4E4PedData->GetXaxis()->SetTitle("Strip Number");
 	APV4E4PedData->GetXaxis()->CenterTitle(true);
 	APV4E4PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -3610,7 +4499,7 @@ void APVEvent(){
 
 	//Now, the abnormal APVs: 2,8,9
 
-	auto PedCanvas3 = new TCanvas("Pedcanvas3", "Pedestal Std Devs per channel on APVs 2, 8, and 9", 1000, 1000);
+	auto PedCanvas3 = new TCanvas("Pedcanvas3", "Pedestal Derived Tolerances per channel on APVs 2, 8, and 9", 1000, 1000);
 
 	PedCanvas3->Divide(2,2);
 
@@ -3619,7 +4508,7 @@ void APVEvent(){
 	//first display (Tracker X and Y)
 	PedCanvas3->cd(1);
 	APV2PedData->Draw();
-	APV2PedData->SetTitle("APV2 Pedestal Std Devs");
+	APV2PedData->SetTitle("APV2 Pedestal Derived Tolerances");
 	APV2PedData->GetXaxis()->SetTitle("Strip Number");
 	APV2PedData->GetXaxis()->CenterTitle(true);
 	APV2PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -3628,7 +4517,7 @@ void APVEvent(){
 
 	PedCanvas3->cd(2);
 	APV8PedData->Draw();
-	APV8PedData->SetTitle("APV8 Pedestal Std Devs");
+	APV8PedData->SetTitle("APV8 Pedestal Derived Tolerances");
 	APV8PedData->GetXaxis()->SetTitle("Strip Number");
 	APV8PedData->GetXaxis()->CenterTitle(true);
 	APV8PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -3637,7 +4526,7 @@ void APVEvent(){
 
 	PedCanvas3->cd(3);
 	APV9PedData->Draw();
-	APV9PedData->SetTitle("APV9 Pedestal Std Devs");
+	APV9PedData->SetTitle("APV9 Pedestal Derived Tolerances");
 	APV9PedData->GetXaxis()->SetTitle("Strip Number");
 	APV9PedData->GetXaxis()->CenterTitle(true);
 	APV9PedData->GetYaxis()->SetTitle("ADC Charge");
@@ -4130,7 +5019,7 @@ void APVEvent(){
 	PHCanvas[*evtID]->cd(24);
 	APV8and9PulseHeight[*evtID]->SetMarkerStyle(20);
 	APV8and9PulseHeight[*evtID]->Draw("LEGO");
-	APV8and9PulseHeight[*evtID]->SetNpx(128);
+	APV8and9PulseHeight[*evtID]->SetNpx(64);
 	APV8and9PulseHeight[*evtID]->SetNpy(6);	
 	APV8and9PulseHeight[*evtID]->SetTitle("APVs 8 and 9");
 	APV8and9PulseHeight[*evtID]->GetXaxis()->SetTitle("Strip");
@@ -4140,36 +5029,34 @@ void APVEvent(){
 	APV8and9PulseHeight[*evtID]->GetZaxis()->SetTitle("ADC charge");
 	APV8and9PulseHeight[*evtID]->GetZaxis()->CenterTitle(true);
 	APV8and9PulseHeight[*evtID]->GetZaxis()->SetRange(0,400);
-      }    
+      }
+
+
+      
+      
       //cout << "Maybe?" << endl;
       //cout << "Hit coordinates in Tracker 1" << endl;
       //for(auto i = Tracker1hitcoords[evtype].begin(); i != Tracker1hitcoords[evtype].end(); i++)
-      //cout << *i << endl;	      
-
+      //cout << *i << endl;	           
       //}
       //totalEventiterator++;
     }/////////////////////////////////////////////////////////////////////////////////End of While loop over all events
-  
+ 
     //cout << "Number of Events?: " << EventIterator.size() << endl;
-    /*
-    auto *t = new TCanvas("stripscahrges", "", 500, 1500);
-      t->Divide(1,3);
-      t->cd(1);
-      StripsHist->Draw();
-      t->cd(2);
-      ClusterChargeHist->Draw();
-      t->cd(3);
-      StripChargeHist->Draw();
-      t->Draw();  
-    */
+    
+    
+    
     //return;
 
     //float LAGDhitsnum=0;
     //float Trackerhits=0;
 
     //return;
-    cout <<  LAGDhitsnum << "/" << Trackerhits << " = " << 100*LAGDhitsnum/Trackerhits << "% +/- " << (100/Trackerhits)*sqrt(Trackerhits*(1-LAGDhitsnum/Trackerhits)) << "%" << endl;
+      cout <<  LAGDhitsnum << "/" << Trackerhits << " = " << 100*LAGDhitsnum/Trackerhits << "% +/- " << (100/Trackerhits)*sqrt(Trackerhits*(1-LAGDhitsnum/Trackerhits)) << "%" << endl;
     //EffperHV->SetPoint(fileit, stof(evtype), 100*(LAGDhitsnum/Trackerhits));
+    EffNums.push_back(LAGDhitsnum);
+    EffDens.push_back(Trackerhits);
+    
     EfficiencyPerHV.push_back(100*LAGDhitsnum/Trackerhits);
     EfficiencyErrorPerHV.push_back((100/Trackerhits)*sqrt(Trackerhits*(1-LAGDhitsnum/Trackerhits)));
     
@@ -4199,35 +5086,39 @@ void APVEvent(){
     }
     
     if(Clusterdistevents || Gaininfo || Efficiency){
-      if(inputfiles.size() == 1 && !Efficiency){
+      if(!Efficiency && inputfiles.size() == 1){
 	Clusterdist[evtype]->Draw();
-	Clusterdist[evtype]->SetTitle("Strip Multiplicity Distribution of Large ZigZag Strip Sector");
+	//Clusterdist[evtype]->SetTitle("Strip Multiplicity Distribution of Large ZigZag Strip Sector");
 	Clusterdist[evtype]->GetXaxis()->SetTitle("Strip Multiplicity");
 	Clusterdist[evtype]->GetXaxis()->CenterTitle(true);
 	Clusterdist[evtype]->GetYaxis()->SetTitle("Events");
 	Clusterdist[evtype]->GetYaxis()->CenterTitle(true);
-	Clusterdist[evtype]->SaveAs("StripMultiplicity_LargeeZigZag.png");
-	return;
+	//Clusterdist[evtype]->SaveAs("StripMultiplicity_LargeeZigZag.png");
+	//return;
       }
 
       if(Gaininfo){
 	cout << "Event num: " << *evtID << endl;
-	//EventAvgCharge[evtype]->Draw();
+	EventAvgCharge[evtype]->Draw();
+	EventAvgCharge[evtype]->GetXaxis()->SetTitle("Charge [ADC Counts]");
+	EventAvgCharge[evtype]->GetYaxis()->SetTitle("Counts / 10 ADC Counts");
+	
 	if(EventAvgCharge[evtype]->Integral() == 0){continue;}
 	TF1 *j = new TF1("landfit", "landau", 0, 2500);
       
 	EventAvgCharge[evtype]->Fit("landfit");
 	cout << j->GetParameter(1) << endl;
 	float meanclust = j->GetParameter(1);
-	cout << "Event Avg Charge: " << meanclust << endl;	
-	//return;  
+	cout << "Event MPV Charge: " << meanclust << endl;	
 	MaxChargeVec.push_back(meanclust);
 	ClusterchargeErrors.push_back(j->GetParError(1));
+      }
+      if(Clusterdistevents){
 	Maxcluster.push_back(Clusterdist[evtype]->GetMean());
 	cout << Clusterdist[evtype]->GetMean() << endl;
 	//return;
       }
-      if(Gaininfo || Efficiency){
+      if(Gaininfo || Efficiency || Clusterdistevents){
       ClusterErrors.push_back((Clusterdist[evtype]->GetMeanError()));
       HVsetting.push_back(stoi(evtype));
       HVErrors.push_back(0);
@@ -4239,14 +5130,47 @@ void APVEvent(){
   }//////////////////////////////////////////////////////////////////////////////end of loop over files
   ResCorrFile.close();
 
+  // auto *t = new TCanvas("stripscahrges", "", 1000, 500);
+  // t->Divide(2,1);
+  // t->cd(1);
+  // ClusterChargeRatiofor8and9->SetMarkerSize(2);
+  // ClusterChargeRatiofor8and9->Draw("AP");
+  // ClusterChargeRatiofor8and9->SetTitle("Scatter Plot of Cluster Charge in APV 8 and 9 with Cluster SM Any");
+  // ClusterChargeRatiofor8and9->GetYaxis()->SetTitle("APV 9 Cluster Charge");
+  // ClusterChargeRatiofor8and9->GetXaxis()->SetTitle("APV 8 Cluster Charge");
+  // ClusterChargeRatiofor8and9->GetXaxis()->SetRangeUser(0,6000);
+  // t->cd(2);
+  // ChargeClusterRatioHist->Draw("");
+  // ChargeClusterRatioHist->SetTitle("Histogram of Cluster Charge Ratio of APV 8 and 9 with Cluster SM Any");
+  // t->Draw();
+  // return;
+
+  
+  // auto *t = new TCanvas("stripscahrges", "", 500, 1500);
+  // t->Divide(1,3);
+  // t->cd(1);
+  // StripsHist->Draw();
+  // t->cd(2);
+  // ClusterChargeHist->Draw();
+  // t->cd(3);
+  // StripChargeHist->Draw();
+  // t->Draw();
+  
   if(Efficiency){
 
     for(auto y = 0; y < EfficiencyPerHV.size(); y++){
       cout << EfficiencyPerHV.at(y) << "% +\- " << EfficiencyErrorPerHV.at(y) << "%" << endl;
-      cout << "Number of empty LAGD events: " << NumNoLAGDEvent.at(y) << endl;
-      cout << "Number of No LAGD events in Eff: " << NumNoLAGDEventSeen.at(y) << endl;
-      
+      cout << "Numerator: " << EffNums.at(y) << endl;
+      cout << "Denominator: " << EffDens.at(y) << endl;      
+      //cout << "Number of empty LAGD events: " << NumNoLAGDEvent.at(y) << endl;
+      cout << "Instances where LAGD had an event, but its not within +/- 5*sigma: " << NumNoLAGDEventSeen.at(y) << endl;
+      cout << "instance of Bad LAGD event, but good Trackers event: " << BadLAGDHitsGoodTracker.at(y) << endl;
     }
+    
+    for(auto y = Effcutflow.begin(); y < Effcutflow.end(); y++){
+      cout << *y << endl;
+    }
+    
     float EfficiencyPerHVArr[EfficiencyPerHV.size()];
     std::copy(EfficiencyPerHV.begin(), EfficiencyPerHV.end(), EfficiencyPerHVArr);
 
@@ -4263,9 +5187,13 @@ void APVEvent(){
 
     auto canvas = new TCanvas("", "", 500, 500);
     EffperHV->Draw("A*");
-    EffperHV->SetTitle("LAGD Efficiency during HV scan");
+    auto g = new TF1("lineEff", "([0]/(1+TMath::Exp(-[1]*(x-[2]))))", 3700, 4000);
+    g->SetParameters(90, 0.015, 3700);
+    
+    EffperHV->Fit("lineEff");
+    EffperHV->SetTitle("LMG Detection Efficiency during HV scan");
     EffperHV->GetYaxis()->SetRangeUser(40, 100);
-    EffperHV->GetYaxis()->SetTitle("LAGD Efficiency (%)");
+    EffperHV->GetYaxis()->SetTitle("Detection Efficiency (%)");
     EffperHV->GetXaxis()->SetTitle("Drift Voltage (V)");
 
     EffperHV->Draw("A*");
@@ -4281,7 +5209,7 @@ void APVEvent(){
     
     return;
   }
-
+				       
   if(display_mode == 2 && ChargeRatio != true){
 
     
@@ -4314,7 +5242,8 @@ void APVEvent(){
 
   // DeltaTTrackersLAGD->Draw();
   // return;
-
+  // ClusterChargeDist = true;
+  // display_mode = 0;
   if(display_mode == 0){
     if(Clusterdistevents){
       if(inputfiles.size() > 1){
@@ -4324,13 +5253,37 @@ void APVEvent(){
 	ClusterdistAll->GetXaxis()->CenterTitle(true);
 	ClusterdistAll->GetYaxis()->SetTitle("Events");
 	ClusterdistAll->GetYaxis()->CenterTitle(true);
-	ClusterdistAll->SaveAs("StripMultiplicity_smallZigZag_1200217.png");
-	return;
+	//ClusterdistAll->SaveAs("StripMultiplicity_smallZigZag_1200217.png");
+	//return;
       }
     }
-
+   
     if(ClusterChargeDist){
-      ClusterChargeHist->Draw();
+      auto t = new TCanvas("", "", 1000, 500);
+      t->Divide(2,1);
+      t->cd(1);
+      ClusterChargePerXYHist->Draw("PCOL");
+      ClusterChargePerXYHist->SetTitle("Cluster charge during position scan");
+      ClusterChargePerXYHist->GetZaxis()->SetTitle("Cluster charge [ADC Counts]");
+      ClusterChargePerXYHist->GetXaxis()->SetTitle("X coordinate [mm]");
+      ClusterChargePerXYHist->GetYaxis()->SetTitle("Y coordinate [mm]");
+      // ClusterChargePerXHist->Draw("AP");
+      // ClusterChargePerXHist->SetTitle("Cluster charge during position scan");
+      // ClusterChargePerXHist->GetYaxis()->SetTitle("Cluster charge [ADC Counts]");
+      // ClusterChargePerXHist->GetXaxis()->SetTitle("X coordinate [mm]");
+      t->cd(2);
+      ClusterChargePerLAGDangle->Draw("AP");
+      ClusterChargePerLAGDangle->SetTitle("Cluster charge during position scan");
+      ClusterChargePerLAGDangle->GetYaxis()->SetTitle("Cluster charge [ADC Counts]");
+      ClusterChargePerLAGDangle->GetXaxis()->SetTitle("LAGD Strip [Strip]");
+      // t->cd(3);
+      // ClusterChargePerLAGDangle->Draw("AP");
+      // ClusterChargePerLAGDangle->SetTitle("Cluster charge during position scan");
+      // ClusterChargePerLAGDangle->GetYaxis()->SetTitle("Cluster charge [ADC Counts]");
+      // ClusterChargePerLAGDangle->GetXaxis()->SetTitle("LAGD Strip [Strip]");
+      
+      t->Draw();
+      
       return;
     }
 
@@ -4657,6 +5610,7 @@ void APVEvent(){
 
     // y->Draw();
     
+    // return;
     
     cout << "A" << endl;
     TF1* Stripfit = new TF1("stripfit","pol1");
@@ -4694,7 +5648,8 @@ void APVEvent(){
 
     cout << "LAGD correlation with tracker 1y: " << abs(striptrackercor) << ", " << striptrackercorsign << endl;
     cout << "Tracker 1y correlation with Tracker 3y: " << abs(striptrackercor2) << ", " << striptrackercorsign2 << endl;
-    
+    //ALSO REMOVED ALL OF THIS TO ALLOW HITS THRU
+  
     bool showplot=false;
 
     if(abs(striptrackercor) < 0.85 || abs(striptrackercor2) < 0.85 || striptrackercorsign != striptrackercorsign2 || showplot){
@@ -4744,10 +5699,9 @@ void APVEvent(){
       }
       return;
     }
+    
   }	
   
-  
-    //}
   
   if(display_mode == 2 && ChargeRatio){
     T1ChargeRatio->Draw("colz");
@@ -4774,20 +5728,22 @@ void APVEvent(){
   return;
   */
   if(display_mode == 5){
-
+    // auto ChargeCanvas = new TCanvas("", "", 500, 500);    
+    // ChargeHistAPV->Draw();
+    // ChargeCanvas->Draw();
+    // return;
+    
 
     //auto CorrectedLAGDHits = ResidualCorrection(LAGDHitsVec);
     
     //auto BadEvents = ResCut(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords);
     vector<float>  BadEvents;
     //return;
-    vector<float> TrackerOptimizedAnglesAndXY;
-    float Tracker2x1stval = TotalTracker2hitcoords.at(0);
-    //auto TrackerOptimizedAnglesAndXY = Optimized_Rotation(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, TrackerOptimizedOffsets, 1);
-
-    //cout << "Next" << endl;
+    //vector<float> TrackerOptimizedAnglesAndXY;
+    //float Tracker2x1stval = TotalTracker2hitcoords.at(0);
+    
     //return;
-    auto TrackerOptimizedOffsets = Optimized_XY_shift(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, TrackerOptimizedAnglesAndXY, BadEvents, 0); //returns vector of XY Offsets for trackers 1-4 that minimize the residual)
+    //auto TrackerOptimizedOffsets = Optimized_XY_shift(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, TrackerOptimizedAnglesAndXY, BadEvents, 1); //returns vector of XY Offsets for trackers 1-4 that minimize the residual)
 
     //return;
 
@@ -4800,19 +5756,19 @@ void APVEvent(){
     
     //return;
     vector<float> FinalOptimizedOffsets;
-    FinalOptimizedOffsets = Optimized_XY_Rotation(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, TrackerOptimizedOffsets, BadEvents, 0);
-    cout << "Optimized rotation" << endl;
-    for(auto i = FinalOptimizedOffsets.begin(); i < FinalOptimizedOffsets.end(); i++){
-      cout << *i << endl;
-    }
+    //FinalOptimizedOffsets = Optimized_XY_Rotation(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, TrackerOptimizedOffsets, BadEvents, 1);
+    //cout << "Optimized rotation" << endl;
+    //for(auto i = FinalOptimizedOffsets.begin(); i < FinalOptimizedOffsets.end(); i++){
+    //  cout << *i << endl;
+    //}
     
-    //return;
+    
     Plot_Aligned_residuals(TotalTracker1hitcoords, TotalTracker2hitcoords, TotalTracker3hitcoords, TotalTracker4hitcoords, FinalOptimizedOffsets, BadEvents, LAGDHitsVec, SMofTheseevents, Clusterchargeoftheseevnts, EventIDs, 1);//comehere
-    cout << "Tracker2x first hitcoordinate pre shift: " << Tracker2x1stval << endl;
+    //cout << "Tracker2x first hitcoordinate pre shift: " << Tracker2x1stval << endl;    
   }
 
     
-  if(display_mode == 0){
+  if(display_mode == 0 && !displaymode0event){
    
   
     float HVsettings[HVsetting.size()];
@@ -4846,17 +5802,20 @@ void APVEvent(){
       auto ClustervsHV = new TGraphErrors(HVsetting.size(), HVsettings, MaxClusters, fixedHVErrors, fixedClusterErrors);
       //ClustervsHV->Fit("expo");
       //ClustervsHV->Fit("pol1");
-      ClustervsHV->Draw("A*");
+      ClustervsHV->Draw("AP");
+      ClustervsHV->SetMarkerSize(5);
 
       //char title="Strip Multiplicity versus HV Setting in ";
       //title = title+apvnum;
  
-      ClustervsHV->SetTitle("Strip Multiplicity versus HV Setting in Straight Strip Sector");
-      ClustervsHV->GetXaxis()->SetTitle("HV Setting (V)");
+      ClustervsHV->SetTitle("Average Strip Multiplicity versus Drift Voltage in Sector A");
+      ClustervsHV->GetXaxis()->SetTitle("Drift Voltage [V]");
       ClustervsHV->GetXaxis()->CenterTitle(true);
-      ClustervsHV->GetYaxis()->SetTitle("Strip Multiplicity");
+      ClustervsHV->GetYaxis()->SetTitle("Average Strip Multiplicity");
       ClustervsHV->GetYaxis()->CenterTitle(true);
-      ClustervsHV->GetYaxis()->SetRangeUser(2,3);
+      ClustervsHV->GetYaxis()->SetRangeUser(1,2);
+      ClustervsHV->Fit("expo");
+      
       ClustervsHV->SaveAs("StripMult_Vs_HV_APV3.png");
     }
     
@@ -4876,13 +5835,14 @@ void APVEvent(){
       std::copy(ClusterchargeErrors.begin(), ClusterchargeErrors.end(), fixedClusterchargeErrors);
     
       auto GVSHVCanvas = new TCanvas("GVSHV", "", 800, 500);
+      GVSHVCanvas->SetGrid();
       auto GainvsHV = new TGraphErrors(HVsetting.size(), HVsettings, MaxChargeVector,fixedHVErrors, fixedClusterchargeErrors);
-      //GainvsHV->Fit("expo");
-      GainvsHV->Draw("A*");
-      GainvsHV->SetTitle("Average Hit Charge versus HV Setting in Straight Strip Sector");
-      GainvsHV->GetXaxis()->SetTitle("HV Setting (V)");
+      GainvsHV->Fit("expo");
+      GainvsHV->Draw("AP");
+      GainvsHV->SetTitle("Most Probable Cluster Charge versus Drift Voltage in Sector A");
+      GainvsHV->GetXaxis()->SetTitle("Drift Voltage [V]");
       GainvsHV->GetXaxis()->CenterTitle(true);
-      GainvsHV->GetYaxis()->SetTitle("Charge");
+      GainvsHV->GetYaxis()->SetTitle("Most Probable Cluster Charge [ADC counts]");
       GainvsHV->GetYaxis()->CenterTitle(true);
       GainvsHV->SaveAs("Gain_Vs_HV_APV3.png");
     }

@@ -5,9 +5,9 @@ int EffCounter(vector<float>, vector<float>,vector<float>, vector<float>,vector<
 
 int EffCounter(vector<float>  Tracker1xmaxstrips, vector<float>  Tracker1xmaxcharges,vector<float>  Tracker1ymaxstrips, vector<float>  Tracker1ymaxcharges,vector<float>  Tracker2xmaxstrips, vector<float>  Tracker2xmaxcharges,vector<float>  Tracker2ymaxstrips, vector<float>  Tracker2ymaxcharges,vector<float>  Tracker3xmaxstrips, vector<float>  Tracker3xmaxcharges,vector<float>  Tracker3ymaxstrips, vector<float>  Tracker3ymaxcharges,vector<float>  Tracker4xmaxstrips, vector<float>  Tracker4xmaxcharges,vector<float>  Tracker4ymaxstrips, vector<float>  Tracker4ymaxcharges, vector<float> LAGDmaxstrips, vector<float>  LAGDmaxcharges, float LAGDOffsetX, float LAGDOffsetY, float DetRes){
 
-
+  cout << "Is this happening?" << endl;
   cout << LAGDOffsetX << ", " << LAGDOffsetY << endl; 
-  int ReturnHitInfo=0;
+  int ReturnHitInfo=-1;
 
   vector<vector<float>> XHits(4);
   vector<float> ReducedXHits;
@@ -50,24 +50,24 @@ int EffCounter(vector<float>  Tracker1xmaxstrips, vector<float>  Tracker1xmaxcha
   //   cout << Tracker1ymaxstrips.at(y) << endl;
   // }
   //if one hit and only one strip, go home
-  if(Tracker1xmaxstrips.size() == 1)
-    return ReturnHitInfo;
-  if(Tracker1ymaxstrips.size() == 1){
-    //cout << "Here?" << endl;
-    return ReturnHitInfo;
-  }
-  if(Tracker2xmaxstrips.size() == 1)
-    return ReturnHitInfo;
-  if(Tracker2ymaxstrips.size() == 1)
-    return ReturnHitInfo;
-  if(Tracker3xmaxstrips.size() == 1)
-    return ReturnHitInfo;
-  if(Tracker3ymaxstrips.size() == 1)
-    return ReturnHitInfo;
-  if(Tracker4xmaxstrips.size() == 1)
-    return ReturnHitInfo;
-  if(Tracker4ymaxstrips.size() == 1)
-    return ReturnHitInfo;
+  // if(Tracker1xmaxstrips.size() == 1)
+  //   return ReturnHitInfo;
+  // if(Tracker1ymaxstrips.size() == 1){
+  //   //cout << "Here?" << endl;
+  //   return ReturnHitInfo;
+  // }
+  // if(Tracker2xmaxstrips.size() == 1)
+  //   return ReturnHitInfo;
+  // if(Tracker2ymaxstrips.size() == 1)
+  //   return ReturnHitInfo;
+  // if(Tracker3xmaxstrips.size() == 1)
+  //   return ReturnHitInfo;
+  // if(Tracker3ymaxstrips.size() == 1)
+  //   return ReturnHitInfo;
+  // if(Tracker4xmaxstrips.size() == 1)
+  //   return ReturnHitInfo;
+  // if(Tracker4ymaxstrips.size() == 1)
+  //   return ReturnHitInfo;
   
 
      
@@ -702,8 +702,9 @@ int EffCounter(vector<float>  Tracker1xmaxstrips, vector<float>  Tracker1xmaxcha
   if(LAGDhitlocation <= TrackerRecolocation + 5*DetRes && LAGDhitlocation >= TrackerRecolocation - 5*DetRes){
     ReturnHitInfo = 1;        
   }
-
-     
+  else{
+    ReturnHitInfo = 0;        
+  }
   // vector<float> substripvector;
   // vector<float> subchargevector;
 
